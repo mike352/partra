@@ -107,32 +107,32 @@ unsigned char bit_sum(unsigned long long x)
 
 
 //Main function declarations
-unsigned char i_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
-unsigned char i_c(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
-unsigned char if_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
-unsigned char if_c(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
-unsigned char i_f_r(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
-unsigned char i_c_r(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
-unsigned char if_f_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
-unsigned char if_c_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
+unsigned char i_sq_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
+unsigned char i_sq_c(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
+unsigned char if_sq_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
+unsigned char if_sq_c(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
+unsigned char i_sq_f_r(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
+unsigned char i_sq_c_r(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
+unsigned char if_sq_f_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
+unsigned char if_sq_c_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char p_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
-unsigned char p_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
-unsigned char pf_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
-unsigned char pf_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
-unsigned char p_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
-unsigned char p_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
-unsigned char pf_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
-unsigned char pf_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+unsigned char p_sq_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
+unsigned char p_sq_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_sq_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
+unsigned char p_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char p2_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
-unsigned char p2_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char pf2_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
-unsigned char pf2_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char p2_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
-unsigned char p2_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char pf2_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
-unsigned char pf2_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_sq_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 
 unsigned char red_simple_c(const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*); //cylindrical b.c. row reduction on all integers up to N
 unsigned char red_simple_f(const unsigned char,unsigned char**,unsigned char**,unsigned long long*); //free b.c. row reduction on all integers up to N
@@ -285,38 +285,38 @@ if (strcmp(option1,"i")==0)
 {
 	if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 	{
-		flag = i_f(N,dirname);
+		flag = i_sq_f(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 	{
-		flag = i_c(N,dirname);
+		flag = i_sq_c(N,dirname);
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = i_f_r(N,dirname);
+		flag = i_sq_f_r(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = i_c_r(N,dirname);
+		flag = i_sq_c_r(N,dirname);
 	}
 }
 else if (strcmp(option1,"if")==0)
 {
 	if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 	{
-		flag = if_f(N,dirname);
+		flag = if_sq_f(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 	{
-		flag = if_c(N,dirname);
+		flag = if_sq_c(N,dirname);
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = if_f_r(N,dirname);
+		flag = if_sq_f_r(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = if_c_r(N,dirname);
+		flag = if_sq_c_r(N,dirname);
 	}
 }
 else if (strcmp(option1,"p")==0)
@@ -325,44 +325,44 @@ else if (strcmp(option1,"p")==0)
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_f(N,Q,dirname);
+			flag = p2_sq_f(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_f(N,Q,dirname);
+			flag = p_sq_f(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_c(N,Q,dirname);
+			flag = p2_sq_c(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_c(N,Q,dirname);
+			flag = p_sq_c(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_f_r(N,Q,dirname);
+			flag = p2_sq_f_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_f_r(N,Q,dirname);
+			flag = p_sq_f_r(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_c_r(N,Q,dirname);
+			flag = p2_sq_c_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_c_r(N,Q,dirname);
+			flag = p_sq_c_r(N,Q,dirname);
 		}
 	}
 }
@@ -372,44 +372,44 @@ else if (strcmp(option1,"pf")==0)
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_f(N,Q,dirname);
+			flag = pf2_sq_f(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_f(N,Q,dirname);
+			flag = pf_sq_f(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_c(N,Q,dirname);
+			flag = pf2_sq_c(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_c(N,Q,dirname);
+			flag = pf_sq_c(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_f_r(N,Q,dirname);
+			flag = pf2_sq_f_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_f_r(N,Q,dirname);
+			flag = pf_sq_f_r(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_c_r(N,Q,dirname);
+			flag = pf2_sq_c_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_c_r(N,Q,dirname);
+			flag = pf_sq_c_r(N,Q,dirname);
 		}
 	}
 }
@@ -432,7 +432,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_f(const unsigned char N, char* dirname)
+unsigned char i_sq_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -440,7 +440,7 @@ FILE *fid;
 unsigned char xh;
 char filename[256];
 
-sprintf(filename,"%s/i_f_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -465,7 +465,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_c(const unsigned char N, char* dirname)
+unsigned char i_sq_c(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -473,7 +473,7 @@ FILE *fid;
 unsigned char xh;
 char filename[256];
 
-sprintf(filename,"%s/i_c_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_c_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -498,7 +498,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_f(const unsigned char N, char* dirname)
+unsigned char if_sq_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -506,7 +506,7 @@ FILE *fid;
 unsigned char xh,uh;
 char filename[256];
 
-sprintf(filename,"%s/if_f_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -532,7 +532,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_c(const unsigned char N, char* dirname)
+unsigned char if_sq_c(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -540,7 +540,7 @@ FILE *fid;
 unsigned char xh,uh;
 char filename[256];
 
-sprintf(filename,"%s/if_c_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_c_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -570,7 +570,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_f_r(const unsigned char N, char* dirname)
+unsigned char i_sq_f_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N-1;
 
@@ -594,7 +594,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_f_r_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_f_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -665,7 +665,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_c_r(const unsigned char N, char* dirname)
+unsigned char i_sq_c_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N;
 
@@ -690,7 +690,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_c_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -773,7 +773,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_f_r(const unsigned char N, char* dirname)
+unsigned char if_sq_f_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N-1;
 unsigned char umax=N;
@@ -813,7 +813,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 }
 
 
-sprintf(filename,"%s/if_f_r_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_f_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -892,7 +892,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_c_r(const unsigned char N, char* dirname)
+unsigned char if_sq_c_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N;
 unsigned char umax=N;
@@ -932,7 +932,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/if_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_c_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1028,7 +1028,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -1041,7 +1041,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/p_f_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_f_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1080,7 +1080,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -1093,7 +1093,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/p_c_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_c_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1132,7 +1132,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -1145,7 +1145,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/pf_f_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_f_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1189,7 +1189,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -1202,7 +1202,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/pf_c_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_c_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1246,7 +1246,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1262,7 +1262,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/p_f_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_f_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1336,7 +1336,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1352,7 +1352,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/p_c_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_c_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1425,7 +1425,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1441,7 +1441,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/pf_f_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_f_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1519,7 +1519,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1535,7 +1535,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-sprintf(filename,"%s/pf_c_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_c_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1616,7 +1616,7 @@ return 0;
 /****Reduced Potts transfer matrices****/
 
 /*******************************/
-unsigned char p2_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 
@@ -1648,7 +1648,7 @@ if ((melement==NULL))
 }
 
 
-sprintf(filename,"%s/p_f_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1730,7 +1730,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 
@@ -1761,7 +1761,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/p_c_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1855,7 +1855,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 unsigned char umax = N;
@@ -1902,7 +1902,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 }
 
 
-sprintf(filename,"%s/pf_f_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1997,7 +1997,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 unsigned char umax = N;
@@ -2043,7 +2043,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/pf_c_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2149,7 +2149,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 
@@ -2207,7 +2207,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
 
-sprintf(filename,"%s/p_f_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2291,7 +2291,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 
@@ -2349,7 +2349,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 }	
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
-sprintf(filename,"%s/p_c_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_sq_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2444,7 +2444,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 unsigned char umax = N;
@@ -2517,7 +2517,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
 
-sprintf(filename,"%s/pf_f_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2613,7 +2613,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 unsigned char umax = N;
@@ -2686,7 +2686,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 }	
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
-sprintf(filename,"%s/pf_c_r_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_sq_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
