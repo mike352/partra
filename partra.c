@@ -25,7 +25,8 @@ r c A n m
 When H=0, m is not output
 
 To Add:
-1. Fix Potts matrices to be asymmetric
+1. Remove extraneous variables in each function
+2. Change bounds in for loops for reduced tm functions
 2. Change output filenames
 3. Change function names to specify lattice type
 4. Add triangular lattice versions
@@ -251,8 +252,8 @@ if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
 //Ask for row size
 if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
 {
-	printf("Row size (1 to %d): ",row_max_size); 
-	scanf("%d",&N);
+	printf("Row size (1 to %hhu): ",row_max_size); 
+	scanf("%hhu",&N);
 	if (N<1)
 	{
 		printf("\nERROR: Row size should be greater than 0.\n");
@@ -266,8 +267,8 @@ if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
 }
 else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 {
-	printf("Row size (1 to %d): ",row_max_size/bin); 
-	scanf("%d",&N);
+	printf("Row size (1 to %hhu): ",row_max_size/bin); 
+	scanf("%hhu",&N);
 	if (N<1)
 	{
 		printf("\nERROR: Row size should be greater than 0.\n");
@@ -438,7 +439,7 @@ unsigned char i_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,xv,uh,uv;
+unsigned char xh;
 char filename[256];
 
 sprintf(filename,"%s/i_f_%d.txt",dirname,N);
@@ -471,7 +472,7 @@ unsigned char i_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,xv,uh,uv;
+unsigned char xh;
 char filename[256];
 
 sprintf(filename,"%s/i_c_%d.txt",dirname,N);
@@ -504,7 +505,7 @@ unsigned char if_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,xv,uh,uv;
+unsigned char xh,uh;
 char filename[256];
 
 sprintf(filename,"%s/if_f_%d.txt",dirname,N);
@@ -538,7 +539,7 @@ unsigned char if_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,xv,uh,uv;
+unsigned char xh,uh;
 char filename[256];
 
 sprintf(filename,"%s/if_c_%d.txt",dirname,N);
@@ -584,7 +585,7 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char*) malloc((3*N-1)*sizeof(unsigned char));
 if ((melement==NULL))
@@ -644,7 +645,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d \n",rtotal,ctotal,melement[p]/(1+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu \n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -678,7 +679,7 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char*) malloc((3*N+1)*sizeof(unsigned char));
 if ((melement==NULL))
@@ -747,7 +748,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d\n",rtotal+1,ctotal+1,melement[p]/((1+flip2)*(order[ctotal]+1)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -783,7 +784,7 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char**) malloc((3*N-1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -861,7 +862,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal,ctotal,melement[p][q]/(1+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -900,7 +901,7 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char**) malloc((3*N+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -986,7 +987,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal+1,ctotal+1,melement[p][q]/((1+flip2)*(order[ctotal]+1)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -1021,12 +1022,11 @@ return 0;
 /*******************************/
 unsigned char p2_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
-unsigned long long n,m,p,sum;
-unsigned long long xtest,xh,xv,xinter;
+unsigned long long n,m,p;
+unsigned long long xtest,xh,xinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1061,7 +1061,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
-		fprintf(fid,"%d\n",xh+xinter);
+		fprintf(fid,"%llu\n",xh+xinter);
 	}
 }
 	
@@ -1074,12 +1074,11 @@ return 0;
 /*******************************/
 unsigned char p2_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
-unsigned long long n,m,p,sum;
-unsigned long long xtest,xh,xv,xinter;
+unsigned long long n,m,p;
+unsigned long long xtest,xh,xinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1114,7 +1113,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d\n",xh+xinter);
+		fprintf(fid,"%llu\n",xh+xinter);
 	}
 }
 
@@ -1127,12 +1126,11 @@ return 0;
 /*******************************/
 unsigned char pf2_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
-unsigned long long n,m,p,sum;
-unsigned long long xtest,xh,xv,xinter,utest,uh,uv;
+unsigned long long n,m,p;
+unsigned long long xtest,xh,xinter,uh;
 
 while((1ULL<<bin)<Q)
 {
@@ -1172,7 +1170,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d %d\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
 	}
 }
 
@@ -1185,12 +1183,11 @@ return 0;
 /*******************************/
 unsigned char pf2_c(const unsigned char N, const unsigned long long Q, char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
-unsigned long long n,m,p,sum;
-unsigned long long xtest,xh,xv,xinter,utest,uh,uv;
+unsigned long long n,m,p;
+unsigned long long xtest,xh,xinter,uh;
 
 while((1ULL<<bin)<Q)
 {
@@ -1230,7 +1227,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d %d\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
 	}
 }
 
@@ -1250,7 +1247,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xv,xinter;
+unsigned long long xtest,xh,xinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1316,7 +1313,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 			
-				fprintf(fid,"%d\n",xh+xinter);
+				fprintf(fid,"%llu\n",xh+xinter);
 			}
 		}
 	}
@@ -1340,7 +1337,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xv,xinter;
+unsigned long long xtest,xh,xinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1406,7 +1403,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d\n",xh+xinter);
+				fprintf(fid,"%llu\n",xh+xinter);
 			}
 		}
 	}
@@ -1429,7 +1426,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xv,xinter,utest,uh,uv;
+unsigned long long xtest,xh,xinter,uh;
 
 while((1ULL<<bin)<Q)
 {
@@ -1500,7 +1497,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d %d\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
 			}
 		}
 	}
@@ -1523,7 +1520,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xv,xinter,utest,uh,uv;
+unsigned long long xtest,xh,xinter,uh;
 
 while((1ULL<<bin)<Q)
 {
@@ -1594,7 +1591,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d %d\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
 			}
 		}
 	}
@@ -1625,7 +1622,7 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -1704,7 +1701,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d\n",rtotal,ctotal,melement[p]/(1+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -1738,7 +1735,7 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -1823,7 +1820,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d\n",rtotal+1,ctotal+1,melement[p]/((1+flip2)*(order[ctotal]+1)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -1860,7 +1857,7 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -1960,7 +1957,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal,ctotal,melement[p][q]/(1+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -2000,7 +1997,7 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -2106,7 +2103,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal+1,ctotal+1,melement[p][q]/((1+flip2)*(order[ctotal]+1)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -2149,7 +2146,7 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -2254,7 +2251,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d\n",rtotal,ctotal,melement[p]/(1+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -2290,7 +2287,7 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -2402,7 +2399,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %d %d\n",rtotal+1,ctotal+1,melement[p]/((1+flip2)*(order[ctotal]+1)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -2440,7 +2437,7 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -2566,7 +2563,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal,ctotal,melement[p][q]/(1+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -2607,7 +2604,7 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,xv,xtest,xinter,uh,uv,rtotal=0ULL,ctotal=0ULL;
+unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
 
 while((1ULL<<bin)<Q)
 {
@@ -2740,7 +2737,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %d %d %d\n",rtotal+1,ctotal+1,melement[p][q]/((1+flip2)*(order[ctotal]+1)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -2991,7 +2988,7 @@ return 0;
 /*******************************/
 unsigned char simple_red_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total)
 {
-unsigned long long n,m,p,q;
+unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 const unsigned char csize=8*sizeof(unsigned char);
 
@@ -3363,7 +3360,7 @@ return 0;
 /*******************************/
 unsigned char arb_red_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total,unsigned char *numbers)
 {
-unsigned long long n,m,p,q;
+unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 const unsigned char csize=8*sizeof(unsigned char);
 
