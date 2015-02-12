@@ -1,4 +1,4 @@
-/* Version 0.6.9 options: 
+/* Options:
 1. Ising or Ising in a field or Potts or Potts in a field
 2. row boundary conditions 
 3. full or reduced transfer matrix
@@ -24,13 +24,15 @@ When H=0, m is not output
 r c A n m
 When H=0, m is not output
 
-Changes:
-1. Changed Ising in a field / Ising variables to exp(-2E/kT), exp(-2H/kT)
+To Add:
+1. Fix Potts matrices to be asymmetric
+2. Change output filenames
+3. Change function names to specify lattice type
+4. Add triangular lattice versions
+5. Add api versions
+6. Write a portable bit architecture tester 
+7. Write a test suite
 
-To Change:
-1. Write a test suite
-2. Write a portable bit architecture tester 
-3. Copy current functions as f_name, and make new api versions to return matrices
 
 */
 
@@ -1051,14 +1053,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
-	{
-		xtest = m ^ circ_bin_lshift(m,N,bin);
-		xv=0ULL;
-		for (p=1;p<N;p++)
-		{
-			xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-	
+	{	
 		xtest = n ^ m;
 		xinter=0ULL;
 		for (p=0;p<N;p++)
@@ -1066,7 +1061,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
-		fprintf(fid,"%d\n",xh+xv+xinter);
+		fprintf(fid,"%d\n",xh+xinter);
 	}
 }
 	
@@ -1112,13 +1107,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = m ^ circ_bin_lshift(m,N,bin);
-		xv=0ULL;
-		for (p=0;p<N;p++)
-		{
-			xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-						
 		xtest = n ^ m;
 		xinter=0ULL;
 		for (p=0;p<N;p++)
@@ -1126,7 +1114,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d\n",xh+xv+xinter);
+		fprintf(fid,"%d\n",xh+xinter);
 	}
 }
 
@@ -1177,18 +1165,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = m ^ circ_bin_lshift(m,N,bin);
-		xv=0ULL;
-		for (p=1;p<N;p++)
-		{
-			xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-		uv = 0ULL;
-		for (p=0;p<N;p++)
-		{
-			uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-		
 		xtest = n ^ m;
 		xinter=0ULL;
 		for (p=0;p<N;p++)
@@ -1196,7 +1172,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d %d\n",xh+xv+xinter,uh+uv);
+		fprintf(fid,"%d %d\n",xh+xinter,uh);
 	}
 }
 
@@ -1247,18 +1223,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = m ^ circ_bin_lshift(m,N,bin);
-		xv=0ULL;
-		for (p=0;p<N;p++)
-		{
-			xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-		uv = 0ULL;
-		for (p=0;p<N;p++)
-		{
-			uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-		}
-		
 		xtest = n ^ m;
 		xinter=0ULL;
 		for (p=0;p<N;p++)
@@ -1266,7 +1230,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%d %d\n",xh+xv+xinter,uh+uv);
+		fprintf(fid,"%d %d\n",xh+xinter,uh);
 	}
 }
 
@@ -1345,13 +1309,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-			
 				xtest = n ^ m;
 				xinter=0ULL;
 				for (p=0;p<N;p++)
@@ -1359,7 +1316,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 			
-				fprintf(fid,"%d\n",xh+xv+xinter);
+				fprintf(fid,"%d\n",xh+xinter);
 			}
 		}
 	}
@@ -1442,13 +1399,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-								
 				xtest = n ^ m;
 				xinter=0ULL;
 				for (p=0;p<N;p++)
@@ -1456,7 +1406,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d\n",xh+xv+xinter);
+				fprintf(fid,"%d\n",xh+xinter);
 			}
 		}
 	}
@@ -1543,18 +1493,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				
 				xtest = n ^ m;
 				xinter=0ULL;
 				for (p=0;p<N;p++)
@@ -1562,7 +1500,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d %d\n",xh+xv+xinter,uh+uv);
+				fprintf(fid,"%d %d\n",xh+xinter,uh);
 			}
 		}
 	}
@@ -1649,18 +1587,6 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				
 				xtest = n ^ m;
 				xinter=0ULL;
 				for (p=0;p<N;p++)
@@ -1668,7 +1594,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%d %d\n",xh+xv+xinter,uh+uv);
+				fprintf(fid,"%d %d\n",xh+xinter,uh);
 			}
 		}
 	}
@@ -1756,12 +1682,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -1775,7 +1695,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 						{
 							xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
 						}
-						melement[xh+xv+xinter]++;
+						melement[xh+xinter]++;
 						mm=bit_reflection_bin(mm,N,bin);
 					}
 					nn=bit_reflection_bin(nn,N,bin);
@@ -1872,12 +1792,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -1896,7 +1810,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 								{
 									xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
 								}
-								melement[xh+xv+xinter]++;
+								melement[xh+xinter]++;
 								mm = circ_bin_lshift(mm,N,bin);
 							}
 							nn = circ_bin_lshift(nn,N,bin);
@@ -2022,17 +1936,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -2046,7 +1949,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 						{
 							xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
 						}
-						melement[xh+xv+xinter][uh+uv]++;
+						melement[xh+xinter][uh]++;
 						mm=bit_reflection_bin(mm,N,bin);
 					}
 					nn=bit_reflection_bin(nn,N,bin);
@@ -2170,17 +2073,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -2199,7 +2091,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 								{
 									xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
 								}
-								melement[xh+xv+xinter][uh+uv]++;
+								melement[xh+xinter][uh]++;
 								mm = circ_bin_lshift(mm,N,bin);
 							}
 							nn = circ_bin_lshift(nn,N,bin);
@@ -2340,12 +2232,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -2359,7 +2245,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 						{
 							xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
 						}
-						melement[xh+xv+xinter]++;
+						melement[xh+xinter]++;
 						mm=bit_reflection_bin(mm,N,bin);
 					}
 					nn=bit_reflection_bin(nn,N,bin);
@@ -2485,12 +2371,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -2509,7 +2389,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 								{
 									xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
 								}
-								melement[xh+xv+xinter]++;
+								melement[xh+xinter]++;
 								mm = circ_bin_lshift(mm,N,bin);
 							}
 							nn = circ_bin_lshift(nn,N,bin);
@@ -2662,17 +2542,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=1;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -2686,7 +2555,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 						{
 							xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
 						}
-						melement[xh+xv+xinter][uh+uv]++;
+						melement[xh+xinter][uh]++;
 						mm=bit_reflection_bin(mm,N,bin);
 					}
 					nn=bit_reflection_bin(nn,N,bin);
@@ -2838,17 +2707,6 @@ for (n=0;n<(1ULL<<N*bin);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				xtest = m ^ circ_bin_lshift(m,N,bin);
-				xv=0ULL;
-				for (p=0;p<N;p++)
-				{
-					xv = xv + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
-				uv = 0ULL;
-				for (p=0;p<N;p++)
-				{
-					uv = uv + (((m & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
-				}
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -2867,7 +2725,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 								{
 									xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
 								}
-								melement[xh+xv+xinter][uh+uv]++;
+								melement[xh+xinter][uh]++;
 								mm = circ_bin_lshift(mm,N,bin);
 							}
 							nn = circ_bin_lshift(nn,N,bin);
