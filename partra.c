@@ -795,7 +795,7 @@ if ((melement==NULL))
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N-1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
 	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
@@ -880,7 +880,7 @@ printf("\nFile  ../%s  created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
-for (n=0ULL;n<(3*N-1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -914,7 +914,7 @@ if ((melement==NULL))
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N+1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
 	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
@@ -1010,7 +1010,7 @@ fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
 free((void*)order);
-for (n=0ULL;n<(3*N+1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -1616,7 +1616,7 @@ return 0;
 unsigned char p2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -1728,7 +1728,7 @@ return 0;
 unsigned char p2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -1851,7 +1851,7 @@ return 0;
 unsigned char pf2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -1990,7 +1990,7 @@ return 0;
 unsigned char pf2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -2139,7 +2139,7 @@ return 0;
 unsigned char p_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -2279,7 +2279,7 @@ return 0;
 unsigned char p_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -2430,7 +2430,7 @@ return 0;
 unsigned char pf_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -2596,7 +2596,7 @@ return 0;
 unsigned char pf_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char flag;
-unsigned char bin;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
