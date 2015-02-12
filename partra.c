@@ -25,7 +25,6 @@ r c A n m
 When H=0, m is not output
 
 To Add:
-1. Change bounds in for loops for reduced tm functions
 2. Change output filenames
 3. Change function names to specify lattice type
 4. Add triangular lattice versions
@@ -112,38 +111,38 @@ unsigned char i_f(const unsigned char, char*); //Ising full transfer matrix, fre
 unsigned char i_c(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
 unsigned char if_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
 unsigned char if_c(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
-unsigned char i_f_p(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
-unsigned char i_c_0p(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
-unsigned char if_f_p(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
-unsigned char if_c_0p(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
+unsigned char i_f_r(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
+unsigned char i_c_r(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
+unsigned char if_f_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
+unsigned char if_c_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 
 unsigned char p_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
 unsigned char p_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
 unsigned char pf_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
 unsigned char pf_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
-unsigned char p_f_p(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
-unsigned char p_c_0p(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
-unsigned char pf_f_p(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
-unsigned char pf_c_0p(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+unsigned char p_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
 
 unsigned char p2_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
 unsigned char p2_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
 unsigned char pf2_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
 unsigned char pf2_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char p2_f_p(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
-unsigned char p2_c_0p(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char pf2_f_p(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
-unsigned char pf2_c_0p(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 
-unsigned char simple_red_c(const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*); //cylindrical b.c. row reduction on all integers up to N
-unsigned char simple_red_f(const unsigned char,unsigned char**,unsigned char**,unsigned long long*); //free b.c. row reduction on all integers up to N
-unsigned char simple_red_bin_c(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*); //cylindrical b.c. row reduction on all integers up to N*bin
-unsigned char simple_red_bin_f(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned long long*); //free b.c. row reduction on all integers up to N*bin
+unsigned char red_simple_c(const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*); //cylindrical b.c. row reduction on all integers up to N
+unsigned char red_simple_f(const unsigned char,unsigned char**,unsigned char**,unsigned long long*); //free b.c. row reduction on all integers up to N
+unsigned char red_simple_bin_c(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*); //cylindrical b.c. row reduction on all integers up to N*bin
+unsigned char red_simple_bin_f(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned long long*); //free b.c. row reduction on all integers up to N*bin
 
-unsigned char arb_red_c(const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //cylindrical b.c. row reduction on integers up to N whose corresponding bits are 0 in supplied bit array
-unsigned char arb_red_f(const unsigned char,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //free b.c. row reduction on integers up to N whose corresponding bits are 0 in supplied bit array
-unsigned char arb_red_bin_c(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //cylindrical b.c. row reduction on integers up to N*bin whose corresponding bits are 0 in supplied bit array
-unsigned char arb_red_bin_f(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //free b.c. row reduction on integers up to N*bin whose corresponding bits are 0 in supplied bit array
+unsigned char red_gen_c(const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //cylindrical b.c. row reduction on integers up to N whose corresponding bits are 0 in supplied bit array
+unsigned char red_gen_f(const unsigned char,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //free b.c. row reduction on integers up to N whose corresponding bits are 0 in supplied bit array
+unsigned char red_gen_bin_c(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //cylindrical b.c. row reduction on integers up to N*bin whose corresponding bits are 0 in supplied bit array
+unsigned char red_gen_bin_f(const unsigned char,const unsigned char,unsigned char**,unsigned char**,unsigned long long*,unsigned char*); //free b.c. row reduction on integers up to N*bin whose corresponding bits are 0 in supplied bit array
 
 /*Size of Ising 0+ sector follows OEIS series A000029*/
 /*Size of Ising 0 sector follows OEIS series A000031*/
@@ -294,11 +293,11 @@ if (strcmp(option1,"i")==0)
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = i_f_p(N,dirname);
+		flag = i_f_r(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = i_c_0p(N,dirname);
+		flag = i_c_r(N,dirname);
 	}
 }
 else if (strcmp(option1,"if")==0)
@@ -313,11 +312,11 @@ else if (strcmp(option1,"if")==0)
 	}
 	else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = if_f_p(N,dirname);
+		flag = if_f_r(N,dirname);
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
-		flag = if_c_0p(N,dirname);
+		flag = if_c_r(N,dirname);
 	}
 }
 else if (strcmp(option1,"p")==0)
@@ -348,22 +347,22 @@ else if (strcmp(option1,"p")==0)
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_f_p(N,Q,dirname);
+			flag = p2_f_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_f_p(N,Q,dirname);
+			flag = p_f_r(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = p2_c_0p(N,Q,dirname);
+			flag = p2_c_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = p_c_0p(N,Q,dirname);
+			flag = p_c_r(N,Q,dirname);
 		}
 	}
 }
@@ -395,22 +394,22 @@ else if (strcmp(option1,"pf")==0)
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_f_p(N,Q,dirname);
+			flag = pf2_f_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_f_p(N,Q,dirname);
+			flag = pf_f_r(N,Q,dirname);
 		}
 	}
 	else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 	{
 		if (Q==(1<<bin))
 		{
-			flag = pf2_c_0p(N,Q,dirname);
+			flag = pf2_c_r(N,Q,dirname);
 		}
 		else
 		{
-			flag = pf_c_0p(N,Q,dirname);
+			flag = pf_c_r(N,Q,dirname);
 		}
 	}
 }
@@ -571,7 +570,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_f_p(const unsigned char N, char* dirname)
+unsigned char i_f_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N-1;
 
@@ -595,7 +594,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_f_p_%d.txt",dirname,N);
+sprintf(filename,"%s/i_f_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -604,7 +603,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_f(N,&bitarray,&reflec,&total);
+flag = red_simple_f(N,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -666,7 +665,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_c_0p(const unsigned char N, char* dirname)
+unsigned char i_c_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N;
 
@@ -691,7 +690,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_c_0p_%d.txt",dirname,N);
+sprintf(filename,"%s/i_c_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -700,7 +699,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_c(N,&bitarray,&reflec,&order,&total);
+flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -774,7 +773,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_f_p(const unsigned char N, char* dirname)
+unsigned char if_f_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N-1;
 unsigned char umax=N;
@@ -814,7 +813,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 }
 
 
-sprintf(filename,"%s/if_f_p_%d.txt",dirname,N);
+sprintf(filename,"%s/if_f_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -823,7 +822,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_f(N,&bitarray,&reflec,&total);
+flag = red_simple_f(N,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -893,7 +892,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_c_0p(const unsigned char N, char* dirname)
+unsigned char if_c_r(const unsigned char N, char* dirname)
 {
 unsigned char xmax=2*N;
 unsigned char umax=N;
@@ -933,7 +932,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/if_c_0p_%d.txt",dirname,N);
+sprintf(filename,"%s/if_c_r_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -942,7 +941,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_c(N,&bitarray,&reflec,&order,&total);
+flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -1617,7 +1616,7 @@ return 0;
 /****Reduced Potts transfer matrices****/
 
 /*******************************/
-unsigned char p2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 
@@ -1649,7 +1648,7 @@ if ((melement==NULL))
 }
 
 
-sprintf(filename,"%s/p_f_p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1658,7 +1657,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_bin_f(N,bin,&bitarray,&reflec,&total);
+flag = red_simple_bin_f(N,bin,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -1731,7 +1730,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 
@@ -1762,7 +1761,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/p_c_0p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1771,7 +1770,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_bin_c(N,bin,&bitarray,&reflec,&order,&total);
+flag = red_simple_bin_c(N,bin,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -1856,7 +1855,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 unsigned char umax = N;
@@ -1903,7 +1902,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 }
 
 
-sprintf(filename,"%s/pf_f_p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1912,7 +1911,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_bin_f(N,bin,&bitarray,&reflec,&total);
+flag = red_simple_bin_f(N,bin,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -1998,7 +1997,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 unsigned char umax = N;
@@ -2044,7 +2043,7 @@ for(n = 0ULL; n < (xmax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/pf_c_0p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2053,7 +2052,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = simple_red_bin_c(N,bin,&bitarray,&reflec,&order,&total);
+flag = red_simple_bin_c(N,bin,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -2150,7 +2149,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 
@@ -2208,7 +2207,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
 
-sprintf(filename,"%s/p_f_p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2217,7 +2216,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = arb_red_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
+flag = red_gen_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 free((void*)pnums);
 if (flag!=0)
@@ -2292,7 +2291,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 
@@ -2350,7 +2349,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 }	
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
-sprintf(filename,"%s/p_c_0p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/p_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2359,7 +2358,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = arb_red_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
+flag = red_gen_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 free((void*)pnums);
 if (flag!=0)
@@ -2445,7 +2444,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N-1;
 unsigned char umax = N;
@@ -2518,7 +2517,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
 
-sprintf(filename,"%s/pf_f_p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2527,7 +2526,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = arb_red_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
+flag = red_gen_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 free((void*)pnums);
 if (flag!=0)
@@ -2614,7 +2613,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 unsigned char xmax = 2*N;
 unsigned char umax = N;
@@ -2687,7 +2686,7 @@ for (p=0ULL;p<(1ULL<<bin)-Q;p++)
 }	
 //Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
-sprintf(filename,"%s/pf_c_0p_%llu_%d.txt",dirname,Q,N);
+sprintf(filename,"%s/pf_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -2696,7 +2695,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = arb_red_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
+flag = red_gen_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 free((void*)pnums);
 if (flag!=0)
@@ -2798,7 +2797,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char simple_red_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
+unsigned char red_simple_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
 {
 unsigned long long n,m;
 const unsigned char csize=8*sizeof(unsigned char);
@@ -2843,7 +2842,7 @@ return 0;
 
 
 /*******************************/
-unsigned char simple_red_c(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total)
+unsigned char red_simple_c(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total)
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -2970,7 +2969,7 @@ return 0;
 
 
 /*******************************/
-unsigned char simple_red_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
+unsigned char red_simple_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
 {
 unsigned long long n,m;
 const unsigned char csize=8*sizeof(unsigned char);
@@ -3015,7 +3014,7 @@ return 0;
 
 
 /*******************************/
-unsigned char simple_red_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total)
+unsigned char red_simple_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total)
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -3110,7 +3109,7 @@ return 0;
 
 
 /*******************************/
-unsigned char arb_red_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
+unsigned char red_gen_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m;
 const unsigned char csize=8*sizeof(unsigned char);
@@ -3178,7 +3177,7 @@ return 0;
 
 
 /*******************************/
-unsigned char arb_red_c(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total,unsigned char *numbers)
+unsigned char red_gen_c(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -3318,7 +3317,7 @@ return 0;
 
 
 /*******************************/
-unsigned char arb_red_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
+unsigned char red_gen_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m;
 const unsigned char csize=8*sizeof(unsigned char);
@@ -3387,7 +3386,7 @@ return 0;
 
 
 /*******************************/
-unsigned char arb_red_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total,unsigned char *numbers)
+unsigned char red_gen_bin_c(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned char** order, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
