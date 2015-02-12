@@ -165,7 +165,7 @@ double totaltime;
 char option1[3];
 char option2[2];
 char option3[2];
-unsigned char flag;
+unsigned char flag=1;
 
 
 //Discover max row size
@@ -1624,6 +1624,7 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm;
+unsigned char xmax = 2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -1635,7 +1636,7 @@ while((1ULL<<bin)<Q)
 }
 
 
-melement = (unsigned char*) malloc((3*N-1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -1702,7 +1703,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn=bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1737,6 +1738,7 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm;
+unsigned char xmax = 2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -1747,7 +1749,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-melement = (unsigned char*) malloc((3*N+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -1821,7 +1823,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn = bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1859,6 +1861,8 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm;
+unsigned char xmax = 2*N-1;
+unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -1870,15 +1874,15 @@ while((1ULL<<bin)<Q)
 }
 
 
-melement = (unsigned char**) malloc((3*N-1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N-1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -1956,9 +1960,9 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn=bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<(2*N+1);q++)
+					for (q=0;q<(umax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -1977,7 +1981,7 @@ printf("\nFile  ../%s  created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
-for (n=0ULL;n<(3*N-1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -1999,6 +2003,8 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm;
+unsigned char xmax = 2*N;
+unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -2009,15 +2015,15 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-melement = (unsigned char**) malloc((3*N+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N+1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -2102,9 +2108,9 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn = bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<(2*N+1);q++)
+					for (q=0;q<(umax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -2126,7 +2132,7 @@ fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
 free((void*)order);
-for (n=0ULL;n<(3*N+1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -2148,6 +2154,7 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
+unsigned char xmax = 2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -2165,7 +2172,7 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char*) malloc((3*N-1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -2252,7 +2259,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn=bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -2289,6 +2296,7 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
+unsigned char xmax = 2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -2306,7 +2314,7 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char*) malloc((3*N+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -2400,7 +2408,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn = bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -2440,6 +2448,8 @@ const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
+unsigned char xmax = 2*N-1;
+unsigned char umax = N;
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
 unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
@@ -2456,15 +2466,15 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char**) malloc((3*N-1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N-1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -2562,9 +2572,9 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn=bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<(2*N+1);q++)
+					for (q=0;q<(umax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -2583,7 +2593,7 @@ printf("\nFile  ../%s  created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
-for (n=0ULL;n<(3*N-1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -2606,6 +2616,8 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
+unsigned char xmax = 2*N;
+unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -2623,15 +2635,15 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char**) malloc((3*N+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (3*N+1); n++)
+for(n = 0ULL; n < (xmax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -2736,9 +2748,9 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					}
 					nn = bit_reflection_bin(nn,N,bin);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<(2*N+1);q++)
+					for (q=0;q<(umax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -2760,7 +2772,7 @@ fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
 free((void*)order);
-for (n=0ULL;n<(3*N+1);n++)
+for (n=0ULL;n<(xmax+1);n++)
 {
 	free((void*)melement[n]);
 }
