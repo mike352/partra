@@ -1,4 +1,4 @@
-/* Version 0.6.8 options: 
+/* Version 0.6.9 options: 
 1. Ising or Ising in a field or Potts or Potts in a field
 2. row boundary conditions 
 3. full or reduced transfer matrix
@@ -10,8 +10,8 @@ All data is output to a file in a (constructed) directory "data". Filename is di
 Output file format legend: 
 r = row
 c = column
-n: x^n = exp(2E/kT)^n, energy exponent
-m: u^m = exp(2H/kT)^m, field exponent. In q-Potts, H-field only acts on q=1
+n: x^n = exp(-2E/kT)^n, energy exponent
+m: u^m = exp(-2H/kT)^m, field exponent. In q-Potts, H-field only acts on q=1
 A: A x^n u^m, constant 
 
 Output file format:
@@ -25,7 +25,7 @@ r c A n m
 When H=0, m is not output
 
 Changes:
-1. Made Ising in a field / Ising matrices asymmetric
+1. Changed Ising in a field / Ising variables to exp(-2E/kT), exp(-2H/kT)
 
 To Change:
 1. Write a test suite
@@ -450,11 +450,10 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = (N-1)-bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		//xv = (N-1)-bit_sum((~1ULL&m)^(~1ULL&circ_single_lshift(m,N)));
-	    fprintf(fid,"%d\n",(N-bit_sum(n^m)+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+xh));
 	}
 }
 
@@ -484,11 +483,10 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = N-bit_sum(n^circ_single_lshift(n,N));
+	xh = bit_sum(n^circ_single_lshift(n,N));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		//xv = N-bit_sum(m^circ_single_lshift(m,N));
-	    fprintf(fid,"%d\n",(N-bit_sum(n^m)+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+xh));
 	}
 }
 
@@ -518,13 +516,11 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = (N-1)-bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	uh = (bit_sum(n));
+	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	uh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		//xv = (N-1)-bit_sum((~1ULL&m)^(~1ULL&circ_single_lshift(m,N)));
-		//uv = (bit_sum(m));
-	    fprintf(fid,"%d %d\n",(N-bit_sum(n^m)+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+xh),(uh));
 	}
 }
 
@@ -554,13 +550,11 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = N-bit_sum(n^circ_single_lshift(n,N));
-	uh = (bit_sum(n));
+	xh = bit_sum(n^circ_single_lshift(n,N));
+	uh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		//xv = N-bit_sum(m^circ_single_lshift(m,N));
-		//uv = (bit_sum(m));
-	    fprintf(fid,"%d %d\n",(N-bit_sum(n^m)+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+xh),(uh));
 	}
 }
 
@@ -624,7 +618,7 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = (N-1)-bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -632,7 +626,6 @@ for (n=0;n<(1ULL<<N);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				//xv = (N-1)-bit_sum((~1ULL&m)^(~1ULL&circ_single_lshift(m,N)));
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -640,7 +633,7 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(N-bit_sum(nn^mm)+xh)]++;
+						melement[(bit_sum(nn^mm)+xh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
@@ -719,7 +712,7 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = N-bit_sum(n^circ_single_lshift(n,N));
+		xh = bit_sum(n^circ_single_lshift(n,N));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -727,7 +720,6 @@ for (n=0;n<(1ULL<<N);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				//xv = N-bit_sum(m^circ_single_lshift(m,N));
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -740,7 +732,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(N-bit_sum(nn^mm)+xh)]++;
+								melement[(bit_sum(nn^mm)+xh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
@@ -840,8 +832,8 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = (N-1)-bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		uh = (bit_sum(n));
+		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		uh = N-(bit_sum(n));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -849,8 +841,6 @@ for (n=0;n<(1ULL<<N);n++)
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
 			{
 				ctotal++;
-				//xv = (N-1)-bit_sum((~1ULL&m)^(~1ULL&circ_single_lshift(m,N)));
-				//uv = (bit_sum(m));
 				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 				nn=n;
 				for (p=0;p<flip+1;p++)
@@ -858,7 +848,7 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(N-bit_sum(nn^mm)+xh)][(uh)]++;
+						melement[(bit_sum(nn^mm)+xh)][(uh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
@@ -958,8 +948,8 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = N-bit_sum(n^circ_single_lshift(n,N));
-		uh = (bit_sum(n));
+		xh = bit_sum(n^circ_single_lshift(n,N));
+		uh = N-(bit_sum(n));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -967,8 +957,6 @@ for (n=0;n<(1ULL<<N);n++)
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
 			{
-				//xv = N-bit_sum(m^circ_single_lshift(m,N));
-				//uv = (bit_sum(m));
 				bitfrac4=lldiv(ctotal,csize);
 				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
 				nn=n;
@@ -981,7 +969,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[((N-bit_sum(nn^mm))+xh)][(uh)]++;
+								melement[((bit_sum(nn^mm))+xh)][(uh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
