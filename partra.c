@@ -25,8 +25,7 @@ r c A n m
 When H=0, m is not output
 
 To Add:
-1. Remove extraneous variables in each function
-2. Change bounds in for loops for reduced tm functions
+1. Change bounds in for loops for reduced tm functions
 2. Change output filenames
 3. Change function names to specify lattice type
 4. Add triangular lattice versions
@@ -582,12 +581,13 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,nn,mm;
+unsigned char xmax=2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
 unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((3*N-1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -641,7 +641,7 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -676,12 +676,13 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned char xmax=2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
 unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((3*N+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -744,7 +745,7 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -781,12 +782,14 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,nn,mm;
+unsigned char xmax=2*N-1;
+unsigned char umax=N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
 unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((3*N-1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -794,7 +797,7 @@ if ((melement==NULL))
 }
 for(n = 0ULL; n < (3*N-1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -856,9 +859,9 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<3*N-1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<2*N+1;q++)
+					for (q=0;q<umax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -898,12 +901,14 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned char xmax=2*N;
+unsigned char umax=N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
 unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((3*N+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -911,7 +916,7 @@ if ((melement==NULL))
 }
 for(n = 0ULL; n < (3*N+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(2*N+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -981,9 +986,9 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<3*N+1;p++)
+				for (p=0;p<xmax+1;p++)
 				{
-					for (q=0;q<2*N+1;q++)
+					for (q=0;q<umax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
