@@ -573,6 +573,8 @@ return 0;
 /*******************************/
 unsigned char i_f_p(const unsigned char N, char* dirname)
 {
+unsigned char xmax=2*N-1;
+
 unsigned char flag;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
@@ -581,7 +583,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,nn,mm;
-unsigned char xmax=2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -667,6 +668,8 @@ return 0;
 /*******************************/
 unsigned char i_c_0p(const unsigned char N, char* dirname)
 {
+unsigned char xmax=2*N;
+
 unsigned char flag;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
@@ -676,7 +679,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,nn,mm;
-unsigned char xmax=2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -774,6 +776,9 @@ return 0;
 /*******************************/
 unsigned char if_f_p(const unsigned char N, char* dirname)
 {
+unsigned char xmax=2*N-1;
+unsigned char umax=N;
+
 unsigned char flag;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
@@ -782,8 +787,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,nn,mm;
-unsigned char xmax=2*N-1;
-unsigned char umax=N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -892,6 +895,9 @@ return 0;
 /*******************************/
 unsigned char if_c_0p(const unsigned char N, char* dirname)
 {
+unsigned char xmax=2*N;
+unsigned char umax=N;
+
 unsigned char flag;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
@@ -901,8 +907,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,nn,mm;
-unsigned char xmax=2*N;
-unsigned char umax=N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -1615,6 +1619,8 @@ return 0;
 /*******************************/
 unsigned char p2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N-1;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -1624,7 +1630,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm;
-unsigned char xmax = 2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -1728,6 +1733,8 @@ return 0;
 /*******************************/
 unsigned char p2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -1738,7 +1745,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm;
-unsigned char xmax = 2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -1852,6 +1858,9 @@ return 0;
 /*******************************/
 unsigned char pf2_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N-1;
+unsigned char umax = N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -1861,8 +1870,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm;
-unsigned char xmax = 2*N-1;
-unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -1993,6 +2000,9 @@ return 0;
 /*******************************/
 unsigned char pf2_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N;
+unsigned char umax = N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -2003,8 +2013,6 @@ FILE* fid;
 char filename[256];	
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm;
-unsigned char xmax = 2*N;
-unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -2144,6 +2152,8 @@ return 0;
 /*******************************/
 unsigned char p_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N-1;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -2154,7 +2164,6 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
-unsigned char xmax = 2*N-1;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
@@ -2285,6 +2294,8 @@ return 0;
 /*******************************/
 unsigned char p_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -2296,7 +2307,6 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
-unsigned char xmax = 2*N;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
@@ -2437,6 +2447,9 @@ return 0;
 /*******************************/
 unsigned char pf_f_p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N-1;
+unsigned char umax = N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -2448,8 +2461,6 @@ const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
-unsigned char xmax = 2*N-1;
-unsigned char umax = N;
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
 unsigned long long xh,xtest,xinter,uh,rtotal=0ULL,ctotal=0ULL;
@@ -2605,6 +2616,9 @@ return 0;
 /*******************************/
 unsigned char pf_c_0p(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+unsigned char xmax = 2*N;
+unsigned char umax = N;
+
 unsigned char flag;
 unsigned char bin=0;
 unsigned long long total=0ULL;
@@ -2616,8 +2630,6 @@ char filename[256];
 const unsigned char csize=8*sizeof(unsigned char);
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
-unsigned char xmax = 2*N;
-unsigned char umax = N;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
