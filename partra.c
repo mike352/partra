@@ -46,7 +46,10 @@ To Add:
 //#include <direct.h> //uncomment for Windows
 #include <sys/stat.h> //uncomment for Linux
 
-
+typedef unsigned char**** Matrix;
+typedef unsigned long long**** Matrix_ll;
+typedef unsigned char*** Row;
+typedef unsigned long long*** Row_ll;
 
 /*This function performs a circular shift to the left of all bits in number of a particular width, erasing any bits to the left of the given width.*/
 unsigned long long circ_single_lshift(unsigned long long number, const unsigned char width)
