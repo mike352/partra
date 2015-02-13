@@ -45,13 +45,14 @@ To Add:
 #include <time.h>
 //#include <direct.h> //uncomment for Windows
 #include <sys/stat.h> //uncomment for Linux
+#include <complex.h>
 
 typedef unsigned char**** Matrix;
 typedef unsigned long long**** Matrix_ll;
-typedef long double**** Matrix_ld;
+typedef long double complex**** Matrix_ldc;
 typedef unsigned char*** Row;
 typedef unsigned long long*** Row_ll;
-typedef long double*** Row_ld;
+typedef long double complex*** Row_ldc;
 
 /*This function performs a circular shift to the left of all bits in number of a particular width, erasing any bits to the left of the given width.*/
 unsigned long long circ_single_lshift(unsigned long long number, const unsigned char width)
