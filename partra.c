@@ -43,9 +43,16 @@ To Add:
 #include <stddef.h>
 #include <string.h>
 #include <time.h>
-//#include <direct.h> //uncomment for Windows
-#include <sys/stat.h> //uncomment for Linux
 #include <complex.h>
+
+//Only used to create a data directory or check that one already exists
+ #ifdef __unix__
+	#include <sys/stat.h> 
+	#define OS 1 
+#else
+	#include <direct.h> 
+	#define OS 0
+#endif
 
 typedef unsigned char**** Matrix;
 typedef unsigned long long**** Matrix_ll;
@@ -229,13 +236,25 @@ while (test!=0ULL)
 	test = test << 1;
 }
 
-//Create directory. I haven't tested this in Windows.
+//Create directory.
 sprintf(dirname,"data");
-dcheck = mkdir(dirname,S_IRWXU | S_IRWXG | S_IRWXO);
-if ((dcheck==-1)&(errno!=EEXIST))
+if (OS) //UNIX
 {
-	printf("\nERROR: Could not create output directory. %s\n",strerror(errno));
-	return 0;
+	dcheck = mkdir(dirname,S_IRWXU | S_IRWXG | S_IRWXO);
+	if ((dcheck==-1)&(errno!=EEXIST))
+	{
+		printf("\nERROR: Could not create output directory. %s\n",strerror(errno));
+		return 0;
+	}
+}
+else //Assume Windows
+{
+	dcheck = _mkdir(dirname);
+	if ((dcheck==-1)&(errno!=EEXIST))
+	{
+		printf("\nERROR: Could not create output directory. %s\n",strerror(errno));
+		return 0;
+	}
 }
 
 //Ising or Ising in a field
