@@ -181,9 +181,15 @@ unsigned char matrix_alloc(unsigned long long*****,const unsigned long long*,con
 void matrix_free(unsigned long long****,const unsigned long long*);
 unsigned char row_alloc(unsigned long long****,const unsigned long long*,const unsigned char);
 void row_free(unsigned long long***,const unsigned long long*);
-
 unsigned char matrix_setadd(unsigned long long*****, const unsigned long long*, const unsigned long long, const unsigned long long, const unsigned long long*);
 unsigned char row_setadd(unsigned long long****, const unsigned long long*, const unsigned long long, const unsigned long long*);
+
+unsigned char matrix_alloc_tiny(unsigned char*****,const unsigned long long*,const unsigned char);
+void matrix_free_tiny(unsigned char****,const unsigned long long*);
+unsigned char row_alloc_tiny(unsigned char****,const unsigned long long*,const unsigned char);
+void row_free_tiny(unsigned char***,const unsigned long long*);
+unsigned char matrix_setadd_tiny(unsigned char*****, const unsigned long long*, const unsigned long long, const unsigned long long, const unsigned char*);
+unsigned char row_setadd_tiny(unsigned char****, const unsigned long long*, const unsigned long long, const unsigned char*);
 
 /*Size of Ising 0+ sector follows OEIS series A000029*/
 /*Size of Ising 0 sector follows OEIS series A000031*/
@@ -6461,7 +6467,6 @@ unsigned char matrix_setadd(unsigned long long***** matrix, const unsigned long 
 {
 unsigned long long q,r;
 unsigned char test=1;
-unsigned char flag=0;
 
 
 //Search and set appropriately
@@ -6474,42 +6479,39 @@ for (q=0ULL;q<(*matrix)[n][m][0][0];q++)
 	if (test)
 	{
 		(*matrix)[n][m][1][msize[1]*q+msize[1]-1] = (*matrix)[n][m][1][msize[1]*q+msize[1]-1] + v[msize[1]-1];
-		flag=1;
 		return 0;
 	}
 }
 
-//Couldn't find it
-if (flag==0)
+//Couldn't find it:
+
+//There's still room allocated
+if ((*matrix)[n][m][0][0]<(*matrix)[n][m][0][1])
 {
-	//There's still room allocated
-	if ((*matrix)[n][m][0][0]<(*matrix)[n][m][0][1])
+	for (r=0ULL;r<msize[1];r++)
 	{
+		(*matrix)[n][m][1][msize[1]*(*matrix)[n][m][0][0]+r]=v[r];
+	}
+	(*matrix)[n][m][0][0]++;
+}
+else //Not enough room - re-allocate
+{		
+	//(*matrix)[n][m][1] = (unsigned long long*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*msize[0])*sizeof(unsigned long long)); //add another total
+	(*matrix)[n][m][1] = (unsigned long long*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1])*sizeof(unsigned long long));	//add square of current amount
+	if ((*matrix)[n][m][1] != NULL)
+	{
+		//(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+msize[0]; //added another total
+		(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1]; //added square of current amount
 		for (r=0ULL;r<msize[1];r++)
 		{
 			(*matrix)[n][m][1][msize[1]*(*matrix)[n][m][0][0]+r]=v[r];
 		}
 		(*matrix)[n][m][0][0]++;
 	}
-	else //Not enough room - re-allocate
-	{		
-		//(*matrix)[n][m][1] = (unsigned long long*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*msize[0])*sizeof(unsigned long long)); //add another total
-		(*matrix)[n][m][1] = (unsigned long long*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1])*sizeof(unsigned long long));	//add square of current amount
-		if ((*matrix)[n][m][1] != NULL)
-		{
-			//(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+msize[0]; //added another total
-			(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1]; //added square of current amount
-			for (r=0ULL;r<msize[1];r++)
-			{
-				(*matrix)[n][m][1][msize[1]*(*matrix)[n][m][0][0]+r]=v[r];
-			}
-			(*matrix)[n][m][0][0]++;
-		}
-		else
-		{
-			printf("\nERROR: Could not re-allocate memory.");
-			return 2;
-		}
+	else
+	{
+		printf("\nERROR: Could not re-allocate memory.");
+		return 2;
 	}
 }
 
@@ -6522,7 +6524,6 @@ unsigned char row_setadd(unsigned long long**** row, const unsigned long long* m
 {
 unsigned long long q,r;
 unsigned char test=1;
-unsigned char flag=0;
 
 
 //Search and set appropriately
@@ -6535,42 +6536,39 @@ for (q=0ULL;q<(*row)[n][0][0];q++)
 	if (test)
 	{
 		(*row)[n][1][msize[1]*q+msize[1]-1] = (*row)[n][1][msize[1]*q+msize[1]-1] + v[msize[1]-1];
-		flag=1;
 		return 0;
 	}
 }
 
-//Couldn't find it
-if (flag==0)
+//Couldn't find it:
+
+//There's still room allocated
+if ((*row)[n][0][0]<(*row)[n][0][1])
 {
-	//There's still room allocated
-	if ((*row)[n][0][0]<(*row)[n][0][1])
+	for (r=0ULL;r<msize[1];r++)
 	{
+		(*row)[n][1][msize[1]*(*row)[n][0][0]+r]=v[r];
+	}
+	(*row)[n][0][0]++;
+}
+else //Not enough room - re-allocate
+{		
+	//(*row)[n][1] = (unsigned long long*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*msize[0])*sizeof(unsigned long long)); //add another total
+	(*row)[n][1] = (unsigned long long*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*(*row)[n][0][1]*(*row)[n][0][1])*sizeof(unsigned long long));	//add square of current amount
+	if ((*row)[n][1] != NULL)
+	{
+		//(*row)[n][0][1] = (*row)[n][0][1]+msize[0]; //added another total
+		(*row)[n][0][1] = (*row)[n][0][1]+(*row)[n][0][1]*(*row)[n][0][1]; //added square of current amount
 		for (r=0ULL;r<msize[1];r++)
 		{
 			(*row)[n][1][msize[1]*(*row)[n][0][0]+r]=v[r];
 		}
 		(*row)[n][0][0]++;
 	}
-	else //Not enough room - re-allocate
-	{		
-		//(*row)[n][1] = (unsigned long long*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*msize[0])*sizeof(unsigned long long)); //add another total
-		(*row)[n][1] = (unsigned long long*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*(*row)[n][0][1]*(*row)[n][0][1])*sizeof(unsigned long long));	//add square of current amount
-		if ((*row)[n][1] != NULL)
-		{
-			//(*row)[n][0][1] = (*row)[n][0][1]+msize[0]; //added another total
-			(*row)[n][0][1] = (*row)[n][0][1]+(*row)[n][0][1]*(*row)[n][0][1]; //added square of current amount
-			for (r=0ULL;r<msize[1];r++)
-			{
-				(*row)[n][1][msize[1]*(*row)[n][0][0]+r]=v[r];
-			}
-			(*row)[n][0][0]++;
-		}
-		else
-		{
-			printf("\nERROR: Could not re-allocate memory.");
-			return 2;
-		}
+	else
+	{
+		printf("\nERROR: Could not re-allocate memory.");
+		return 2;
 	}
 }
 
@@ -6578,5 +6576,287 @@ return 0;
 }
 
 
+/*******************************/
+unsigned char matrix_alloc_tiny(unsigned char***** matrix,const unsigned long long* msize, const unsigned char N)
+{
+unsigned long long n,m,p,q,r,s;	
+
+*matrix = (unsigned char****) malloc(msize[0]*sizeof(unsigned char***)); 
+if (*matrix==NULL)
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	(*matrix)[n] = (unsigned char***) malloc(msize[0]*sizeof(unsigned char**));
+	if (((*matrix)[n]==NULL))
+	{
+		printf("\nERROR: Could not allocate memory.");
+		for (q=0ULL;q<n;q++)
+		{
+			free((void*)(*matrix)[q]);
+		}
+		return 2;
+	}
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		(*matrix)[n][m] = (unsigned char**) malloc(2*sizeof(unsigned char*));
+		if (((*matrix)[n][m]==NULL))
+		{
+			printf("\nERROR: Could not allocate memory.");
+			for (q=0ULL;q<n;q++)
+			{
+				for (r=0ULL;r<m;r++)
+				{
+					free((void*)(*matrix)[q][r]);
+				}
+				free((void*)(*matrix)[q]);
+			}
+			return 2;
+		}
+	}
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		for (p=0ULL;p<2;p++)
+		{
+			(*matrix)[n][m][p] = (unsigned char*) calloc((msize[1]*N-2)*p+2,sizeof(unsigned char));
+			if (((*matrix)[n][m][p]==NULL))
+			{
+				printf("\nERROR: Could not allocate memory.");
+				for (q=0ULL;q<n;q++)
+				{
+					for (r=0ULL;r<m;r++)
+					{
+						for (s=0ULL;s<p;s++)
+						{
+							free((void*)(*matrix)[q][r][s]);
+						}
+						free((void*)(*matrix)[q][r]);
+					}
+					free((void*)(*matrix)[q]);
+				}
+				return 2;
+			}
+		}
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+	}
+}
+
+
+return 0;
+}
+
+
+/*******************************/
+void matrix_free_tiny(unsigned char**** matrix, const unsigned long long* msize)
+{
+unsigned long long q,r,s;
+
+for (q=0ULL;q<msize[0];q++)
+{
+	for (r=0ULL;r<msize[0];r++)
+	{
+		for (s=0ULL;s<2;s++)
+		{
+			free((void*)matrix[q][r][s]);
+		}
+		free((void*)matrix[q][r]);
+	}
+	free((void*)matrix[q]);
+}
+free((void*)matrix);
+
+}
+
+
+/*******************************/
+unsigned char row_alloc_tiny(unsigned char**** row,const unsigned long long* msize, const unsigned char N)
+{
+unsigned long long n,p,q,s;	
+
+*row = (unsigned char***) malloc(msize[0]*sizeof(unsigned char**)); 
+if (*row==NULL)
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	(*row)[n] = (unsigned char**) malloc(2*sizeof(unsigned char*));
+	if (((*row)[n]==NULL))
+	{
+		printf("\nERROR: Could not allocate memory.");
+		for (q=0ULL;q<n;q++)
+		{
+			free((void*)(*row)[q]);
+		}
+		return 2;
+	}
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	for (p=0ULL;p<2;p++)
+	{
+		(*row)[n][p] = (unsigned char*) calloc((msize[1]*N-2)*p+2,sizeof(unsigned char));
+		if (((*row)[n][p]==NULL))
+		{
+			printf("\nERROR: Could not allocate memory.");
+			for (q=0ULL;q<n;q++)
+			{
+				for (s=0ULL;s<p;s++)
+				{
+					free((void*)(*row)[q][s]);
+				}
+				free((void*)(*row)[q]);
+			}
+			return 2;
+		}
+	}
+	(*row)[n][0][1]=N; //initial size of row[n][1][] is msize[1]*N
+}
+
+
+return 0;
+}
+
+
+/*******************************/
+void row_free_tiny(unsigned char*** row, const unsigned long long* msize)
+{
+unsigned long long q,s;
+
+for (q=0ULL;q<msize[0];q++)
+{
+	for (s=0ULL;s<2;s++)
+	{
+		free((void*)row[q][s]);
+	}
+	free((void*)row[q]);
+}
+free((void*)row);
+
+}
+
+
+/*******************************/
+unsigned char matrix_setadd_tiny(unsigned char***** matrix, const unsigned long long* msize, const unsigned long long n, const unsigned long long m, const unsigned char* v)
+{
+unsigned long long q,r;
+unsigned char test=1;
+
+
+//Search and set appropriately
+for (q=0ULL;q<(*matrix)[n][m][0][0];q++)
+{
+	for (r=0ULL;r<msize[1]-1;r++)
+	{
+		test = test & ((*matrix)[n][m][1][msize[1]*q+r]==v[r]);
+	}
+	if (test)
+	{
+		(*matrix)[n][m][1][msize[1]*q+msize[1]-1] = (*matrix)[n][m][1][msize[1]*q+msize[1]-1] + v[msize[1]-1];
+		return 0;
+	}
+}
+
+//Couldn't find it:
+
+//There's still room allocated
+if ((*matrix)[n][m][0][0]<(*matrix)[n][m][0][1])
+{
+	for (r=0ULL;r<msize[1];r++)
+	{
+		(*matrix)[n][m][1][msize[1]*(*matrix)[n][m][0][0]+r]=v[r];
+	}
+	(*matrix)[n][m][0][0]++;
+}
+else //Not enough room - re-allocate
+{		
+	//(*matrix)[n][m][1] = (unsigned char*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*msize[0])*sizeof(unsigned char)); //add another total
+	(*matrix)[n][m][1] = (unsigned char*) realloc((*matrix)[n][m][1],(msize[1]*(*matrix)[n][m][0][1]+msize[1]*(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1])*sizeof(unsigned char));	//add square of current amount
+	if ((*matrix)[n][m][1] != NULL)
+	{
+		//(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+msize[0]; //added another total
+		(*matrix)[n][m][0][1] = (*matrix)[n][m][0][1]+(*matrix)[n][m][0][1]*(*matrix)[n][m][0][1]; //added square of current amount
+		for (r=0ULL;r<msize[1];r++)
+		{
+			(*matrix)[n][m][1][msize[1]*(*matrix)[n][m][0][0]+r]=v[r];
+		}
+		(*matrix)[n][m][0][0]++;
+	}
+	else
+	{
+		printf("\nERROR: Could not re-allocate memory.");
+		return 2;
+	}
+}
+
+return 0;
+}
+
+
+/*******************************/
+unsigned char row_setadd_tiny(unsigned char**** row, const unsigned long long* msize, const unsigned long long n, const unsigned char* v)
+{
+unsigned long long q,r;
+unsigned char test=1;
+
+
+//Search and set appropriately
+for (q=0ULL;q<(*row)[n][0][0];q++)
+{
+	for (r=0ULL;r<msize[1]-1;r++)
+	{
+		test = test & ((*row)[n][1][msize[1]*q+r]==v[r]);
+	}
+	if (test)
+	{
+		(*row)[n][1][msize[1]*q+msize[1]-1] = (*row)[n][1][msize[1]*q+msize[1]-1] + v[msize[1]-1];
+		return 0;
+	}
+}
+
+
+//Couldn't find it:
+
+//There's still room allocated
+if ((*row)[n][0][0]<(*row)[n][0][1])
+{
+	for (r=0ULL;r<msize[1];r++)
+	{
+		(*row)[n][1][msize[1]*(*row)[n][0][0]+r]=v[r];
+	}
+	(*row)[n][0][0]++;
+}
+else //Not enough room - re-allocate
+{		
+	//(*row)[n][1] = (unsigned char*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*msize[0])*sizeof(unsigned char)); //add another total
+	(*row)[n][1] = (unsigned char*) realloc((*row)[n][1],(msize[1]*(*row)[n][0][1]+msize[1]*(*row)[n][0][1]*(*row)[n][0][1])*sizeof(unsigned char));	//add square of current amount
+	if ((*row)[n][1] != NULL)
+	{
+		//(*row)[n][0][1] = (*row)[n][0][1]+msize[0]; //added another total
+		(*row)[n][0][1] = (*row)[n][0][1]+(*row)[n][0][1]*(*row)[n][0][1]; //added square of current amount
+		for (r=0ULL;r<msize[1];r++)
+		{
+			(*row)[n][1][msize[1]*(*row)[n][0][0]+r]=v[r];
+		}
+		(*row)[n][0][0]++;
+	}
+	else
+	{
+		printf("\nERROR: Could not re-allocate memory.");
+		return 2;
+	}
+}
+
+return 0;
+}
 
 
