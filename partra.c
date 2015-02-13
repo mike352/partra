@@ -26,12 +26,11 @@ r c A n m
 When H=0, m is not output
 
 To Add:
-2. Change output filenames
-3. Change function names to specify lattice type
-4. Add triangular lattice versions
-5. Add api versions
-6. Write a portable bit architecture tester 
-7. Write a test suite
+1. Add api versions
+2. Add field and/or energy substitutor 
+3. Incorporate partra library into old equimodular curve finder program
+4. Write a portable bit architecture tester 
+5. Write a test suite
 
 
 */
@@ -46,13 +45,15 @@ To Add:
 #include <complex.h>
 
 //Only used to create a data directory or check that one already exists
-//If causing problems, don't try to create a directory, just pass the string for the directory name, and delete the code below
- #ifdef __unix__
+ #if (defined(__unix__) || defined(__APPLE__))
 	#include <sys/stat.h> 
 	#define OS 1 
-#else //Assume Windows otherwise. If above fails and not Windows, need to add extra condition
+	int _mkdir(char*); //prototyping to make warning go away when using -Wall
+#elif (defined(_WIN16) || defined(_WIN32)|| defined(_WIN64))
 	#include <direct.h> 
 	#define OS 0
+#else //Otherwise ask
+	#define OS -1 
 #endif
 
 typedef unsigned char**** Matrix;
@@ -248,7 +249,7 @@ if (OS) //UNIX
 		return 0;
 	}
 }
-else //Assume Windows
+else if (OS==0) //Windows
 {
 	dcheck = _mkdir(dirname);
 	if ((dcheck==-1)&(errno!=EEXIST))
@@ -256,6 +257,11 @@ else //Assume Windows
 		printf("\nERROR: Could not create output directory. %s\n",strerror(errno));
 		return 0;
 	}
+}
+else if (OS==-1) //Ask instead
+{
+	printf("\nDirectory to place output files: ");
+	scanf("%s",dirname);
 }
 
 //Ising or Ising in a field
