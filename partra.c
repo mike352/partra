@@ -46,10 +46,11 @@ To Add:
 #include <complex.h>
 
 //Only used to create a data directory or check that one already exists
+//If causing problems, don't try to create a directory, just pass the string for the directory name, and delete the code below
  #ifdef __unix__
 	#include <sys/stat.h> 
 	#define OS 1 
-#else
+#else //Assume Windows otherwise. If above fails and not Windows, need to add extra condition
 	#include <direct.h> 
 	#define OS 0
 #endif
