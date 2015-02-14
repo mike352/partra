@@ -213,34 +213,16 @@ unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, c
 /*Size of Ising 0 sector follows OEIS series A000031*/
 /*Size of Ising + sector follows OEIS series A005418*/
 
-/*******************************/
-unsigned char setup_read(FILE* fid, char** options, unsigned char numoptions)
-{
-unsigned char fcheck;
-unsigned char n;
-
-for (n=0;n<numoptions+1;n++)
-{
-	fcheck = fscanf(fid,"%s",options[n]);
-	if (fcheck!=1)
-	{
-		printf("ERROR: Problem reading option %d in the setup file.",n+1);
-		return 1;
-	}
-}
-
-return 0;
-}
-
 int main(void)
 {
 unsigned char numoptions = 6;
 
 unsigned char row_max_size=0;
-FILE* fid;
+FILE* fid=NULL;
+unsigned char fcheck;
 char* options[numoptions+1];
 unsigned long long test;
-unsigned char N;
+unsigned char N=0;
 char Qs[256];
 unsigned long long Q=0ULL;
 unsigned char bin=0;
@@ -255,8 +237,10 @@ char option2[256];
 char option3[256];
 char option4[256];
 char option5[256];
-unsigned char flag=1;
+char tmp[256];
+unsigned char flag=~0;
 unsigned char n,m;
+unsigned char repeat=1;
 
 
 //Discover max row size
@@ -302,7 +286,6 @@ if ((strcmp(option0,"y")!=0)&(strcmp(option0,"n")))
 	printf("\nERROR: Wrong input.");
 	return 0;
 }
-
 if (strcmp(option0,"y")==0)
 {
 	fid = fopen("partra_setup.txt","r");
@@ -311,64 +294,222 @@ if (strcmp(option0,"y")==0)
 		printf("\nERROR: Could not open input file. %s\n",strerror(errno));
 		return 0;
 	}
-	for (n=0;n<numoptions+1;n++)
-	{
-		options[n] = (char*) malloc(256*sizeof(char));
-		if (options[n]==NULL)
-		{
-			printf("ERROR: Could not allocate memory.\n");
-			for (m=0;m<n;m++)
-			{
-				free(options[m]);
-			}
-			fclose(fid);
-			return 0;
-		}
-	}
-	flag = setup_read(fid,options,numoptions);
-	if (flag!=0)
+}
+
+//Repeating Loop
+while ((strcmp(option0,"y")==0)&(repeat==1))
+{
+	if (strcmp(option0,"y")==0)
 	{
 		for (n=0;n<numoptions+1;n++)
 		{
-			free(options[n]);
+			options[n] = (char*) malloc(256*sizeof(char));
+			if (options[n]==NULL)
+			{
+				printf("ERROR: Could not allocate memory.\n");
+				for (m=0;m<n;m++)
+				{
+					free(options[m]);
+				}
+				fclose(fid);
+				return 0;
+			}
 		}
-		fclose(fid);
-		return 0;
-	}
-	
-	//Choice of Model
-	strcpy(option1,options[0]);
-	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
-	{
-		printf("\nERROR: Wrong model input value.");
-		flag=1;
-	}
-	
-	//Value of q (for Potts only)
-	if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
-	{
-		if (strspn(options[1],"1234567890")<strlen(options[1]))
+		for (n=0;n<numoptions+1;n++)
 		{
-			printf("\nERROR: Invalid q value."); //prevents negative values which would get reinterpreted, floats, and others
+			fcheck = fscanf(fid,"%s",options[n]);
+			if (fcheck!=1)
+			{
+				printf("ERROR: Problem reading option %d in the input file.",n+1);
+				for (n=0;n<numoptions+1;n++)
+				{
+					free(options[n]);
+				}
+				fclose(fid);
+				return 0;
+			}
+		}
+		
+		//Choice of Model
+		strcpy(option1,options[0]);
+		if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
+		{
+			printf("\nERROR: Wrong model input value.");
+			flag=1;
+		}
+		
+		//Value of q (for Potts only)
+		if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+		{
+			if (strspn(options[1],"1234567890")<strlen(options[1]))
+			{
+				printf("\nERROR: Invalid q value."); //prevents negative values which would get reinterpreted, floats, and others
+				flag=1;
+			}
+			else
+			{
+				Q=strtoll(options[1],NULL,10);
+				if ((Q==LONG_MAX)|(Q==LONG_MIN))
+				{
+					printf("\nERROR: Given q value is too large. %s.",strerror(errno));
+					flag=1;
+				}
+				else if (Q==0)
+				{
+					printf("\nERROR: Invalid q value."); //problem converting string Qs to unsigned long long Q
+					flag=1;
+				}
+				else if (Q<3ULL)
+				{
+					printf("\nERROR: q should be greater than 2.");
+					flag=1;
+				}
+				else if (Q>=3ULL)
+				{
+					while((1ULL<<bin)<Q)
+					{
+						bin++; //calculate bit array bin size
+					}
+				}
+			}
+		}
+		
+		//Choice of row boundary condition
+		strcpy(option2,options[2]);
+		if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
+		{
+			printf("\nERROR: Wrong row boundary condition input.");
+			flag=1;
+		}
+		
+		//Choice of full or reduced matrix
+		strcpy(option3,options[3]);
+		if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
+		{
+			printf("\nERROR: Wrong input for choice of full or reduced matrix.");
+			flag=1;
+		}
+		
+		//Size of row
+		if (strspn(options[4],"1234567890")<strlen(options[4]))
+		{
+			printf("\nERROR: Invalid N value"); //prevents negative values which would get reinterpreted, floats, and others
 			flag=1;
 		}
 		else
 		{
-			Q=strtoll(options[1],NULL,10);
+			N=strtoll(options[4],NULL,10);
+			if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
+			{
+				if (N<1)
+				{
+					printf("\nERROR: Row size should be greater than 0.\n");
+					flag=1;
+				}
+				else if (N>row_max_size)
+				{
+					printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
+					flag=1;
+				}
+			}
+			else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+			{
+				if (N<1)
+				{
+					printf("\nERROR: Row size should be greater than 0.\n");
+					flag=1;
+				}
+				else if (N>row_max_size/bin)
+				{
+					printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
+					flag=1;
+				}
+			}
+		}
+		
+		//Choice of lattice
+		strcpy(option4,options[5]);
+		if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
+		{
+			printf("\nERROR: Wrong lattice type input.");
+			flag=1;
+		}
+		
+		//Repeat program
+		strcpy(option5,options[6]);
+		if ((strcmp(option5,"y")!=0)&(strcmp(option5,"n")!=0))
+		{
+			printf("\nERROR: Wrong input of whether to continue reading input file.");
+			flag=1;
+		}
+		if (strcmp(option5,"n")==0) //last loop
+		{
+			repeat=0;
+			for (n=0;n<numoptions+1;n++)
+			{
+				free(options[n]);
+				
+			}
+			fclose(fid);
+		}
+		else 
+		{
+			if (fgets(tmp,2,fid)==NULL) //Skip a blank line
+			{
+				printf("\nERROR: Problem reading input file after option %d.",numoptions+1);
+				flag=1;
+			}			
+		}
+		
+		//Exit if any of the options were bad
+		if (flag==1)
+		{
+			for (n=0;n<numoptions+1;n++)
+			{
+				free(options[n]);
+				
+			}
+			fclose(fid);
+			return 0;
+		}
+		
+	}
+	else
+	{
+		//Model choice
+		printf("Ising or Ising in a field or Potts or Potts in a field  (i,if,p,pf): ");
+		scanf("%s",option1);
+		if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
+		{
+			printf("\nERROR: Wrong input.");
+			return 0;
+		}
+
+		//Input q value, checking carefully, since very large numbers are allowed. 
+		if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+		{
+			printf("Potts q value  (3 to 2^%d-1): ",row_max_size);
+			scanf("%255s",Qs);
+			if (strspn(Qs,"1234567890")<strlen(Qs))
+			{
+				printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
+				return 0;
+			}
+			Q=strtoll(Qs,NULL,10);
 			if ((Q==LONG_MAX)|(Q==LONG_MIN))
 			{
-				printf("\nERROR: Given q value is too large. %s.",strerror(errno));
-				flag=1;
+				printf("\nERROR: Given q value is too large. %s.\n",strerror(errno));
+				return 0;
 			}
 			else if (Q==0)
 			{
-				printf("\nERROR: Invalid q value."); //problem converting string Qs to unsigned long long Q
-				flag=1;
+				printf("\nERROR: Invalid q value.\n"); //problem converting string Qs to unsigned long long Q
+				return 0;
 			}
 			else if (Q<3ULL)
 			{
-				printf("\nERROR: q should be greater than 2.");
-				flag=1;
+				printf("\nERROR: q should be greater than 2.\n");
+				return 0;
 			}
 			else if (Q>=3ULL)
 			{
@@ -378,486 +519,345 @@ if (strcmp(option0,"y")==0)
 				}
 			}
 		}
-	}
-	
-	//Choice of row boundary condition
-	strcpy(option2,options[2]);
-	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
-	{
-		printf("\nERROR: Wrong row boundary condition input.");
-		flag=1;
-	}
-	
-	//Choice of full or reduced matrix
-	strcpy(option3,options[3]);
-	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
-	{
-		printf("\nERROR: Wrong input for choice of full or reduced matrix.");
-		flag=1;
-	}
-	
-	//Size of row
-	if (strspn(options[4],"1234567890")<strlen(options[4]))
-	{
-		printf("\nERROR: Invalid N value"); //prevents negative values which would get reinterpreted, floats, and others
-		flag=1;
-	}
-	else
-	{
-		N=strtoll(options[4],NULL,10);
+
+		//Ask for row boundary condition
+		printf("Row boundary condition (f,c): ");
+		scanf("%s",option2);
+		if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
+		{
+			printf("\nERROR: Wrong input.");
+			return 0;
+		}
+
+		//Ask for transfer matrix reduction
+		printf("Full or reduced transfer matrix (f,r): ");
+		scanf("%s",option3);
+		if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
+		{
+			printf("\nERROR: Wrong input.");
+			return 0;
+		}
+
+		//Ask for row size
 		if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
 		{
+			printf("Row size (1 to %hhu): ",row_max_size); 
+			scanf("%hhu",&N);
 			if (N<1)
 			{
 				printf("\nERROR: Row size should be greater than 0.\n");
-				flag=1;
+				return 0;
 			}
 			else if (N>row_max_size)
 			{
 				printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
-				flag=1;
+				return 0;
 			}
 		}
 		else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 		{
+			printf("Row size (1 to %hhu): ",row_max_size/bin); 
+			scanf("%hhu",&N);
 			if (N<1)
 			{
 				printf("\nERROR: Row size should be greater than 0.\n");
-				flag=1;
+				return 0;
 			}
 			else if (N>row_max_size/bin)
 			{
 				printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
-				flag=1;
+				return 0;
 			}
 		}
-	}
-	
-	//Choice of lattice
-	strcpy(option4,options[5]);
-	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
-	{
-		printf("\nERROR: Wrong lattice type input.");
-		flag=1;
-	}
-	
-	//Repeat program
-	strcpy(option5,options[6]);
-	if ((strcmp(option5,"y")!=0)&(strcmp(option5,"n")!=0))
-	{
-		printf("\nERROR: Wrong input of whether to continue reading input file.");
-		flag=1;
-	}
-	
-	if (flag!=0)
-	{
-		for (n=0;n<numoptions+1;n++)
-		{
-			free(options[n]);
-			
-		}
-		fclose(fid);
-		return 0;
-	}
-	
-	//Repeat ...
-	
-	//End
-	for (n=0;n<numoptions+1;n++)
-	{
-		free(options[n]);
-		
-	}
-	fclose(fid);
-	//return 0;
-	
-}
-else
-{
-	//Model choice
-	printf("Ising or Ising in a field or Potts or Potts in a field  (i,if,p,pf): ");
-	scanf("%s",option1);
-	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
-	{
-		printf("\nERROR: Wrong input.");
-		return 0;
-	}
 
-	//Input q value, checking carefully, since very large numbers are allowed. 
-	if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
-	{
-		printf("Potts q value  (3 to 2^%d-1): ",row_max_size);
-		scanf("%255s",Qs);
-		if (strspn(Qs,"1234567890")<strlen(Qs))
+		//Lattice
+		printf("Square or triangular lattice (s,t): ");
+		scanf("%s",option4);
+		if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
 		{
-			printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
-			return 0;
-		}
-		Q=strtoll(Qs,NULL,10);
-		if ((Q==LONG_MAX)|(Q==LONG_MIN))
-		{
-			printf("\nERROR: Given q value is too large. %s.\n",strerror(errno));
-			return 0;
-		}
-		else if (Q==0)
-		{
-			printf("\nERROR: Invalid q value.\n"); //problem converting string Qs to unsigned long long Q
-			return 0;
-		}
-		else if (Q<3ULL)
-		{
-			printf("\nERROR: q should be greater than 2.\n");
-			return 0;
-		}
-		else if (Q>=3ULL)
-		{
-			while((1ULL<<bin)<Q)
-			{
-				bin++; //calculate bit array bin size
-			}
-		}
-	}
-
-	//Ask for row boundary condition
-	printf("Row boundary condition (f,c): ");
-	scanf("%s",option2);
-	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
-	{
-		printf("\nERROR: Wrong input.");
-		return 0;
-	}
-
-	//Ask for transfer matrix reduction
-	printf("Full or reduced transfer matrix (f,r): ");
-	scanf("%s",option3);
-	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
-	{
-		printf("\nERROR: Wrong input.");
-		return 0;
-	}
-
-	//Ask for row size
-	if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
-	{
-		printf("Row size (1 to %hhu): ",row_max_size); 
-		scanf("%hhu",&N);
-		if (N<1)
-		{
-			printf("\nERROR: Row size should be greater than 0.\n");
-			return 0;
-		}
-		else if (N>row_max_size)
-		{
-			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
-			return 0;
-		}
-	}
-	else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
-	{
-		printf("Row size (1 to %hhu): ",row_max_size/bin); 
-		scanf("%hhu",&N);
-		if (N<1)
-		{
-			printf("\nERROR: Row size should be greater than 0.\n");
-			return 0;
-		}
-		else if (N>row_max_size/bin)
-		{
-			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
+			printf("\nERROR: Wrong input.");
 			return 0;
 		}
 	}
 
-	//Lattice
-	printf("Square or triangular lattice (s,t): ");
-	scanf("%s",option4);
-	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
+	//Choose a function
+	time(&tic);
+	if (strcmp(option4,"s")==0)
 	{
-		printf("\nERROR: Wrong input.");
-		return 0;
-	}
-}
-
-//Choose a function
-time(&tic);
-if (strcmp(option4,"s")==0)
-{
-	if (strcmp(option1,"i")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		if (strcmp(option1,"i")==0)
 		{
-			flag = i_sq_f(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = i_sq_c(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_sq_f_r(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_sq_c_r(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"if")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_sq_f(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_sq_c(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_sq_f_r(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_sq_c_r(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"p")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p2_sq_f(N,Q,dirname);
+				flag = i_sq_f(N,dirname);
 			}
-			else
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p_sq_f(N,Q,dirname);
+				flag = i_sq_c(N,dirname);
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = i_sq_f_r(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = i_sq_c_r(N,dirname);
 			}
 		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		else if (strcmp(option1,"if")==0)
 		{
-			if (Q==(1<<bin))
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p2_sq_c(N,Q,dirname);
+				flag = if_sq_f(N,dirname);
 			}
-			else
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p_sq_c(N,Q,dirname);
+				flag = if_sq_c(N,dirname);
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = if_sq_f_r(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = if_sq_c_r(N,dirname);
 			}
 		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		else if (strcmp(option1,"p")==0)
 		{
-			if (Q==(1<<bin))
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p2_sq_f_r(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = p2_sq_f(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_sq_f(N,Q,dirname);
+				}
 			}
-			else
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p_sq_f_r(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = p2_sq_c(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_sq_c(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_sq_f_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_sq_f_r(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_sq_c_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_sq_c_r(N,Q,dirname);
+				}
 			}
 		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		else if (strcmp(option1,"pf")==0)
 		{
-			if (Q==(1<<bin))
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p2_sq_c_r(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = pf2_sq_f(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_sq_f(N,Q,dirname);
+				}
 			}
-			else
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = p_sq_c_r(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = pf2_sq_c(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_sq_c(N,Q,dirname);
+				}
 			}
-		}
-	}
-	else if (strcmp(option1,"pf")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 			{
-				flag = pf2_sq_f(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = pf2_sq_f_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_sq_f_r(N,Q,dirname);
+				}
 			}
-			else
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 			{
-				flag = pf_sq_f(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_c(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_c(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_f_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_f_r(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_c_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_c_r(N,Q,dirname);
+				if (Q==(1<<bin))
+				{
+					flag = pf2_sq_c_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_sq_c_r(N,Q,dirname);
+				}
 			}
 		}
 	}
-}
-else if (strcmp(option4,"t")==0)
-{
-	if (strcmp(option1,"i")==0)
+	else if (strcmp(option4,"t")==0)
 	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		if (strcmp(option1,"i")==0)
 		{
-			flag = i_tri_f(N,dirname);
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+			{
+				flag = i_tri_f(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+			{
+				flag = i_tri_c(N,dirname);
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = i_tri_f_r(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = i_tri_c_r(N,dirname);
+			}
 		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		else if (strcmp(option1,"if")==0)
 		{
-			flag = i_tri_c(N,dirname);
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+			{
+				flag = if_tri_f(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+			{
+				flag = if_tri_c(N,dirname);
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = if_tri_f_r(N,dirname);
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				flag = if_tri_c_r(N,dirname);
+			}
 		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		else if (strcmp(option1,"p")==0)
 		{
-			flag = i_tri_f_r(N,dirname);
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_tri_f(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_tri_f(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_tri_c(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_tri_c(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_tri_f_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_tri_f_r(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = p2_tri_c_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = p_tri_c_r(N,Q,dirname);
+				}
+			}
 		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		else if (strcmp(option1,"pf")==0)
 		{
-			flag = i_tri_c_r(N,dirname);
+			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = pf2_tri_f(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_tri_f(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = pf2_tri_c(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_tri_c(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = pf2_tri_f_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_tri_f_r(N,Q,dirname);
+				}
+			}
+			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+			{
+				if (Q==(1<<bin))
+				{
+					flag = pf2_tri_c_r(N,Q,dirname);
+				}
+				else
+				{
+					flag = pf_tri_c_r(N,Q,dirname);
+				}
+			}
 		}
 	}
-	else if (strcmp(option1,"if")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_tri_f(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_tri_c(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_tri_f_r(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_tri_c_r(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"p")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_f(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_f(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_c(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_c(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_f_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_f_r(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_c_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_c_r(N,Q,dirname);
-			}
-		}
-	}
-	else if (strcmp(option1,"pf")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_f(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_f(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_c(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_c(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_f_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_f_r(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_c_r(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_c_r(N,Q,dirname);
-			}
-		}
-	}
-}
-
-
-
 if (flag==0)
 {
 	time(&toc);
 	totaltime = difftime(toc,tic);
-	printf("\nThe total time in seconds was %gs.",totaltime);
+	printf("\n   The total time in seconds was %gs.",totaltime);
+}
 }
 
 return 0;
@@ -897,7 +897,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -930,7 +930,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -964,7 +964,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -998,7 +998,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -1035,7 +1035,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -1068,7 +1068,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -1102,7 +1102,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -1136,7 +1136,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -1232,7 +1232,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1339,7 +1339,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1455,7 +1455,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1585,7 +1585,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1690,7 +1690,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1797,7 +1797,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1913,7 +1913,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2043,7 +2043,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2108,7 +2108,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 	
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2160,7 +2160,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2217,7 +2217,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2274,7 +2274,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2363,7 +2363,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 }
 	
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -2452,7 +2452,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -2546,7 +2546,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -2640,7 +2640,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -2702,7 +2702,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 	
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2758,7 +2758,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2819,7 +2819,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2880,7 +2880,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -2973,7 +2973,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 }
 	
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -3066,7 +3066,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -3164,7 +3164,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -3262,7 +3262,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -3380,7 +3380,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3503,7 +3503,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3642,7 +3642,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3793,7 +3793,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3940,7 +3940,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4092,7 +4092,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4258,7 +4258,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4437,7 +4437,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4567,7 +4567,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4695,7 +4695,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4839,7 +4839,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -4995,7 +4995,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -5147,7 +5147,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -5304,7 +5304,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -5475,7 +5475,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -5659,7 +5659,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s  created.",filename);
+printf("\nFile  ../%s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
