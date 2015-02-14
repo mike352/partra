@@ -939,7 +939,7 @@ return 0;
 /*******************************/
 unsigned char i_sq_f_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=2*N-1;
+unsigned char umax=2*N-1;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -952,9 +952,9 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -988,7 +988,7 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -1003,12 +1003,12 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+xh)]++;
+						melement[(bit_sum(nn^mm)+uh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1034,7 +1034,7 @@ return 0;
 /*******************************/
 unsigned char i_sq_c_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=2*N;
+unsigned char umax=2*N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1048,9 +1048,9 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -1084,7 +1084,7 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = bit_sum(n^circ_single_lshift(n,N));
+		uh = bit_sum(n^circ_single_lshift(n,N));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -1104,7 +1104,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(bit_sum(nn^mm)+xh)]++;
+								melement[(bit_sum(nn^mm)+uh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
@@ -1113,7 +1113,7 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1142,8 +1142,8 @@ return 0;
 /*******************************/
 unsigned char if_sq_f_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=2*N-1;
-unsigned char umax=N;
+unsigned char umax=2*N-1;
+unsigned char xmax=N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1156,17 +1156,17 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (xmax+1); n++)
+for(n = 0ULL; n < (umax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(xmax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -1207,8 +1207,8 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		uh = N-(bit_sum(n));
+		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		xh = N-(bit_sum(n));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -1223,14 +1223,14 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+xh)][(uh)]++;
+						melement[(bit_sum(nn^mm)+uh)][(xh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<umax+1;q++)
+					for (q=0;q<xmax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -1249,7 +1249,7 @@ printf("\nFile  ../%s  created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
-for (n=0ULL;n<(xmax+1);n++)
+for (n=0ULL;n<(umax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -1261,8 +1261,8 @@ return 0;
 /*******************************/
 unsigned char if_sq_c_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=2*N;
-unsigned char umax=N;
+unsigned char umax=2*N;
+unsigned char xmax=N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1276,17 +1276,17 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (xmax+1); n++)
+for(n = 0ULL; n < (umax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(xmax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -1326,8 +1326,8 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = bit_sum(n^circ_single_lshift(n,N));
-		uh = N-(bit_sum(n));
+		uh = bit_sum(n^circ_single_lshift(n,N));
+		xh = N-(bit_sum(n));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -1347,7 +1347,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[((bit_sum(nn^mm))+xh)][(uh)]++;
+								melement[((bit_sum(nn^mm))+uh)][(xh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
@@ -1356,9 +1356,9 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<umax+1;q++)
+					for (q=0;q<xmax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -1380,7 +1380,7 @@ fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
 free((void*)order);
-for (n=0ULL;n<(xmax+1);n++)
+for (n=0ULL;n<(umax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -1397,7 +1397,7 @@ return 0;
 /*******************************/
 unsigned char i_tri_f_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=3*N-2;
+unsigned char umax=3*N-2;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1410,9 +1410,9 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -1446,7 +1446,7 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -1461,12 +1461,12 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+xh)]++;
+						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+uh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1492,7 +1492,7 @@ return 0;
 /*******************************/
 unsigned char i_tri_c_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=3*N;
+unsigned char umax=3*N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1506,9 +1506,9 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((xmax+1)*sizeof(unsigned char));
+melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -1542,7 +1542,7 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = bit_sum(n^circ_single_lshift(n,N));
+		uh = bit_sum(n^circ_single_lshift(n,N));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -1562,7 +1562,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+xh)]++;
+								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
@@ -1571,7 +1571,7 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
@@ -1600,8 +1600,8 @@ return 0;
 /*******************************/
 unsigned char if_tri_f_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=3*N-2;
-unsigned char umax=N;
+unsigned char umax=3*N-2;
+unsigned char xmax=N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1614,17 +1614,17 @@ unsigned long long n,m,p,q,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (xmax+1); n++)
+for(n = 0ULL; n < (umax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(xmax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -1665,8 +1665,8 @@ for (n=0;n<(1ULL<<N);n++)
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		uh = N-(bit_sum(n));
+		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		xh = N-(bit_sum(n));
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
 		{
@@ -1681,14 +1681,14 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+xh)][(uh)]++;
+						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+uh)][(xh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<umax+1;q++)
+					for (q=0;q<xmax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -1707,7 +1707,7 @@ printf("\nFile  ../%s  created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
-for (n=0ULL;n<(xmax+1);n++)
+for (n=0ULL;n<(umax+1);n++)
 {
 	free((void*)melement[n]);
 }
@@ -1719,8 +1719,8 @@ return 0;
 /*******************************/
 unsigned char if_tri_c_r(const unsigned char N, char* dirname)
 {
-unsigned char xmax=3*N;
-unsigned char umax=N;
+unsigned char umax=3*N;
+unsigned char xmax=N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -1734,17 +1734,17 @@ unsigned long long n,m,p,q,r,s,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long xh,uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char**) malloc((xmax+1)*sizeof(unsigned char*));
+melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
-for(n = 0ULL; n < (xmax+1); n++)
+for(n = 0ULL; n < (umax+1); n++)
 {
-	melement[n] = (unsigned char*) calloc(umax+1, sizeof(unsigned char));
+	melement[n] = (unsigned char*) calloc(xmax+1, sizeof(unsigned char));
 	if ((melement[n]==NULL))
 	{
 		printf("\nERROR: Could not allocate memory.");
@@ -1784,8 +1784,8 @@ for (n=0;n<(1ULL<<N);n++)
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		xh = bit_sum(n^circ_single_lshift(n,N));
-		uh = N-(bit_sum(n));
+		uh = bit_sum(n^circ_single_lshift(n,N));
+		xh = N-(bit_sum(n));
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
 		for (m=0;m<(1ULL<<N);m++)
@@ -1805,7 +1805,7 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+xh)][(uh)]++;
+								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)][(xh)]++;
 								mm = circ_single_lshift(mm,N);
 							}
 							nn = circ_single_lshift(nn,N);
@@ -1814,9 +1814,9 @@ for (n=0;n<(1ULL<<N);n++)
 					}
 					nn = bit_reflection(nn,N);
 				}
-				for (p=0;p<xmax+1;p++)
+				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<umax+1;q++)
+					for (q=0;q<xmax+1;q++)
 					{
 						if (melement[p][q]!=0)
 						{
@@ -1838,7 +1838,7 @@ fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
 free((void*)order);
-for (n=0ULL;n<(xmax+1);n++)
+for (n=0ULL;n<(umax+1);n++)
 {
 	free((void*)melement[n]);
 }
