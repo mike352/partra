@@ -11,8 +11,8 @@ All data is output to a file in a (constructed) directory "data". Filename is di
 Output file format legend: 
 r = row
 c = column
-n: x^n = exp(-2E/kT)^n, energy exponent
-m: u^m = exp(-2H/kT)^m, field exponent. In q-Potts, H-field only acts on q=1
+n: u^n = exp(-2E/kT)^n, energy exponent
+m: x^m = exp(-2H/kT)^m, field exponent. In q-Potts, H-field only acts on q=1
 A: A x^n u^m, constant 
 
 Output file format:
@@ -666,7 +666,7 @@ unsigned char i_sq_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh;
+unsigned char uh;
 char filename[256];
 
 sprintf(filename,"%s/i_sq_f_%d.txt",dirname,N);
@@ -680,10 +680,10 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
 	}
 }
 
@@ -699,7 +699,7 @@ unsigned char i_sq_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh;
+unsigned char uh;
 char filename[256];
 
 sprintf(filename,"%s/i_sq_c_%d.txt",dirname,N);
@@ -713,10 +713,10 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum(n^circ_single_lshift(n,N));
+	uh = bit_sum(n^circ_single_lshift(n,N));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
 	}
 }
 
@@ -732,7 +732,7 @@ unsigned char if_sq_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,uh;
+unsigned char uh,xh;
 char filename[256];
 
 sprintf(filename,"%s/if_sq_f_%d.txt",dirname,N);
@@ -746,11 +746,11 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	uh = N-(bit_sum(n));
+	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
 	}
 }
 
@@ -766,7 +766,7 @@ unsigned char if_sq_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,uh;
+unsigned char uh,xh;
 char filename[256];
 
 sprintf(filename,"%s/if_sq_c_%d.txt",dirname,N);
@@ -780,11 +780,11 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum(n^circ_single_lshift(n,N));
-	uh = N-(bit_sum(n));
+	uh = bit_sum(n^circ_single_lshift(n,N));
+	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
 	}
 }
 
@@ -804,7 +804,7 @@ unsigned char i_tri_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh;
+unsigned char uh;
 char filename[256];
 
 sprintf(filename,"%s/i_tri_f_%d.txt",dirname,N);
@@ -818,10 +818,10 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+uh));
 	}
 }
 
@@ -837,7 +837,7 @@ unsigned char i_tri_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh;
+unsigned char uh;
 char filename[256];
 
 sprintf(filename,"%s/i_tri_c_%d.txt",dirname,N);
@@ -851,10 +851,10 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum(n^circ_single_lshift(n,N));
+	uh = bit_sum(n^circ_single_lshift(n,N));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+xh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh));
 	}
 }
 
@@ -870,7 +870,7 @@ unsigned char if_tri_f(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,uh;
+unsigned char uh,xh;
 char filename[256];
 
 sprintf(filename,"%s/if_tri_f_%d.txt",dirname,N);
@@ -884,11 +884,11 @@ if (fid == NULL)
 /*Free row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	uh = N-(bit_sum(n));
+	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+uh),(xh));
 	}
 }
 
@@ -904,7 +904,7 @@ unsigned char if_tri_c(const unsigned char N, char* dirname)
 unsigned long long n;
 unsigned long long m;
 FILE *fid;
-unsigned char xh,uh;
+unsigned char uh,xh;
 char filename[256];
 
 sprintf(filename,"%s/if_tri_c_%d.txt",dirname,N);
@@ -918,11 +918,11 @@ if (fid == NULL)
 /*Cylindrical row boundary conditions*/
 for(n=0; n<(1ULL<<N); n++)
 {
-	xh = bit_sum(n^circ_single_lshift(n,N));
-	uh = N-(bit_sum(n));
+	uh = bit_sum(n^circ_single_lshift(n,N));
+	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+xh),(uh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh),(xh));
 	}
 }
 
