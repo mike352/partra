@@ -1859,7 +1859,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1878,23 +1878,23 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=1;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{	
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
-		fprintf(fid,"%llu\n",xh+xinter);
+		fprintf(fid,"%llu\n",uh+uinter);
 	}
 }
 	
@@ -1911,7 +1911,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -1930,23 +1930,23 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=0;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu\n",xh+xinter);
+		fprintf(fid,"%llu\n",uh+uinter);
 	}
 }
 
@@ -1963,7 +1963,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -1982,28 +1982,28 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=1;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
-	uh = 0ULL;
+	xh = 0ULL;
 	for (p=0;p<N;p++)
 	{
-		uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 	}
 }
 
@@ -2020,7 +2020,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2039,28 +2039,28 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=0;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
-	uh = 0ULL;
+	xh = 0ULL;
 	for (p=0;p<N;p++)
 	{
-		uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 	}
 }
 
@@ -2080,7 +2080,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2127,11 +2127,11 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=1;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2139,14 +2139,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 			
-				fprintf(fid,"%llu\n",xh+xinter);
+				fprintf(fid,"%llu\n",uh+uinter);
 			}
 		}
 	}
@@ -2170,7 +2170,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2217,11 +2217,11 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2229,14 +2229,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu\n",xh+xinter);
+				fprintf(fid,"%llu\n",uh+uinter);
 			}
 		}
 	}
@@ -2259,7 +2259,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2306,16 +2306,16 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=1;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		uh = 0ULL;
+		xh = 0ULL;
 		for (p=0;p<N;p++)
 		{
-			uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2323,14 +2323,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -2353,7 +2353,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2400,16 +2400,16 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		uh = 0ULL;
+		xh = 0ULL;
 		for (p=0;p<N;p++)
 		{
-			uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2417,14 +2417,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -2449,7 +2449,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2468,27 +2468,27 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=1;p<N;p++) //p starts at 1 for free b.c.
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{	
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		xtest = n ^ circ_bin_lshift(m,N,bin);
+		utest = n ^ circ_bin_lshift(m,N,bin);
 		for (p=1;p<N;p++) //p starts at 1 for free b.c.
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu\n",xh+xinter);
+		fprintf(fid,"%llu\n",uh+uinter);
 	}
 }
 	
@@ -2505,7 +2505,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2524,27 +2524,27 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=0;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		xtest = n ^ circ_bin_lshift(m,N,bin); 
+		utest = n ^ circ_bin_lshift(m,N,bin); 
 		for (p=0;p<N;p++) 
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu\n",xh+xinter);
+		fprintf(fid,"%llu\n",uh+uinter);
 	}
 }
 
@@ -2561,7 +2561,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2580,32 +2580,32 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=1;p<N;p++) //p starts at 1 for free b.c.
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
-	uh = 0ULL;
+	xh = 0ULL;
 	for (p=0;p<N;p++)
 	{
-		uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		xtest = n ^ circ_bin_lshift(m,N,bin); 
+		utest = n ^ circ_bin_lshift(m,N,bin); 
 		for (p=1;p<N;p++) //p starts at 1 for free b.c.
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 	}
 }
 
@@ -2622,7 +2622,7 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2641,32 +2641,32 @@ if (fid == NULL)
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
 {
-	xtest = n ^ circ_bin_lshift(n,N,bin);
-	xh=0ULL;
+	utest = n ^ circ_bin_lshift(n,N,bin);
+	uh=0ULL;
 	for (p=0;p<N;p++)
 	{
-		xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
-	uh = 0ULL;
+	xh = 0ULL;
 	for (p=0;p<N;p++)
 	{
-		uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 	}
 	
 	for (m=0ULL;m<(1ULL<<(bin*N));m++)
 	{
-		xtest = n ^ m;
-		xinter=0ULL;
+		utest = n ^ m;
+		uinter=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		xtest = n ^ circ_bin_lshift(m,N,bin); 
+		utest = n ^ circ_bin_lshift(m,N,bin); 
 		for (p=0;p<N;p++)
 		{
-			xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 	}
 }
 
@@ -2686,7 +2686,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2733,11 +2733,11 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=1;p<N;p++) //p starts at 1 for free b.c.
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2745,18 +2745,18 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				xtest = n ^ circ_bin_lshift(m,N,bin);
+				utest = n ^ circ_bin_lshift(m,N,bin);
 				for (p=1;p<N;p++) //p starts at 1 for free b.c.
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu\n",xh+xinter);
+				fprintf(fid,"%llu\n",uh+uinter);
 			}
 		}
 	}
@@ -2780,7 +2780,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter;
+unsigned long long utest,uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2827,11 +2827,11 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2839,18 +2839,18 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				xtest = n ^ circ_bin_lshift(m,N,bin);
+				utest = n ^ circ_bin_lshift(m,N,bin);
 				for (p=0;p<N;p++) 
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu\n",xh+xinter);
+				fprintf(fid,"%llu\n",uh+uinter);
 			}
 		}
 	}
@@ -2873,7 +2873,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2920,16 +2920,16 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=1;p<N;p++) //p starts at 1 for free b.c.
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		uh = 0ULL;
+		xh = 0ULL;
 		for (p=0;p<N;p++)
 		{
-			uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -2937,18 +2937,18 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				xtest = n ^  circ_bin_lshift(m,N,bin);
+				utest = n ^  circ_bin_lshift(m,N,bin);
 				for (p=1;p<N;p++) //p starts at 1 for free b.c.
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -2971,7 +2971,7 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long xtest,xh,xinter,uh;
+unsigned long long utest,uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3018,16 +3018,16 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	bitfrac=lldiv(n,csize);
 	if (((pnums[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0)
 	{
-		xtest = n ^ circ_bin_lshift(n,N,bin);
-		xh=0ULL;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
 		for (p=0;p<N;p++)
 		{
-			xh = xh + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		uh = 0ULL;
+		xh = 0ULL;
 		for (p=0;p<N;p++)
 		{
-			uh = uh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
 		for (m=0ULL;m<(1ULL<<(bin*N));m++)
@@ -3035,18 +3035,18 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			bitfrac2=lldiv(m,csize);
 			if (((pnums[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0)
 			{
-				xtest = n ^ m;
-				xinter=0ULL;
+				utest = n ^ m;
+				uinter=0ULL;
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				xtest = n ^ circ_bin_lshift(m,N,bin);
+				utest = n ^ circ_bin_lshift(m,N,bin);
 				for (p=0;p<N;p++)
 				{
-					xinter = xinter + (((xtest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu %llu\n",xh+xinter,uh);
+				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
 			}
 		}
 	}
