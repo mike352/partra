@@ -224,7 +224,7 @@ for (n=0;n<numoptions+1;n++)
 	fcheck = fscanf(fid,"%s",options[n]);
 	if (fcheck!=1)
 	{
-		printf("ERROR: Problem reading the setup file. %s",strerror(errno))
+		printf("ERROR: Problem reading option %d in the setup file.",n+1);
 		return 1;
 	}
 }
@@ -238,7 +238,7 @@ unsigned char numoptions = 6;
 
 unsigned char row_max_size=0;
 FILE* fid;
-char** options[numoptions+1];
+char* options[numoptions+1];
 unsigned long long test;
 unsigned char N;
 char Qs[256];
@@ -249,12 +249,12 @@ int dcheck; //Needs to be of type int for use with mkdir
 time_t tic;
 time_t toc;
 double totaltime;
-char option0[2];
-char option1[3];
-char option2[2];
-char option3[2];
-char option4[2];
-char option5[2];
+char option0[256];
+char option1[256];
+char option2[256];
+char option3[256];
+char option4[256];
+char option5[256];
 unsigned char flag=1;
 unsigned char n,m;
 
@@ -297,7 +297,7 @@ else if (OS==-1) //Ask instead
 //Ask for input file
 printf("\nUse input file \"partra_setup.txt\"? (y,n): ");
 scanf("%s",option0);
-if ((strcmp(option0,"y")!=0)&(strcmp(option0,"n"))
+if ((strcmp(option0,"y")!=0)&(strcmp(option0,"n")))
 {
 	printf("\nERROR: Wrong input.");
 	return 0;
@@ -306,6 +306,11 @@ if ((strcmp(option0,"y")!=0)&(strcmp(option0,"n"))
 if (strcmp(option0,"y")==0)
 {
 	fid = fopen("partra_setup.txt","r");
+	if (fid==NULL)
+	{
+		printf("\nERROR: Could not open input file. %s\n",strerror(errno));
+		return 0;
+	}
 	for (n=0;n<numoptions+1;n++)
 	{
 		options[n] = (char*) malloc(256*sizeof(char));
@@ -316,21 +321,23 @@ if (strcmp(option0,"y")==0)
 			{
 				free(options[m]);
 			}
+			fclose(fid);
 			return 0;
 		}
 	}
-	flag = setup_read(fid,options);
+	flag = setup_read(fid,options,numoptions);
 	if (flag!=0)
 	{
 		for (n=0;n<numoptions+1;n++)
 		{
 			free(options[n]);
 		}
+		fclose(fid);
 		return 0;
 	}
 	
 	//Choice of Model
-	strncpy(option1,options[0],2*sizeof(char));
+	strcpy(option1,options[0]);
 	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
 	{
 		printf("\nERROR: Wrong model input value.");
@@ -338,37 +345,43 @@ if (strcmp(option0,"y")==0)
 	}
 	
 	//Value of q (for Potts only)
-	if (strspn(options[1],"1234567890")<strlen(options[1]))
+	if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 	{
-		printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
-		flag=1;
-	}
-	Q=strtoll(options[1],NULL,10);
-	if ((Q==LONG_MAX)|(Q==LONG_MIN))
-	{
-		printf("\nERROR: Given q value is too large. %s.\n",strerror(errno));
-		flag=1;
-	}
-	else if (Q==0)
-	{
-		printf("\nERROR: Invalid q value.\n"); //problem converting string Qs to unsigned long long Q
-		flag=1;
-	}
-	else if (Q<3ULL)
-	{
-		printf("\nERROR: q should be greater than 2.\n");
-		flag=1;
-	}
-	else if (Q>=3ULL)
-	{
-		while((1ULL<<bin)<Q)
+		if (strspn(options[1],"1234567890")<strlen(options[1]))
 		{
-			bin++; //calculate bit array bin size
+			printf("\nERROR: Invalid q value."); //prevents negative values which would get reinterpreted, floats, and others
+			flag=1;
+		}
+		else
+		{
+			Q=strtoll(options[1],NULL,10);
+			if ((Q==LONG_MAX)|(Q==LONG_MIN))
+			{
+				printf("\nERROR: Given q value is too large. %s.",strerror(errno));
+				flag=1;
+			}
+			else if (Q==0)
+			{
+				printf("\nERROR: Invalid q value."); //problem converting string Qs to unsigned long long Q
+				flag=1;
+			}
+			else if (Q<3ULL)
+			{
+				printf("\nERROR: q should be greater than 2.");
+				flag=1;
+			}
+			else if (Q>=3ULL)
+			{
+				while((1ULL<<bin)<Q)
+				{
+					bin++; //calculate bit array bin size
+				}
+			}
 		}
 	}
 	
 	//Choice of row boundary condition
-	strncpy(option2,options[2],1*sizeof(char));
+	strcpy(option2,options[2]);
 	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
 	{
 		printf("\nERROR: Wrong row boundary condition input.");
@@ -376,7 +389,7 @@ if (strcmp(option0,"y")==0)
 	}
 	
 	//Choice of full or reduced matrix
-	strncpy(option3,options[3],1*sizeof(char));
+	strcpy(option3,options[3]);
 	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
 	{
 		printf("\nERROR: Wrong input for choice of full or reduced matrix.");
@@ -384,51 +397,80 @@ if (strcmp(option0,"y")==0)
 	}
 	
 	//Size of row
-	N=strtoll(options[4],NULL,10);
-	if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
+	if (strspn(options[4],"1234567890")<strlen(options[4]))
 	{
-		if (N<1)
-		{
-			printf("\nERROR: Row size should be greater than 0.\n");
-			flag=1;
-		}
-		else if (N>row_max_size)
-		{
-			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
-			flag=1;
-		}
+		printf("\nERROR: Invalid N value"); //prevents negative values which would get reinterpreted, floats, and others
+		flag=1;
 	}
-	else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+	else
 	{
-		if (N<1)
+		N=strtoll(options[4],NULL,10);
+		if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
 		{
-			printf("\nERROR: Row size should be greater than 0.\n");
-			flag=1;
+			if (N<1)
+			{
+				printf("\nERROR: Row size should be greater than 0.\n");
+				flag=1;
+			}
+			else if (N>row_max_size)
+			{
+				printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
+				flag=1;
+			}
 		}
-		else if (N>row_max_size/bin)
+		else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 		{
-			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
-			flag=1;
+			if (N<1)
+			{
+				printf("\nERROR: Row size should be greater than 0.\n");
+				flag=1;
+			}
+			else if (N>row_max_size/bin)
+			{
+				printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
+				flag=1;
+			}
 		}
 	}
 	
 	//Choice of lattice
-	strncpy(option4,options[5],1*sizeof(char));
+	strcpy(option4,options[5]);
 	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
 	{
 		printf("\nERROR: Wrong lattice type input.");
-		return 0;
+		flag=1;
 	}
 	
 	//Repeat program
-	strncpy(option5,options[6],1*sizeof(char));
+	strcpy(option5,options[6]);
+	if ((strcmp(option5,"y")!=0)&(strcmp(option5,"n")!=0))
+	{
+		printf("\nERROR: Wrong input of whether to continue reading input file.");
+		flag=1;
+	}
 	
 	if (flag!=0)
+	{
+		for (n=0;n<numoptions+1;n++)
+		{
+			free(options[n]);
+			
+		}
+		fclose(fid);
+		return 0;
+	}
+	
+	//Repeat ...
+	
+	//End
 	for (n=0;n<numoptions+1;n++)
 	{
 		free(options[n]);
-		return 0;
+		
 	}
+	fclose(fid);
+	//return 0;
+	
 }
 else
 {
