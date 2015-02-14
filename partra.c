@@ -6,7 +6,7 @@
 5. square or triangular lattice
 
 Output file:
-All data is output to a file in a (constructed) directory "data". Filename is displayed on screen after successful completion of calculations and writing of data to file. 
+All data is output to a file in a (constructed) directory "data" from the current directory. If the OS is not unix, apple, or windows, it will ask for the directory to place the file. Filename is displayed on screen after successful completion of calculations and writing of data to file. 
 
 Output file format legend: 
 r = row
@@ -24,6 +24,9 @@ When H=0, m is not output
 2. Reduced transfer matrix
 r c A n m
 When H=0, m is not output
+
+Design principle:
+Only unsigned char or unsigned long long data types are used for consistency. The sole exception currently is the dcheck variable which checks whether a directory was successfully created, which is of type int because output from mkdir commands can be -1. 
 
 To Add:
 1. Add api versions
@@ -48,7 +51,7 @@ To Add:
  #if (defined(__unix__) || defined(__APPLE__))
 	#include <sys/stat.h> 
 	#define OS 1 
-	int _mkdir(char*); //prototyping to make warning go away when using -Wall
+	int _mkdir(char*); //prototyping to make warning go away when compiling with gcc -Wall
 #elif (defined(_WIN16) || defined(_WIN32)|| defined(_WIN64))
 	#include <direct.h> 
 	#define OS 0
@@ -210,9 +213,32 @@ unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, c
 /*Size of Ising 0 sector follows OEIS series A000031*/
 /*Size of Ising + sector follows OEIS series A005418*/
 
+/*******************************/
+unsigned char setup_read(FILE* fid, char** options, unsigned char numoptions)
+{
+unsigned char fcheck;
+unsigned char n;
+
+for (n=0;n<numoptions+1;n++)
+{
+	fcheck = fscanf(fid,"%s",options[n]);
+	if (fcheck!=1)
+	{
+		printf("ERROR: Problem reading the setup file. %s",strerror(errno))
+		return 1;
+	}
+}
+
+return 0;
+}
+
 int main(void)
 {
+unsigned char numoptions = 6;
+
 unsigned char row_max_size=0;
+FILE* fid;
+char** options[numoptions+1];
 unsigned long long test;
 unsigned char N;
 char Qs[256];
@@ -223,11 +249,14 @@ int dcheck; //Needs to be of type int for use with mkdir
 time_t tic;
 time_t toc;
 double totaltime;
+char option0[2];
 char option1[3];
 char option2[2];
 char option3[2];
 char option4[2];
+char option5[2];
 unsigned char flag=1;
+unsigned char n,m;
 
 
 //Discover max row size
@@ -264,40 +293,71 @@ else if (OS==-1) //Ask instead
 	scanf("%s",dirname);
 }
 
-//Ising or Ising in a field
-printf("\nIsing or Ising in a field or Potts or Potts in a field  (i,if,p,pf): ");
-scanf("%s",option1);
-if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
+
+//Ask for input file
+printf("\nUse input file \"partra_setup.txt\"? (y,n): ");
+scanf("%s",option0);
+if ((strcmp(option0,"y")!=0)&(strcmp(option0,"n"))
 {
 	printf("\nERROR: Wrong input.");
 	return 0;
 }
 
-//Input q value, checking carefully, since very large numbers are allowed. 
-if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+if (strcmp(option0,"y")==0)
 {
-	printf("Potts q value  (3 to 2^%d-1): ",row_max_size);
-	scanf("%255s",Qs);
-	if (strspn(Qs,"1234567890")<strlen(Qs))
+	fid = fopen("partra_setup.txt","r");
+	for (n=0;n<numoptions+1;n++)
 	{
-		printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
+		options[n] = (char*) malloc(256*sizeof(char));
+		if (options[n]==NULL)
+		{
+			printf("ERROR: Could not allocate memory.\n");
+			for (m=0;m<n;m++)
+			{
+				free(options[m]);
+			}
+			return 0;
+		}
+	}
+	flag = setup_read(fid,options);
+	if (flag!=0)
+	{
+		for (n=0;n<numoptions+1;n++)
+		{
+			free(options[n]);
+		}
 		return 0;
 	}
-	Q=strtoll(Qs,NULL,10);
+	
+	//Choice of Model
+	strncpy(option1,options[0],2*sizeof(char));
+	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
+	{
+		printf("\nERROR: Wrong model input value.");
+		flag=1;
+	}
+	
+	//Value of q (for Potts only)
+	if (strspn(options[1],"1234567890")<strlen(options[1]))
+	{
+		printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
+		flag=1;
+	}
+	Q=strtoll(options[1],NULL,10);
 	if ((Q==LONG_MAX)|(Q==LONG_MIN))
 	{
 		printf("\nERROR: Given q value is too large. %s.\n",strerror(errno));
-		return 0;
+		flag=1;
 	}
 	else if (Q==0)
 	{
 		printf("\nERROR: Invalid q value.\n"); //problem converting string Qs to unsigned long long Q
-		return 0;
+		flag=1;
 	}
 	else if (Q<3ULL)
 	{
 		printf("\nERROR: q should be greater than 2.\n");
-		return 0;
+		flag=1;
 	}
 	else if (Q>=3ULL)
 	{
@@ -306,66 +366,174 @@ if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 			bin++; //calculate bit array bin size
 		}
 	}
-}
-
-//Ask for row boundary condition
-printf("Row boundary condition (f,c): ");
-scanf("%s",option2);
-if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
-{
-	printf("\nERROR: Wrong input.");
-	return 0;
-}
-
-//Ask for transfer matrix reduction
-printf("Full or reduced transfer matrix (f,r): ");
-scanf("%s",option3);
-if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
-{
-	printf("\nERROR: Wrong input.");
-	return 0;
-}
-
-
-//Ask for row size
-if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
-{
-	printf("Row size (1 to %hhu): ",row_max_size); 
-	scanf("%hhu",&N);
-	if (N<1)
+	
+	//Choice of row boundary condition
+	strncpy(option2,options[2],1*sizeof(char));
+	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
 	{
-		printf("\nERROR: Row size should be greater than 0.\n");
+		printf("\nERROR: Wrong row boundary condition input.");
+		flag=1;
+	}
+	
+	//Choice of full or reduced matrix
+	strncpy(option3,options[3],1*sizeof(char));
+	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
+	{
+		printf("\nERROR: Wrong input for choice of full or reduced matrix.");
+		flag=1;
+	}
+	
+	//Size of row
+	N=strtoll(options[4],NULL,10);
+	if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
+	{
+		if (N<1)
+		{
+			printf("\nERROR: Row size should be greater than 0.\n");
+			flag=1;
+		}
+		else if (N>row_max_size)
+		{
+			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
+			flag=1;
+		}
+	}
+	else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+	{
+		if (N<1)
+		{
+			printf("\nERROR: Row size should be greater than 0.\n");
+			flag=1;
+		}
+		else if (N>row_max_size/bin)
+		{
+			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
+			flag=1;
+		}
+	}
+	
+	//Choice of lattice
+	strncpy(option4,options[5],1*sizeof(char));
+	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
+	{
+		printf("\nERROR: Wrong lattice type input.");
 		return 0;
 	}
-	else if (N>row_max_size)
+	
+	//Repeat program
+	strncpy(option5,options[6],1*sizeof(char));
+	
+	if (flag!=0)
+	for (n=0;n<numoptions+1;n++)
 	{
-		printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
+		free(options[n]);
 		return 0;
 	}
 }
-else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+else
 {
-	printf("Row size (1 to %hhu): ",row_max_size/bin); 
-	scanf("%hhu",&N);
-	if (N<1)
+	//Model choice
+	printf("Ising or Ising in a field or Potts or Potts in a field  (i,if,p,pf): ");
+	scanf("%s",option1);
+	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
 	{
-		printf("\nERROR: Row size should be greater than 0.\n");
+		printf("\nERROR: Wrong input.");
 		return 0;
 	}
-	else if (N>row_max_size/bin)
-	{
-		printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
-		return 0;
-	}
-}
 
-//Lattice
-printf("Square or triangular lattice (s,t): ");
-scanf("%s",option4);
-if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
-{
-	printf("\nERROR: Wrong input.");
-	return 0;
+	//Input q value, checking carefully, since very large numbers are allowed. 
+	if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+	{
+		printf("Potts q value  (3 to 2^%d-1): ",row_max_size);
+		scanf("%255s",Qs);
+		if (strspn(Qs,"1234567890")<strlen(Qs))
+		{
+			printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
+			return 0;
+		}
+		Q=strtoll(Qs,NULL,10);
+		if ((Q==LONG_MAX)|(Q==LONG_MIN))
+		{
+			printf("\nERROR: Given q value is too large. %s.\n",strerror(errno));
+			return 0;
+		}
+		else if (Q==0)
+		{
+			printf("\nERROR: Invalid q value.\n"); //problem converting string Qs to unsigned long long Q
+			return 0;
+		}
+		else if (Q<3ULL)
+		{
+			printf("\nERROR: q should be greater than 2.\n");
+			return 0;
+		}
+		else if (Q>=3ULL)
+		{
+			while((1ULL<<bin)<Q)
+			{
+				bin++; //calculate bit array bin size
+			}
+		}
+	}
+
+	//Ask for row boundary condition
+	printf("Row boundary condition (f,c): ");
+	scanf("%s",option2);
+	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
+	{
+		printf("\nERROR: Wrong input.");
+		return 0;
+	}
+
+	//Ask for transfer matrix reduction
+	printf("Full or reduced transfer matrix (f,r): ");
+	scanf("%s",option3);
+	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
+	{
+		printf("\nERROR: Wrong input.");
+		return 0;
+	}
+
+	//Ask for row size
+	if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
+	{
+		printf("Row size (1 to %hhu): ",row_max_size); 
+		scanf("%hhu",&N);
+		if (N<1)
+		{
+			printf("\nERROR: Row size should be greater than 0.\n");
+			return 0;
+		}
+		else if (N>row_max_size)
+		{
+			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size);
+			return 0;
+		}
+	}
+	else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
+	{
+		printf("Row size (1 to %hhu): ",row_max_size/bin); 
+		scanf("%hhu",&N);
+		if (N<1)
+		{
+			printf("\nERROR: Row size should be greater than 0.\n");
+			return 0;
+		}
+		else if (N>row_max_size/bin)
+		{
+			printf("\nERROR: Your machine can only do %d-bit calcuations.\n       Limit row size to %d.\n",row_max_size,row_max_size/(bin*N));
+			return 0;
+		}
+	}
+
+	//Lattice
+	printf("Square or triangular lattice (s,t): ");
+	scanf("%s",option4);
+	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
+	{
+		printf("\nERROR: Wrong input.");
+		return 0;
+	}
 }
 
 //Choose a function
@@ -6205,6 +6373,7 @@ return 0;
 /*****************************************************/
 /*******************General functions*****************/
 /*****************************************************/
+
 
 
 /*******************************/
