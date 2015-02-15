@@ -1296,7 +1296,7 @@ for(n=0; n<(1ULL<<N); n++)
 	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+uh));
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh));
 	}
 }
 
@@ -1363,7 +1363,7 @@ for(n=0; n<(1ULL<<N); n++)
 	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^(~1ULL&circ_single_lshift(m,N)))+uh),(xh));
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh),(xh));
 	}
 }
 
@@ -1936,7 +1936,7 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+uh)]++;
+						melement[(bit_sum(nn^mm)+bit_sum((~1ULL&nn)^(~1ULL&circ_single_lshift(mm,N)))+uh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
@@ -2156,7 +2156,7 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+bit_sum(nn^(~1ULL&circ_single_lshift(mm,N)))+uh)][(xh)]++;
+						melement[(bit_sum(nn^mm)+bit_sum((~1ULL&nn)^(~1ULL&circ_single_lshift(mm,N)))+uh)][(xh)]++;
 						mm=bit_reflection(mm,N);
 					}
 					nn=bit_reflection(nn,N);
