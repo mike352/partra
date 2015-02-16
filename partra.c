@@ -1869,6 +1869,14 @@ return 0;
 /*******************************/
 unsigned char i_tri_f_r(const unsigned char N, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
+
 unsigned char umax=3*N-2;
 
 unsigned char flag;
@@ -2072,6 +2080,14 @@ return 0;
 /*******************************/
 unsigned char if_tri_f_r(const unsigned char N, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
+
 unsigned char umax=3*N-2;
 unsigned char xmax=N;
 
@@ -4745,6 +4761,13 @@ return 0;
 /*******************************/
 unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
 unsigned char umax = 3*N-2;
 
 unsigned char flag;
@@ -4996,6 +5019,13 @@ return 0;
 /*******************************/
 unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
 unsigned char umax = 3*N-2;
 unsigned char xmax = N;
 
@@ -5302,6 +5332,13 @@ return 0;
 /*******************************/
 unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
 unsigned char umax = 3*N-2;
 
 unsigned char flag;
@@ -5609,6 +5646,14 @@ return 0;
 /*******************************/
 unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
 {
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
+
 unsigned char umax = 3*N-2;
 unsigned char xmax = N;
 
