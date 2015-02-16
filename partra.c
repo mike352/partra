@@ -2331,7 +2331,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2366,7 +2367,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 	
-		fprintf(fid,"%llu\n",uh+uinter);
+		fprintf(fid,"%hhu\n",uh+uinter);
 	}
 }
 	
@@ -2383,7 +2384,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2418,7 +2420,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu\n",uh+uinter);
+		fprintf(fid,"%hhu\n",uh+uinter);
 	}
 }
 
@@ -2435,7 +2437,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2475,7 +2478,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 	}
 }
 
@@ -2492,7 +2495,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2532,7 +2536,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
 		
-		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 	}
 }
 
@@ -2552,7 +2556,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2618,7 +2623,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 			
-				fprintf(fid,"%llu\n",uh+uinter);
+				fprintf(fid,"%hhu\n",uh+uinter);
 			}
 		}
 	}
@@ -2642,7 +2647,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2708,7 +2714,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu\n",uh+uinter);
+				fprintf(fid,"%hhu\n",uh+uinter);
 			}
 		}
 	}
@@ -2731,7 +2737,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2802,7 +2809,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -2825,7 +2832,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -2896,7 +2904,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
 				
-				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -2921,7 +2929,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -2960,7 +2969,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu\n",uh+uinter);
+		fprintf(fid,"%hhu\n",uh+uinter);
 	}
 }
 	
@@ -2977,7 +2986,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -3016,7 +3026,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu\n",uh+uinter);
+		fprintf(fid,"%hhu\n",uh+uinter);
 	}
 }
 
@@ -3033,7 +3043,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3077,7 +3088,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 	}
 }
 
@@ -3094,7 +3105,8 @@ FILE* fid;
 char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3138,7 +3150,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 	}
 }
 
@@ -3158,7 +3170,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -3228,7 +3241,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu\n",uh+uinter);
+				fprintf(fid,"%hhu\n",uh+uinter);
 			}
 		}
 	}
@@ -3252,7 +3265,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter;
+unsigned long long utest;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -3322,7 +3336,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu\n",uh+uinter);
+				fprintf(fid,"%hhu\n",uh+uinter);
 			}
 		}
 	}
@@ -3345,7 +3359,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3420,7 +3435,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -3443,7 +3458,8 @@ unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
-unsigned long long utest,uh,uinter,xh;
+unsigned long long utest;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3518,7 +3534,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%llu %llu\n",uh+uinter,xh);
+				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
 			}
 		}
 	}
@@ -3553,7 +3569,8 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -3668,7 +3685,8 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -3793,7 +3811,8 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -3936,7 +3955,8 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -4087,7 +4107,8 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -4230,7 +4251,8 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -4383,7 +4405,8 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -4553,7 +4576,8 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -4735,7 +4759,8 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -4855,7 +4880,8 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -4985,7 +5011,8 @@ unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -5133,7 +5160,8 @@ unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -5289,7 +5317,8 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -5437,7 +5466,8 @@ unsigned char* pnums;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
 while((1ULL<<bin)<Q)
 {
@@ -5595,7 +5625,8 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
@@ -5770,7 +5801,8 @@ unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,utest,uinter,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
 
 while((1ULL<<bin)<Q)
 {
