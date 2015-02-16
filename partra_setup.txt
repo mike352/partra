@@ -14,6 +14,7 @@ r
 s
 n
 
+
 //How to use this file:
 Each of the options asked for in partra are put on separate lines above, in order. Above is a valid example.
 
