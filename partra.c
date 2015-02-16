@@ -27,13 +27,6 @@ When H=0, m is not output
 
 Design principle:
 Only unsigned char or unsigned long long data types are used for integers for consistency. The sole exception currently is the dcheck variable which checks whether a directory was successfully created, which is of type int because output from mkdir commands can be -1. For strings, only char arrays of size 256 are used for consistency.
-
-To Add:
-1. Add api versions
-2. Add field and/or energy substitutor 
-3. Incorporate partra library into old equimodular curve finder program
-4. Write a portable bit architecture tester 
-5. Write a test suite
 */
 
 #include <stdio.h>
@@ -125,55 +118,55 @@ unsigned char bit_sum(unsigned long long x)
 
 
 //Transfer matrix functions
-unsigned char i_sq_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
-unsigned char i_sq_c(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
-unsigned char if_sq_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
-unsigned char if_sq_c(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
+unsigned char i_sq_f_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
+unsigned char i_sq_c_f(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
+unsigned char if_sq_f_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
+unsigned char if_sq_c_f(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
 unsigned char i_sq_f_r(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
 unsigned char i_sq_c_r(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
 unsigned char if_sq_f_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
 unsigned char if_sq_c_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char i_tri_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
-unsigned char i_tri_c(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
-unsigned char if_tri_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
-unsigned char if_tri_c(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
+unsigned char i_tri_f_f(const unsigned char, char*); //Ising full transfer matrix, free row b.c.
+unsigned char i_tri_c_f(const unsigned char, char*); //Ising full transfer matrix, cylindrical row b.c.
+unsigned char if_tri_f_f(const unsigned char, char*); //Ising in a field full transfer matrix, free row b.c.
+unsigned char if_tri_c_f(const unsigned char, char*); //Ising in a field full transfer matrix, cylindrical row b.c.
 unsigned char i_tri_f_r(const unsigned char, char*); //Ising reduced transfer matrix, free row b.c.
 unsigned char i_tri_c_r(const unsigned char, char*); //Ising reduced transfer matrix, cylindrical row b.c.
 unsigned char if_tri_f_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, free row b.c.
 unsigned char if_tri_c_r(const unsigned char, char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char p_sq_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
-unsigned char p_sq_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
-unsigned char pf_sq_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
-unsigned char pf_sq_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
+unsigned char p_sq_f_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
+unsigned char p_sq_c_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_sq_c_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
 unsigned char p_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
 unsigned char p_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
 unsigned char pf_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
 unsigned char pf_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char p_tri_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
-unsigned char p_tri_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
-unsigned char pf_tri_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
-unsigned char pf_tri_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
+unsigned char p_tri_f_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
+unsigned char p_tri_c_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_tri_f_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_tri_c_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c.
 unsigned char p_tri_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c.
 unsigned char p_tri_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c.
 unsigned char pf_tri_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c.
 unsigned char pf_tri_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
 
-unsigned char p2_sq_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
-unsigned char p2_sq_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char pf2_sq_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
-unsigned char pf2_sq_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_sq_f_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
 unsigned char p2_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
 unsigned char p2_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 unsigned char pf2_sq_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
 unsigned char pf2_sq_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 
-unsigned char p2_tri_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
-unsigned char p2_tri_c(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
-unsigned char pf2_tri_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
-unsigned char pf2_tri_c(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_tri_f_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_tri_c_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_tri_f_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_tri_c_f(const unsigned char, const unsigned long long, char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
 unsigned char p2_tri_f_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
 unsigned char p2_tri_c_r(const unsigned char, const unsigned long long, char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 unsigned char pf2_tri_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
@@ -467,11 +460,11 @@ if (argc==2)
 			{
 				if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = i_sq_f(N,dirname);
+					flag = i_sq_f_f(N,dirname);
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = i_sq_c(N,dirname);
+					flag = i_sq_c_f(N,dirname);
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 				{
@@ -486,11 +479,11 @@ if (argc==2)
 			{
 				if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = if_sq_f(N,dirname);
+					flag = if_sq_f_f(N,dirname);
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = if_sq_c(N,dirname);
+					flag = if_sq_c_f(N,dirname);
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 				{
@@ -507,22 +500,22 @@ if (argc==2)
 				{
 					if (Q==(1<<bin))
 					{
-						flag = p2_sq_f(N,Q,dirname);
+						flag = p2_sq_f_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = p_sq_f(N,Q,dirname);
+						flag = p_sq_f_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
 					if (Q==(1<<bin))
 					{
-						flag = p2_sq_c(N,Q,dirname);
+						flag = p2_sq_c_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = p_sq_c(N,Q,dirname);
+						flag = p_sq_c_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -554,22 +547,22 @@ if (argc==2)
 				{
 					if (Q==(1<<bin))
 					{
-						flag = pf2_sq_f(N,Q,dirname);
+						flag = pf2_sq_f_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = pf_sq_f(N,Q,dirname);
+						flag = pf_sq_f_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
 					if (Q==(1<<bin))
 					{
-						flag = pf2_sq_c(N,Q,dirname);
+						flag = pf2_sq_c_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = pf_sq_c(N,Q,dirname);
+						flag = pf_sq_c_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -602,11 +595,11 @@ if (argc==2)
 			{
 				if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = i_tri_f(N,dirname);
+					flag = i_tri_f_f(N,dirname);
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = i_tri_c(N,dirname);
+					flag = i_tri_c_f(N,dirname);
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 				{
@@ -621,11 +614,11 @@ if (argc==2)
 			{
 				if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = if_tri_f(N,dirname);
+					flag = if_tri_f_f(N,dirname);
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
-					flag = if_tri_c(N,dirname);
+					flag = if_tri_c_f(N,dirname);
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 				{
@@ -642,22 +635,22 @@ if (argc==2)
 				{
 					if (Q==(1<<bin))
 					{
-						flag = p2_tri_f(N,Q,dirname);
+						flag = p2_tri_f_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = p_tri_f(N,Q,dirname);
+						flag = p_tri_f_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
 					if (Q==(1<<bin))
 					{
-						flag = p2_tri_c(N,Q,dirname);
+						flag = p2_tri_c_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = p_tri_c(N,Q,dirname);
+						flag = p_tri_c_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -689,22 +682,22 @@ if (argc==2)
 				{
 					if (Q==(1<<bin))
 					{
-						flag = pf2_tri_f(N,Q,dirname);
+						flag = pf2_tri_f_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = pf_tri_f(N,Q,dirname);
+						flag = pf_tri_f_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 				{
 					if (Q==(1<<bin))
 					{
-						flag = pf2_tri_c(N,Q,dirname);
+						flag = pf2_tri_c_f(N,Q,dirname);
 					}
 					else
 					{
-						flag = pf_tri_c(N,Q,dirname);
+						flag = pf_tri_c_f(N,Q,dirname);
 					}
 				}
 				else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -851,11 +844,11 @@ else if (argc==1) //Command line options
 		{
 			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = i_sq_f(N,dirname);
+				flag = i_sq_f_f(N,dirname);
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = i_sq_c(N,dirname);
+				flag = i_sq_c_f(N,dirname);
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 			{
@@ -870,11 +863,11 @@ else if (argc==1) //Command line options
 		{
 			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = if_sq_f(N,dirname);
+				flag = if_sq_f_f(N,dirname);
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = if_sq_c(N,dirname);
+				flag = if_sq_c_f(N,dirname);
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 			{
@@ -891,22 +884,22 @@ else if (argc==1) //Command line options
 			{
 				if (Q==(1<<bin))
 				{
-					flag = p2_sq_f(N,Q,dirname);
+					flag = p2_sq_f_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = p_sq_f(N,Q,dirname);
+					flag = p_sq_f_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
 				if (Q==(1<<bin))
 				{
-					flag = p2_sq_c(N,Q,dirname);
+					flag = p2_sq_c_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = p_sq_c(N,Q,dirname);
+					flag = p_sq_c_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -938,22 +931,22 @@ else if (argc==1) //Command line options
 			{
 				if (Q==(1<<bin))
 				{
-					flag = pf2_sq_f(N,Q,dirname);
+					flag = pf2_sq_f_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = pf_sq_f(N,Q,dirname);
+					flag = pf_sq_f_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
 				if (Q==(1<<bin))
 				{
-					flag = pf2_sq_c(N,Q,dirname);
+					flag = pf2_sq_c_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = pf_sq_c(N,Q,dirname);
+					flag = pf_sq_c_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -986,11 +979,11 @@ else if (argc==1) //Command line options
 		{
 			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = i_tri_f(N,dirname);
+				flag = i_tri_f_f(N,dirname);
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = i_tri_c(N,dirname);
+				flag = i_tri_c_f(N,dirname);
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 			{
@@ -1005,11 +998,11 @@ else if (argc==1) //Command line options
 		{
 			if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = if_tri_f(N,dirname);
+				flag = if_tri_f_f(N,dirname);
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
-				flag = if_tri_c(N,dirname);
+				flag = if_tri_c_f(N,dirname);
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 			{
@@ -1026,22 +1019,22 @@ else if (argc==1) //Command line options
 			{
 				if (Q==(1<<bin))
 				{
-					flag = p2_tri_f(N,Q,dirname);
+					flag = p2_tri_f_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = p_tri_f(N,Q,dirname);
+					flag = p_tri_f_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
 				if (Q==(1<<bin))
 				{
-					flag = p2_tri_c(N,Q,dirname);
+					flag = p2_tri_c_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = p_tri_c(N,Q,dirname);
+					flag = p_tri_c_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -1073,22 +1066,22 @@ else if (argc==1) //Command line options
 			{
 				if (Q==(1<<bin))
 				{
-					flag = pf2_tri_f(N,Q,dirname);
+					flag = pf2_tri_f_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = pf_tri_f(N,Q,dirname);
+					flag = pf_tri_f_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 			{
 				if (Q==(1<<bin))
 				{
-					flag = pf2_tri_c(N,Q,dirname);
+					flag = pf2_tri_c_f(N,Q,dirname);
 				}
 				else
 				{
-					flag = pf_tri_c(N,Q,dirname);
+					flag = pf_tri_c_f(N,Q,dirname);
 				}
 			}
 			else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
@@ -1133,7 +1126,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f(const unsigned char N, char* dirname)
+unsigned char i_sq_f_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1166,7 +1159,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_sq_c(const unsigned char N, char* dirname)
+unsigned char i_sq_c_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1199,7 +1192,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_f(const unsigned char N, char* dirname)
+unsigned char if_sq_f_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1233,7 +1226,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c(const unsigned char N, char* dirname)
+unsigned char if_sq_c_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1271,7 +1264,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f(const unsigned char N, char* dirname)
+unsigned char i_tri_f_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1304,7 +1297,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_tri_c(const unsigned char N, char* dirname)
+unsigned char i_tri_c_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1337,7 +1330,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_f(const unsigned char N, char* dirname)
+unsigned char if_tri_f_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -1371,7 +1364,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_c(const unsigned char N, char* dirname)
+unsigned char if_tri_c_f(const unsigned char N, char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -2341,7 +2334,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -2394,7 +2387,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -2447,7 +2440,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -2505,7 +2498,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -2563,7 +2556,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -2654,7 +2647,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -2744,7 +2737,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -2839,7 +2832,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -2939,7 +2932,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -2996,7 +2989,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_tri_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -3053,7 +3046,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -3115,7 +3108,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -3177,7 +3170,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -3272,7 +3265,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -3366,7 +3359,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -3465,7 +3458,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
