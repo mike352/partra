@@ -3,8 +3,10 @@ make
 
 This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone program called partra.
 
-To use the partra library, make sure that the header files are all in the same directory as your C/C++ source code. At the top of your code, include the following line:
+To include the partra library, make sure that the header files are all in the same directory as your C/C++ source code. At the top of your code, include the following line:
 #include "partra.h"
+
+The use of the functions in the partra library are described in the pdf file partra_user_guide.pdf.
 
 To compile with partra, type the following for C:
 gcc source.c -o output -lpartra -L[partradir]
