@@ -2,6 +2,9 @@
 #include "partra_reductions.h"
 #include "partra_ising.h"
 
+/*Size of Ising 0+ sector follows OEIS series A000029*/
+/*Size of Ising 0 sector follows OEIS series A000031*/
+/*Size of Ising + sector follows OEIS series A005418*/
 
 /*****************************************************/
 /**********Full Ising square transfer matrices********/
