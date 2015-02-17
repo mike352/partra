@@ -28,6 +28,9 @@
 *.x86_64
 *.hex
 
+# C++
+*.cpp
+
 # LaTeX aux files
 *.aux
 *.bcf
@@ -40,7 +43,3 @@
 # Directories to ignore
 data/
 test/
-
-# specific files to ignore
-copying_ground.c
-library_tester.cpp
