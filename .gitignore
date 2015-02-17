@@ -27,3 +27,20 @@
 *.i*86
 *.x86_64
 *.hex
+
+# LaTeX aux files
+*.aux
+*.bcf
+*.log
+*.run.xml
+
+# Text files
+*.txt
+
+# Directories to ignore
+data/
+test/
+
+# specific files to ignore
+copying_ground.c
+library_tester.cpp
