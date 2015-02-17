@@ -16,6 +16,10 @@ gcc source.c -o output -lpartra -L.
 For C++, substitute g++ for gcc.
 
 
+partra currently conforms strictly to the ANSI C standard C11, and so the source code can be compiled with any C11 compliant compiler. In the future, non-ANSI C partra functions will all be collected under a different header file than the ANSI conforming source code. 
+
+
+
 To use the partra stand-alone program, go to its directory and type:
 ./partra
 to answer command line questions about which file to generate. 
