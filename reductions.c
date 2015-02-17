@@ -1,6 +1,10 @@
 #include "partra_genfuncs.h"
 #include "partra_reductions.h"
 
+/*Size of Ising 0+ sector follows OEIS series A000029*/
+/*Size of Ising 0 sector follows OEIS series A000031*/
+/*Size of Ising + sector follows OEIS series A005418*/
+
 /*******************************/
 unsigned char red_simple_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
 {
