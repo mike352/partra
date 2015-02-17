@@ -1,6 +1,5 @@
-/*****************************************************/
-/********************Row Reductions*******************/
-/*****************************************************/
+#include "partra_genfuncs.h"
+#include "partra_reductions.h"
 
 /*******************************/
 unsigned char red_simple_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)

@@ -8,12 +8,9 @@
 #include <stddef.h>
 #include <string.h>
 
-//Partra header files
-#include "partra_genfuncs.h"
-#include "partra_reductions.h"
-
-extern "C"
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 unsigned char p_sq_f_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, free row b.c.
 unsigned char p_sq_c_f(const unsigned char, const unsigned long long, char*); //Potts full transfer matrix, cylindrical row b.c.
@@ -51,6 +48,8 @@ unsigned char p2_tri_c_r(const unsigned char, const unsigned long long, char*); 
 unsigned char pf2_tri_f_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
 unsigned char pf2_tri_c_r(const unsigned char, const unsigned long long, char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 
+#ifdef __cplusplus
 }
+#endif
 
 #endif

@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdarg.h>
+#include <complex.h>
 
 //Partra header files
 #include "partra_genfuncs.h"

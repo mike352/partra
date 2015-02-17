@@ -1,3 +1,8 @@
+#include "partra_genfuncs.h"
+#include "partra_reductions.h"
+#include "partra_ising.h"
+
+
 /*****************************************************/
 /**********Full Ising square transfer matrices********/
 /*****************************************************/

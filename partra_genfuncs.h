@@ -8,8 +8,9 @@
 #include <stddef.h>
 #include <string.h>
 
-extern "C"
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
 	
 /*This function performs a circular shift to the left of all bits in number of a particular width, erasing any bits to the left of the given width.*/
 unsigned long long circ_single_lshift(unsigned long long, const unsigned char);
@@ -45,6 +46,8 @@ void row_free_ll(unsigned long long***,const unsigned long long*);
 unsigned char matrix_setadd_ll(unsigned long long*****, const unsigned long long*, const unsigned long long, const unsigned long long, const unsigned long long*);
 unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, const unsigned long long, const unsigned long long*);
 
+#ifdef __cplusplus
 }
+#endif
 
 #endif
