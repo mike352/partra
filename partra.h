@@ -14,4 +14,12 @@
 #include "partra_ising.h"
 #include "partra_potts.h"
 
+
+typedef unsigned char**** Matrix;
+typedef unsigned long long**** Matrix_ll;
+typedef long double complex**** Matrix_ldc;
+typedef unsigned char*** Row;
+typedef unsigned long long*** Row_ll;
+typedef long double complex*** Row_ldc;
+
 #endif
