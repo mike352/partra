@@ -11,7 +11,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_f(const unsigned char N, const char* dirname)
+unsigned char i_sq_f_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -37,14 +37,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char i_sq_c_f(const unsigned char N, const char* dirname)
+unsigned char i_sq_c_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -70,14 +70,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_sq_f_f(const unsigned char N, const char* dirname)
+unsigned char if_sq_f_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -104,14 +104,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_sq_c_f(const unsigned char N, const char* dirname)
+unsigned char if_sq_c_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -138,7 +138,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -149,7 +149,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_f(const unsigned char N, const char* dirname)
+unsigned char i_tri_f_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -175,14 +175,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char i_tri_c_f(const unsigned char N, const char* dirname)
+unsigned char i_tri_c_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -208,14 +208,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_tri_f_f(const unsigned char N, const char* dirname)
+unsigned char if_tri_f_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -242,14 +242,14 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_tri_c_f(const unsigned char N, const char* dirname)
+unsigned char if_tri_c_f_file(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -276,7 +276,7 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
@@ -287,7 +287,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_r(const unsigned char N, const char* dirname)
+unsigned char i_sq_f_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N-1;
 
@@ -372,7 +372,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -382,7 +382,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_sq_c_r(const unsigned char N, const char* dirname)
+unsigned char i_sq_c_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N;
 
@@ -479,7 +479,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -490,7 +490,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_f_r(const unsigned char N, const char* dirname)
+unsigned char if_sq_f_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N-1;
 unsigned char xmax=N;
@@ -595,7 +595,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -609,7 +609,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c_r(const unsigned char N, const char* dirname)
+unsigned char if_sq_c_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N;
 unsigned char xmax=N;
@@ -725,7 +725,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -745,7 +745,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_r(const unsigned char N, const char* dirname)
+unsigned char i_tri_f_r_file(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -838,7 +838,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -848,7 +848,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_tri_c_r(const unsigned char N, const char* dirname)
+unsigned char i_tri_c_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=3*N;
 
@@ -945,7 +945,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -956,7 +956,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_f_r(const unsigned char N, const char* dirname)
+unsigned char if_tri_f_r_file(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -1069,7 +1069,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1083,7 +1083,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_c_r(const unsigned char N, const char* dirname)
+unsigned char if_tri_c_r_file(const unsigned char N, const char* dirname)
 {
 unsigned char umax=3*N;
 unsigned char xmax=N;
@@ -1199,7 +1199,7 @@ for (n=0;n<(1ULL<<N);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1211,3 +1211,46 @@ for (n=0ULL;n<(umax+1);n++)
 free((void*)melement);
 return 0;
 }
+
+
+/*****************************************************/
+/*********************API Functions*******************/
+/*****************************************************/
+
+/*****************************************************/
+/**********Full Ising square transfer matrices********/
+/*****************************************************/
+
+/*******************************/
+unsigned char i_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+{
+msize[1]=2ULL;
+sprintf(filename,"i_sq_f_%d.txt",N);
+
+unsigned long long n;
+unsigned long long m;
+unsigned char uh;
+unsigned char flag;
+
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
+{
+	return 2;
+}
+
+/*Free row boundary conditions*/
+for(n=0; n<(1ULL<<N); n++)
+{
+	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+	for(m=0; m<(1ULL<<N); m++)
+	{
+		(*matrix)[n][m][0][0]=1;
+		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
+		(*matrix)[n][m][1][1]=1;
+	}
+}
+
+return 0;
+}
+

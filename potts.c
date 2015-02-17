@@ -8,7 +8,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_sq_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -54,14 +54,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 	
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_sq_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -107,14 +107,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_sq_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -165,14 +165,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_sq_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -223,14 +223,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_sq_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -313,7 +313,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 }
 	
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -321,7 +321,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_sq_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -403,7 +403,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -411,7 +411,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_sq_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -498,7 +498,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -506,7 +506,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_sq_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -593,7 +593,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -606,7 +606,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -656,14 +656,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 	
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -713,14 +713,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -775,14 +775,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -837,14 +837,14 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -931,7 +931,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 }
 	
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -939,7 +939,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -1025,7 +1025,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -1033,7 +1033,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -1124,7 +1124,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -1132,7 +1132,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=CHAR_BIT;
 FILE* fid;
@@ -1223,7 +1223,7 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)pnums);
 return 0;
@@ -1236,7 +1236,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_sq_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1342,7 +1342,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1351,7 +1351,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_sq_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -1466,7 +1466,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1477,7 +1477,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_sq_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -1606,7 +1606,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1620,7 +1620,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_sq_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -1758,7 +1758,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1773,7 +1773,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_sq_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1906,7 +1906,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -1916,7 +1916,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_sq_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -2059,7 +2059,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2070,7 +2070,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_sq_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -2226,7 +2226,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2240,7 +2240,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_sq_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -2406,7 +2406,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2426,7 +2426,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2544,7 +2544,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2553,7 +2553,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -2673,7 +2673,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2684,7 +2684,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2825,7 +2825,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2839,7 +2839,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;
@@ -2982,7 +2982,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -2997,7 +2997,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3142,7 +3142,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3152,7 +3152,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -3300,7 +3300,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3311,7 +3311,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3480,7 +3480,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);
@@ -3494,7 +3494,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;
@@ -3665,7 +3665,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 	}
 }
 
-printf("\nFile  ../%s created.",filename);
+printf("\nFile %s created.",filename);
 fclose(fid);
 free((void*)bitarray);
 free((void*)reflec);

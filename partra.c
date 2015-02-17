@@ -440,38 +440,38 @@ if (strcmp(option4,"s")==0)
 	{
 		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = i_sq_f_f(N,dirname);
+			flag = i_sq_f_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = i_sq_c_f(N,dirname);
+			flag = i_sq_c_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = i_sq_f_r(N,dirname);
+			flag = i_sq_f_r_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = i_sq_c_r(N,dirname);
+			flag = i_sq_c_r_file(N,dirname);
 		}
 	}
 	else if (strcmp(option1,"if")==0)
 	{
 		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = if_sq_f_f(N,dirname);
+			flag = if_sq_f_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = if_sq_c_f(N,dirname);
+			flag = if_sq_c_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = if_sq_f_r(N,dirname);
+			flag = if_sq_f_r_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = if_sq_c_r(N,dirname);
+			flag = if_sq_c_r_file(N,dirname);
 		}
 	}
 	else if (strcmp(option1,"p")==0)
@@ -480,44 +480,44 @@ if (strcmp(option4,"s")==0)
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_sq_f_f(N,Q,dirname);
+				flag = p2_sq_f_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_sq_f_f(N,Q,dirname);
+				flag = p_sq_f_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_sq_c_f(N,Q,dirname);
+				flag = p2_sq_c_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_sq_c_f(N,Q,dirname);
+				flag = p_sq_c_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_sq_f_r(N,Q,dirname);
+				flag = p2_sq_f_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_sq_f_r(N,Q,dirname);
+				flag = p_sq_f_r_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_sq_c_r(N,Q,dirname);
+				flag = p2_sq_c_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_sq_c_r(N,Q,dirname);
+				flag = p_sq_c_r_file(N,Q,dirname);
 			}
 		}
 	}
@@ -527,44 +527,44 @@ if (strcmp(option4,"s")==0)
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_sq_f_f(N,Q,dirname);
+				flag = pf2_sq_f_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_sq_f_f(N,Q,dirname);
+				flag = pf_sq_f_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_sq_c_f(N,Q,dirname);
+				flag = pf2_sq_c_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_sq_c_f(N,Q,dirname);
+				flag = pf_sq_c_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_sq_f_r(N,Q,dirname);
+				flag = pf2_sq_f_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_sq_f_r(N,Q,dirname);
+				flag = pf_sq_f_r_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_sq_c_r(N,Q,dirname);
+				flag = pf2_sq_c_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_sq_c_r(N,Q,dirname);
+				flag = pf_sq_c_r_file(N,Q,dirname);
 			}
 		}
 	}
@@ -575,38 +575,38 @@ else if (strcmp(option4,"t")==0)
 	{
 		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = i_tri_f_f(N,dirname);
+			flag = i_tri_f_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = i_tri_c_f(N,dirname);
+			flag = i_tri_c_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = i_tri_f_r(N,dirname);
+			flag = i_tri_f_r_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = i_tri_c_r(N,dirname);
+			flag = i_tri_c_r_file(N,dirname);
 		}
 	}
 	else if (strcmp(option1,"if")==0)
 	{
 		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = if_tri_f_f(N,dirname);
+			flag = if_tri_f_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
-			flag = if_tri_c_f(N,dirname);
+			flag = if_tri_c_f_file(N,dirname);
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = if_tri_f_r(N,dirname);
+			flag = if_tri_f_r_file(N,dirname);
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
-			flag = if_tri_c_r(N,dirname);
+			flag = if_tri_c_r_file(N,dirname);
 		}
 	}
 	else if (strcmp(option1,"p")==0)
@@ -615,44 +615,44 @@ else if (strcmp(option4,"t")==0)
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_tri_f_f(N,Q,dirname);
+				flag = p2_tri_f_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_tri_f_f(N,Q,dirname);
+				flag = p_tri_f_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_tri_c_f(N,Q,dirname);
+				flag = p2_tri_c_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_tri_c_f(N,Q,dirname);
+				flag = p_tri_c_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_tri_f_r(N,Q,dirname);
+				flag = p2_tri_f_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_tri_f_r(N,Q,dirname);
+				flag = p_tri_f_r_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = p2_tri_c_r(N,Q,dirname);
+				flag = p2_tri_c_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = p_tri_c_r(N,Q,dirname);
+				flag = p_tri_c_r_file(N,Q,dirname);
 			}
 		}
 	}
@@ -662,44 +662,44 @@ else if (strcmp(option4,"t")==0)
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_tri_f_f(N,Q,dirname);
+				flag = pf2_tri_f_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_tri_f_f(N,Q,dirname);
+				flag = pf_tri_f_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_tri_c_f(N,Q,dirname);
+				flag = pf2_tri_c_f_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_tri_c_f(N,Q,dirname);
+				flag = pf_tri_c_f_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_tri_f_r(N,Q,dirname);
+				flag = pf2_tri_f_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_tri_f_r(N,Q,dirname);
+				flag = pf_tri_f_r_file(N,Q,dirname);
 			}
 		}
 		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
 		{
 			if (Q==(1<<bin))
 			{
-				flag = pf2_tri_c_r(N,Q,dirname);
+				flag = pf2_tri_c_r_file(N,Q,dirname);
 			}
 			else
 			{
-				flag = pf_tri_c_r(N,Q,dirname);
+				flag = pf_tri_c_r_file(N,Q,dirname);
 			}
 		}
 	}
