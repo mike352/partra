@@ -8,7 +8,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -61,7 +61,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -114,7 +114,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -172,7 +172,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -230,9 +230,9 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -321,9 +321,9 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -411,9 +411,9 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -506,9 +506,9 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -606,7 +606,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -663,7 +663,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -720,7 +720,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -782,7 +782,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -844,9 +844,9 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -939,9 +939,9 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1033,9 +1033,9 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1132,9 +1132,9 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1236,7 +1236,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1247,7 +1247,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -1351,7 +1351,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -1363,7 +1363,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -1477,7 +1477,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -1489,7 +1489,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -1620,7 +1620,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -1633,7 +1633,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -1773,7 +1773,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1784,7 +1784,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -1916,7 +1916,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -1928,7 +1928,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -2070,7 +2070,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -2082,7 +2082,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -2240,7 +2240,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -2253,7 +2253,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -2426,7 +2426,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2444,7 +2444,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -2553,7 +2553,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -2565,7 +2565,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -2684,7 +2684,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2703,7 +2703,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -2839,7 +2839,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;
@@ -2852,7 +2852,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -2997,7 +2997,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3015,7 +3015,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -3152,7 +3152,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -3164,7 +3164,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -3311,7 +3311,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3331,7 +3331,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -3494,7 +3494,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;
@@ -3507,7 +3507,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
