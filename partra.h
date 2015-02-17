@@ -13,12 +13,14 @@
 //Partra header files
 #include "partra_ansi.h"
 
-
+#ifndef PARTRA_TYPEDEF
+#define PARTRA_TYPEDEF
 typedef unsigned char**** Matrix;
 typedef unsigned long long**** Matrix_ll;
 typedef long double complex**** Matrix_ldc;
 typedef unsigned char*** Row;
 typedef unsigned long long*** Row_ll;
 typedef long double complex*** Row_ldc;
+#endif
 
 #endif
