@@ -36,6 +36,7 @@
 *.bcf
 *.log
 *.run.xml
+*.synctex.gz
 
 # Text files
 *.txt
