@@ -9,7 +9,7 @@
 unsigned char red_simple_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
 {
 unsigned long long n,m;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 lldiv_t bitfrac, bitfrac2;	
 
 *bitarray = (unsigned char*) calloc((1ULL<<N)/csize+1ULL,sizeof(unsigned char));
@@ -55,7 +55,7 @@ unsigned char red_simple_c(const unsigned char N,unsigned char **bitarray, unsig
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 
 *bitarray = (unsigned char*) calloc((1ULL<<N)/csize+1ULL,sizeof(unsigned char));
 if ((*bitarray==NULL))
@@ -181,7 +181,7 @@ return 0;
 unsigned char red_simple_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total)
 {
 unsigned long long n,m;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 lldiv_t bitfrac, bitfrac2;	
 
 *bitarray = (unsigned char*) calloc((1ULL<<N*bin)/csize+1ULL,sizeof(unsigned char));
@@ -227,7 +227,7 @@ unsigned char red_simple_bin_c(const unsigned char N,const unsigned char bin,uns
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 
 *bitarray = (unsigned char*) calloc((1ULL<<N*bin)/csize+1ULL,sizeof(unsigned char));
 if ((*bitarray==NULL))
@@ -321,7 +321,7 @@ return 0;
 unsigned char red_gen_f(const unsigned char N,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 lldiv_t bitfrac, bitfrac2;	
 
 *bitarray = (unsigned char*) calloc((1ULL<<N)/csize+1ULL,sizeof(unsigned char));
@@ -390,7 +390,7 @@ unsigned char red_gen_c(const unsigned char N,unsigned char **bitarray, unsigned
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 
 *bitarray = (unsigned char*) calloc((1ULL<<N)/csize+1ULL,sizeof(unsigned char));
 if ((*bitarray==NULL))
@@ -529,7 +529,7 @@ return 0;
 unsigned char red_gen_bin_f(const unsigned char N,const unsigned char bin,unsigned char **bitarray, unsigned char **reflec, unsigned long long* total,unsigned char *numbers)
 {
 unsigned long long n,m;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 lldiv_t bitfrac, bitfrac2;	
 
 *bitarray = (unsigned char*) calloc((1ULL<<N*bin)/csize+1ULL,sizeof(unsigned char));
@@ -599,7 +599,7 @@ unsigned char red_gen_bin_c(const unsigned char N,const unsigned char bin,unsign
 {
 unsigned long long n,m,p;
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-const unsigned char csize=CHAR_BIT*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 
 *bitarray = (unsigned char*) calloc((1ULL<<N*bin)/csize+1ULL,sizeof(unsigned char));
 if ((*bitarray==NULL))

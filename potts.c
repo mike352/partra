@@ -232,7 +232,7 @@ return 0;
 /*******************************/
 unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -323,7 +323,7 @@ return 0;
 /*******************************/
 unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -413,7 +413,7 @@ return 0;
 /*******************************/
 unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -508,7 +508,7 @@ return 0;
 /*******************************/
 unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -846,7 +846,7 @@ return 0;
 /*******************************/
 unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -941,7 +941,7 @@ return 0;
 /*******************************/
 unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1035,7 +1035,7 @@ return 0;
 /*******************************/
 unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1134,7 +1134,7 @@ return 0;
 /*******************************/
 unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 FILE* fid;
 char filename[256];	
 unsigned char bin=0;
@@ -1247,7 +1247,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -1363,7 +1363,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -1489,7 +1489,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -1633,7 +1633,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -1784,7 +1784,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -1928,7 +1928,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -2082,7 +2082,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -2253,7 +2253,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -2444,7 +2444,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -2565,7 +2565,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -2703,7 +2703,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
@@ -2852,7 +2852,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
@@ -3015,7 +3015,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -3164,7 +3164,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char* melement; 
@@ -3331,7 +3331,7 @@ unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
@@ -3507,7 +3507,7 @@ unsigned char* reflec;
 unsigned char* order;
 FILE* fid;
 char filename[256];	
-const unsigned char csize=8*sizeof(unsigned char);
+const unsigned char csize=CHAR_BIT;
 unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
 unsigned char* pnums;
 unsigned char** melement; 
