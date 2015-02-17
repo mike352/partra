@@ -1,7 +1,7 @@
 After downloading and extracting the partra directory, go to the directory and type the command:
 make
 
-This will compile the source code, make a static library called partra.a inside the directory, and make the stand alone program called partra.
+This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone program called partra.
 
 To use the partra library, make sure that the header files are all in the same directory as your C/C++ source code. At the top of your code, include the following line:
 #include "partra.h"
@@ -14,11 +14,11 @@ gcc source.c -o output -lpartra -L.
 For C++, substitute g++ for gcc.
 
 
-To use the partra stand alone program, go to its directory and type:
+To use the partra stand-alone program, go to its directory and type:
 ./partra
 to answer command line questions about which file to generate. 
 
-To use an input file, type:
+To use an input file for the stand-alone program, type:
 ./partra [inputfile]
 A sample input file with instructions is provided, called partra_input.txt:
 ./partra partra_input.txt
