@@ -8,7 +8,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -61,7 +61,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -114,7 +114,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -172,7 +172,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -230,7 +230,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -321,7 +321,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -411,7 +411,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -506,7 +506,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -606,7 +606,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -663,7 +663,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -720,7 +720,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -782,7 +782,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 FILE* fid;
 char filename[256];	
@@ -844,7 +844,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -939,7 +939,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1033,7 +1033,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_f_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1132,7 +1132,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_c_f(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 const unsigned char csize=8*sizeof(unsigned char);
 FILE* fid;
@@ -1236,7 +1236,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1351,7 +1351,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -1477,7 +1477,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -1620,7 +1620,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -1773,7 +1773,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 
@@ -1916,7 +1916,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 
@@ -2070,7 +2070,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N-1;
 unsigned char xmax = N;
@@ -2240,7 +2240,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_sq_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 2*N;
 unsigned char xmax = N;
@@ -2426,7 +2426,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2553,7 +2553,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char p2_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -2684,7 +2684,7 @@ return 0;
 }
 
 /*******************************/
-unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -2839,7 +2839,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf2_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf2_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;
@@ -2997,7 +2997,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3152,7 +3152,7 @@ return 0;
 
 
 /*******************************/
-unsigned char p_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char p_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 
@@ -3311,7 +3311,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_f_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -3494,7 +3494,7 @@ return 0;
 
 
 /*******************************/
-unsigned char pf_tri_c_r(const unsigned char N, const unsigned long long Q, char* dirname)
+unsigned char pf_tri_c_r(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 unsigned char umax = 3*N;
 unsigned char xmax = N;

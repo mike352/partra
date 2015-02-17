@@ -11,7 +11,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_f(const unsigned char N, char* dirname)
+unsigned char i_sq_f_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -44,7 +44,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_sq_c_f(const unsigned char N, char* dirname)
+unsigned char i_sq_c_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -77,7 +77,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_f_f(const unsigned char N, char* dirname)
+unsigned char if_sq_f_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -111,7 +111,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c_f(const unsigned char N, char* dirname)
+unsigned char if_sq_c_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -149,7 +149,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_f(const unsigned char N, char* dirname)
+unsigned char i_tri_f_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -182,7 +182,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_tri_c_f(const unsigned char N, char* dirname)
+unsigned char i_tri_c_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -215,7 +215,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_f_f(const unsigned char N, char* dirname)
+unsigned char if_tri_f_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -249,7 +249,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_c_f(const unsigned char N, char* dirname)
+unsigned char if_tri_c_f(const unsigned char N, const char* dirname)
 {
 unsigned long long n;
 unsigned long long m;
@@ -287,7 +287,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_r(const unsigned char N, char* dirname)
+unsigned char i_sq_f_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N-1;
 
@@ -382,7 +382,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_sq_c_r(const unsigned char N, char* dirname)
+unsigned char i_sq_c_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N;
 
@@ -490,7 +490,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_f_r(const unsigned char N, char* dirname)
+unsigned char if_sq_f_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N-1;
 unsigned char xmax=N;
@@ -609,7 +609,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c_r(const unsigned char N, char* dirname)
+unsigned char if_sq_c_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=2*N;
 unsigned char xmax=N;
@@ -745,7 +745,7 @@ return 0;
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_r(const unsigned char N, char* dirname)
+unsigned char i_tri_f_r(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -848,7 +848,7 @@ return 0;
 
 
 /*******************************/
-unsigned char i_tri_c_r(const unsigned char N, char* dirname)
+unsigned char i_tri_c_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=3*N;
 
@@ -956,7 +956,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_f_r(const unsigned char N, char* dirname)
+unsigned char if_tri_f_r(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -1083,7 +1083,7 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_c_r(const unsigned char N, char* dirname)
+unsigned char if_tri_c_r(const unsigned char N, const char* dirname)
 {
 unsigned char umax=3*N;
 unsigned char xmax=N;
