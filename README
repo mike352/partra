@@ -16,7 +16,9 @@ For C++, substitute g++ for gcc.
 
 To use the partra stand alone program, go to its directory and type:
 ./partra
-to answer command line questions about which file to generate. To use an input file, type:
+to answer command line questions about which file to generate. 
+
+To use an input file, type:
 ./partra [inputfile]
 A sample input file with instructions is provided, called partra_input.txt:
 ./partra partra_input.txt
