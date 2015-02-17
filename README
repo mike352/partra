@@ -1,9 +1,24 @@
-partra is a C library for computing exact partition functions of models in statistical mechanics. 
+After downloading and extracting the partra directory, go to the directory and type the command:
+make
 
-Currently partra can compute transfer matrices for the isotropic Ising model, the isotropic Ising model in a field, the isotropic q-state Potts model, and the isotropic q-state Potts model in a field (acting on only one q-state).
+This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone program called partra.
 
-The transfer matrices can have either free or cylindrical boundary conditions. Either the full or reduced sector transfer matrix can be computed. For free boundary conditions, reduced means the reflection symmetric (positive parity) sector. Depending on the lattice, the full free transfer matrix may not be a direct sum of parity sectors, so care must be used in using and interpreting this function for arbitrary lattices. For cylindrical boundary conditions, reduced means the rotationally invariant (momentum zero) and reflection symmetric (positive parity) sector. Depending on the lattice, the full cylindrical transfer matrix may not be a direct sum of momentum and parity sectors, or only of momentum and not parity, so care must be used in using and interpreting this function for arbitrary lattices.
+To use the partra library, make sure that the header files are all in the same directory as your C/C++ source code. At the top of your code, include the following line:
+#include "partra.h"
 
-Currently partra computes the transfer matrices on either the square or triangular lattices. 
+To compile with partra, type the following for C:
+gcc source.c -o output -lpartra -L[partradir]
+where [partradir] is the directory where the partra static library partra.a is located. If in the same directory, use:
+gcc source.c -o output -lpartra -L.
 
-Use the corner case N=1 with caution.
+For C++, substitute g++ for gcc.
+
+
+To use the partra stand-alone program, go to its directory and type:
+./partra
+to answer command line questions about which file to generate. 
+
+To use an input file for the stand-alone program, type:
+./partra [inputfile]
+A sample input file with instructions is provided, called partra_input.txt:
+./partra partra_input.txt
