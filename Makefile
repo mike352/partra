@@ -46,7 +46,7 @@ genfuncs.o: genfuncs.c
 
 install:
 	mv libpartra.a $(PREFIX)/lib
-	mv *.h $(PREFIX)/include
+	cp *.h $(PREFIX)/include
 	mv partra partra_bitarch partra_example $(PREFIX)/bin
 	
 clean: 
