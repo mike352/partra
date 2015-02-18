@@ -14,7 +14,7 @@ CLFLAGS=-lpartra -L.
 PREFIX=/usr
 
 
-all: staticlib standalone
+compile: staticlib standalone
 
 standalone: staticlib partra example bitarch
 
@@ -48,6 +48,8 @@ install:
 	mv libpartra.a $(PREFIX)/lib
 	cp *.h $(PREFIX)/include
 	mv partra partra_bitarch partra_example $(PREFIX)/bin
+
+all: compile install
 	
 clean: 
 	rm *.o
