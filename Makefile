@@ -10,11 +10,9 @@ COFLAG=-Ofast
 #Linking flags of the newly compiled library
 CLFLAGS=-lpartra -L.
 
-#Path to place the static library. Uncomment if you have root access
-LIBPATH=/usr/lib/
+#Change this path if placing executibles, headers, and static libraries in a different location
+PREFIX=/usr
 
-#Path to place the executibles. Uncomment if you have rot access
-EXPATH=/usr/bin/
 
 all: staticlib standalone
 
@@ -47,8 +45,9 @@ genfuncs.o: genfuncs.c
 	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) genfuncs.c
 
 install:
-	mv libpartra.a $(LIBPATH)
-	mv partra partra_bitarch partra_example $(EXPATH)
+	mv libpartra.a $(PREFIX)/lib
+	mv *.h $(PREFIX)/include
+	mv partra partra_bitarch partra_example $(PREFIX)/bin
 	
 clean: 
 	rm *.o
