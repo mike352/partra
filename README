@@ -4,42 +4,52 @@ partra currently strictly conforms to the ANSI C standard C11, and so the source
 Installing in Unix:
 After downloading and extracting the partra directory, go to the directory and type the command:
 make
-This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone program called partra.
+This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone programs partra, partra_bitarch, and partra_example. If you have root access, the command:
+make install
+will move the executibles to /usr/bin, the static library to /usr/lib, and the header files to /usr/include for convenience of use. If make install fails and/or you do not have root access, you can still move the files to a convenient place by changing the variable PREFIX in the Makefile. Otherwise, full use of partra can be still be made from the current install directory.
 
 
 Installing in other OS's:
 1. Use an ANSI C11 compliant compiler to compile all of the .c source files (except for partra.c) as .o object files
 2. Create a static library from the all the .o object files
 3. Compile partra.c, linking to the new static library created
-
+4. Optionally compile example.c and bitarchitecture.c
+5. Optionally move the files to a convenient location
 
 Use of partra in your C/C++ source code:
-To include the partra library, make sure that the header files are all in the same directory as your C/C++ source code. At the top of your code, include the following line:
-#include "partra.h"
-The use of the functions in the partra library are described in the pdf file partra_user_guide.pdf.
+If the command "make install" was used and succeeded, the simply add an appropriate header file to the top of your source code, such as #include "partra.h". 
+If "make install" was not used or did not succeed, then make sure that the header files are all in the same directory as your C/C++ source code, or else accessible to the compiler. Then, include the appropriate header file as before. 
+The use of the functions in the partra library are described in detail in the pdf file partra_user_guide.pdf.
 
 
 Compiling your source code with partra in Unix:
-To compile with partra, type the following for C:
-gcc source.c -o output -lpartra -L[partradir]
-where [partradir] is the directory where the partra static library partra.a is located. If in the same directory, use:
-gcc source.c -o output -lpartra -L.
+If "make install was used and succeeded, type:
+gcc source.c -o output -lpartra ...
+where ... stands for any other libraries or options your source code may use. If "make install" was not used or did not succeed, and the static library was placed elsewhere, then type:
+gcc source.c -o output -lpartra -L[path to library] ...
+If the static library is in the current directory, type:
+gcc source.c -o output -lpartra -L. ...
 For C++, substitute g++ for gcc.
 
 
 Compiling your source code with partra in other OS's:
-1. compile your source code while linking to the static library you created. 
+1. compile your source code while linking to the static library, making sure the compiler knows where to look for your header files. 
 
 
 Use of the stand-alone program in Unix:
-Go to its directory and type:
+If "make install" succeeded or you have made sure your shell's PATH knows where to look for the executable, simply type its name:
+partra
+to use the command line options, or else you can give it an input file:
+partra [input file]
+If "make install" was not used or did not succeed, go to the directory of the executible and type:
 ./partra
-to answer command line questions about which file to generate. 
-To use an input file for the stand-alone program, type:
+to answer command line questions about which file to generate, and use an input file by typing:
 ./partra [inputfile]
 A sample input file with instructions is provided, called partra_input.txt:
+partra partra_input.txt
+or
 ./partra partra_input.txt
-
+will run the sample input file. 
 
 Use of the stand-alone program in other OS's:
 Go to its directory on a command line and type:
