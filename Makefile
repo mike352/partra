@@ -66,4 +66,4 @@ install:
 all: compile install
 	
 clean: 
-	rm $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
+	rm $(OBJFILES)
