@@ -7,46 +7,55 @@ CFLAGS2=-c
 #Optimization flags: -O3 is safe. -Ofast should be tested for numerics, but safe for integers
 COFLAG=-Ofast
 
-#Linking flags of the newly compiled library
-CLFLAGS=-lpartra -L.
+#Header files
+HEADFILES := $(wildcard src/include/*.h)
 
-#Change this path if placing executibles, headers, and static libraries in a different location
+#Header directory
+HEADDIR=src/include
+
+#Static library location
+LIBDIR=src/lib
+
+#Path to place executibles, headers, and static libraries
 PREFIX=/usr
 
 
 compile: staticlib standalone
 
-standalone: staticlib partra example bitarch
+standalone: staticlib partra examples
 
-partra: partra.c
-	$(CC) $(CFLAGS1) $(COFLAG) partra.c $(CLFLAGS) -o partra
+partra: src/partra.c
+	$(CC) $(CFLAGS1) $(COFLAG) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra
 
-example: example.c
-	$(CC) $(CFLAGS1) $(COFLAG) example.c $(CLFLAGS) -o partra_example
+examples: bitarch example
 
-bitarch: bitarchitecture.c
-	$(CC) $(CFLAGS1) $(COFLAG) bitarchitecture.c $(CLFLAGS) -o partra_bitarch
+bitarch: examples/bitarchitecture.c
+	$(CC) $(CFLAGS1) $(COFLAG) examples/bitarchitecture.c -lpartra  -I$(HEADDIR) -L. -o partra_bitarch
+
+example: examples/example.c
+	$(CC) $(CFLAGS1) $(COFLAG) examples/example.c -lpartra  -I$(HEADDIR) -L. -o partra_example
 	
 staticlib: objects
 
-objects: ising.o potts.o reductions.o genfuncs.o
-	ar rcs libpartra.a ising.o potts.o reductions.o genfuncs.o
+objects: $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
+	ar rcs libpartra.a $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
 
-ising.o: ising.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) ising.c
+src/ising/%.o: src/ising/%.c
+	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
 
-potts.o: potts.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) potts.c
+src/potts/%.o: src/potts/%.c
+	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
 
-reductions.o: reductions.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) reductions.c
+src/reductions/%.o: src/reductions/%.c
+	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
 
-genfuncs.o: genfuncs.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) genfuncs.c
+src/genfuncs/%.o: src/genfuncs/%.c
+	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
 
 install:
+	cp libpartra.a $(LIBDIR)/
 	mv libpartra.a $(PREFIX)/lib
-	cp *.h $(PREFIX)/include
+	cp $(HEADFILES) $(PREFIX)/include
 	mv partra partra_bitarch partra_example $(PREFIX)/bin
 
 all: compile install

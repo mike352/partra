@@ -1,0 +1,35 @@
+if
+0
+f
+r
+2
+s
+y
+
+p
+3
+c
+r
+4
+s
+n
+
+
+//How to use this file:
+Each of the options asked for in partra are put on separate lines above, in order. Above is a valid example.
+
+The first line's option specifies the model to be used, whether Ising (i), Ising in a field (if), q-state Potts (p), or q-state Potts in a field (pf)
+
+The second line, which only matters if the q-state Potts models are being used, is the value of q, an integer greater than 2 and less than (2^n-1), where n is the number of bits your processor uses (which partra will verify independently). It is still necessary to specify a number, even when choosing an Ising model for the first option, though any number can be used (such as 0) and it will then be skipped. 
+
+The third line specifies the boundary condition of the row, whether free (f) or cylindrical (c).
+
+The fourth line specifies whether the full transfer matrix (f) or the reduced transfer matrix (r) will be computed. For free boundary conditions, reduced means the reflection symmetric (positive parity) sector. Depending on the lattice, the full free transfer matrix may not be a direct sum of parity sectors, so care must be used in using and interpreting this function for arbitrary lattices. For cylindrical boundary conditions, reduced means the rotationally invariant (momentum zero) and reflection symmetric (positive parity) sector. Depending on the lattice, the full cylindrical transfer matrix may not be a direct sum of momentum and parity sectors, or only of momentum and not parity, so care must be used in using and interpreting this function for arbitrary lattices.
+
+The fifth line specifies the row size to be used. For Ising models, this is an integer greater than zero and up to the size of the number of bits your processor uses (which partra will verify independently). For Potts models, this is an integer greater than zero and less than floor(n/m), where n is the number of bits your processor uses and m is the total number of bits that is necessary to store each q value (e.g. for a 5-state Potts model, m=3).
+
+The sixth line specifies which lattice to use. Currently partra has built in functions for the square (s) and triangular (t) lattices.
+
+The seventh line speficies whether partra should look for another set of inputs after the current set of inputs, given as yes (y) or no (n). Always have the last line of inputs be an "n", otherwise partra will complain, even if the file ends after a "y".
+
+Always leave blank lines between sets of input.
