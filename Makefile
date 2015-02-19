@@ -7,6 +7,11 @@ CFLAGS2=-c
 #Optimization flags: -O3 is safe. -Ofast should be tested for numerics, but safe for integers
 COFLAG=-Ofast
 
+OBJFILES= $(addsuffix .o,$(basename $(wildcard src/ising/*.c))) \
+		  $(addsuffix .o,$(basename $(wildcard src/potts/*.c)))  \
+		  $(addsuffix .o,$(basename $(wildcard src/reductions/*.c))) \
+		  $(addsuffix .o,$(basename $(wildcard src/genfuncs/*.c)))
+
 #Header files
 HEADFILES := $(wildcard src/include/*.h)
 
@@ -37,8 +42,8 @@ example: examples/example.c
 	
 staticlib: objects
 
-objects: $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
-	ar rcs libpartra.a $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
+objects: $(OBJFILES)
+	ar rcs libpartra.a $^
 
 src/ising/%.o: src/ising/%.c
 	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
@@ -61,4 +66,4 @@ install:
 all: compile install
 	
 clean: 
-	rm *.o
+	rm $(wildcard src/ising/*.o) $(wildcard src/potts/*.o) $(wildcard src/reductions/*.o) $(wildcard src/genfuncs/*.o)
