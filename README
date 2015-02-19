@@ -4,27 +4,29 @@ partra currently strictly conforms to the ANSI C standard C11, and so the source
 Installing in Unix:
 After downloading and extracting the partra directory, go to the directory and type the command:
 make
-This will compile the source code, make a static library called partra.a inside the directory, and make the stand-alone programs partra, partra_bitarch, and partra_example. If you have root access, the command:
+This will compile the source code, make a static library called libpartra.a in the directory src/lib, and make the stand-alone programs partra, partra_bitarch, and partra_example. If you have root access, the command:
 make install
-will move the executibles to /usr/bin, the static library to /usr/lib, and the header files to /usr/include for convenience of use. If make install fails and/or you do not have root access, you can still move the files to a convenient place by changing the variable PREFIX in the Makefile. Otherwise, full use of partra can be still be made from the current install directory.
+will move the executibles to /usr/bin, copy the static library to /usr/lib, and copy the header files to /usr/include for convenience of use. If make install fails and/or you do not have root access, you can still move the files to a convenient place by changing the variable PREFIX in the Makefile. Otherwise, full use of partra can be still be made by using gcc's -I and -L flags to direct the compiler and linker to the locations of the header and static library files, respectively.
 
 
 Installing in other OS's:
-1. Use an ANSI C11 compliant compiler to compile all of the .c source files (except for partra.c) as .o object files
+1. Use an ANSI C11 compliant compiler to compile all of the .c source files in the directory src/ (except for partra.c) as .o object files, using the headers in the directory src/include/
 2. Create a static library from the all the .o object files
 3. Compile partra.c, linking to the new static library created
-4. Optionally compile example.c and bitarchitecture.c
-5. Optionally move the files to a convenient location
+4. Optionally compile the .c files in the directory examples/
+5. Optionally move the new executible and static library to a convenient location
+
 
 Use of partra in your C/C++ source code:
-If the command "make install" was used and succeeded, the simply add an appropriate header file to the top of your source code, such as #include "partra.h". 
+If the command "make install" was used and succeeded, the simply add an appropriate header file to the top of your source code, such as:
+#include "partra.h". 
 If "make install" was not used or did not succeed, then make sure that the header files are all in the same directory as your C/C++ source code, or else accessible to the compiler. Then, include the appropriate header file as before. 
 The use of the functions in the partra library are described in detail in the pdf file partra_user_guide.pdf.
 
 
 Compiling your source code with partra in Unix:
 If "make install was used and succeeded, type:
-gcc source.c -o output -lpartra ...
+gcc source.c -lpartra -o [output file] ...
 where ... stands for any other libraries or options your source code may use. If "make install" was not used or did not succeed, and the static library was placed elsewhere, then type:
 gcc source.c -o output -lpartra -L[path to library] ...
 If the static library is in the current directory, type:
@@ -33,7 +35,7 @@ For C++, substitute g++ for gcc.
 
 
 Compiling your source code with partra in other OS's:
-1. compile your source code while linking to the static library, making sure the compiler knows where to look for your header files. 
+1. compile your source code so that the compiler knows where to look for your header files and also linking to the static library. 
 
 
 Use of the stand-alone program in Unix:
@@ -45,10 +47,10 @@ If "make install" was not used or did not succeed, go to the directory of the ex
 ./partra
 to answer command line questions about which file to generate, and use an input file by typing:
 ./partra [inputfile]
-A sample input file with instructions is provided, called partra_input.txt:
-partra partra_input.txt
+A sample input file with instructions is provided, located in the directory examples/, called partra_input.txt:
+partra examples/partra_input.txt
 or
-./partra partra_input.txt
+./partra examples/partra_input.txt
 will run the sample input file. 
 
 Use of the stand-alone program in other OS's:
@@ -56,5 +58,5 @@ Go to its directory on a command line and type:
 [partra executible]
 to answer command line questions about which file to generate. To use an input file for the stand-alone program, type:
 [partra executible] [input file]
-A sample input file with instructions is provided, called partra_input.txt:
-[partra executible] partra_input.txt
+A sample input file with instructions is provided, located in the directory examples/, called partra_input.txt:
+[partra executible] examples/partra_input.txt
