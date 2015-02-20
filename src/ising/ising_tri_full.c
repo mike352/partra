@@ -7,7 +7,7 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_f_file(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
 sprintf(filename,"i_tri_f_f_%d.txt",N);
@@ -36,14 +36,12 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char i_tri_c_f_file(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
 sprintf(filename,"i_tri_c_f_%d.txt",N);
@@ -72,14 +70,12 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_tri_f_f_file(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
 sprintf(filename,"if_tri_f_f_%d.txt",N);
@@ -110,14 +106,12 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_tri_c_f_file(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
 sprintf(filename,"if_tri_c_f_%d.txt",N);
@@ -148,7 +142,5 @@ for(n=0; n<(1ULL<<N); n++)
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }

@@ -5,8 +5,6 @@ int main(void)
 unsigned char N=2;
 char dirname[256] = "data";
 unsigned char flag;
-FILE* fid;
-unsigned long long n,m;
 
 Matrix M;
 unsigned long long msize[2];
