@@ -28,7 +28,7 @@ lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
 unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -124,7 +124,7 @@ lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
 unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");

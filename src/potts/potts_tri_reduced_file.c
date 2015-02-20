@@ -40,7 +40,7 @@ while((1ULL<<bin)<Q)
 }
 
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -160,7 +160,7 @@ while((1ULL<<bin)<Q)
 	bin++;
 }
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -618,7 +618,7 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
@@ -767,7 +767,7 @@ if ((pnums==NULL))
 	return 2;
 }
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
