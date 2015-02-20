@@ -10,21 +10,20 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_sq_f_f_file(const unsigned char N, const char* dirname)
 {
-msize[1]=2ULL;
-sprintf(filename,"i_sq_f_f_%d.txt",N);
-
 unsigned long long n;
 unsigned long long m;
+FILE *fid;
 unsigned char uh;
-unsigned char flag;
+char filename[256];
 
-msize[0] = 1ULL<<N;
-flag = matrix_alloc(matrix,msize,1);
-if (flag!=0)
+sprintf(filename,"%s/i_sq_f_f_%d.txt",dirname,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
 {
-	return 2;
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
 }
 
 /*Free row boundary conditions*/
@@ -33,32 +32,31 @@ for(n=0; n<(1ULL<<N); n++)
 	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
-		(*matrix)[n][m][1][1]=1;
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
 	}
 }
 
+printf("\nFile %s created.",filename);
+fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char i_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_sq_c_f_file(const unsigned char N, const char* dirname)
 {
-msize[1]=2ULL;
-sprintf(filename,"i_sq_c_f_%d.txt",N);
-
 unsigned long long n;
 unsigned long long m;
+FILE *fid;
 unsigned char uh;
-unsigned char flag;
+char filename[256];
 
-msize[0] = 1ULL<<N;
-flag = matrix_alloc(matrix,msize,1);
-if (flag!=0)
+sprintf(filename,"%s/i_sq_c_f_%d.txt",dirname,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
 {
-	return 2;
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
 }
 
 /*Cylindrical row boundary conditions*/
@@ -67,32 +65,31 @@ for(n=0; n<(1ULL<<N); n++)
 	uh = bit_sum(n^circ_single_lshift(n,N));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
-		(*matrix)[n][m][1][1]=1;
+	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
 	}
 }
 
+printf("\nFile %s created.",filename);
+fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_sq_f_f_file(const unsigned char N, const char* dirname)
 {
-msize[1]=3ULL;
-sprintf(filename,"if_sq_f_f_%d.txt",N);
-
 unsigned long long n;
 unsigned long long m;
+FILE *fid;
 unsigned char uh,xh;
-unsigned char flag;
+char filename[256];
 
-msize[0] = 1ULL<<N;
-flag = matrix_alloc(matrix,msize,1);
-if (flag!=0)
+sprintf(filename,"%s/if_sq_f_f_%d.txt",dirname,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
 {
-	return 2;
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
 }
 
 /*Free row boundary conditions*/
@@ -102,33 +99,31 @@ for(n=0; n<(1ULL<<N); n++)
 	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
-		(*matrix)[n][m][1][1]=xh;
-		(*matrix)[n][m][1][2]=1;
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
 	}
 }
 
+printf("\nFile %s created.",filename);
+fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char if_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_sq_c_f_file(const unsigned char N, const char* dirname)
 {
-msize[1]=3ULL;
-sprintf(filename,"if_sq_c_f_%d.txt",N);
-
 unsigned long long n;
 unsigned long long m;
+FILE *fid;
 unsigned char uh,xh;
-unsigned char flag;
+char filename[256];
 
-msize[0] = 1ULL<<N;
-flag = matrix_alloc(matrix,msize,1);
-if (flag!=0)
+sprintf(filename,"%s/if_sq_c_f_%d.txt",dirname,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
 {
-	return 2;
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
 }
 
 /*Cylindrical row boundary conditions*/
@@ -138,12 +133,11 @@ for(n=0; n<(1ULL<<N); n++)
 	xh = N-(bit_sum(n));
 	for(m=0; m<(1ULL<<N); m++)
 	{
-		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
-		(*matrix)[n][m][1][1]=xh;
-		(*matrix)[n][m][1][2]=1;
+	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
 	}
 }
 
+printf("\nFile %s created.",filename);
+fclose(fid);
 return 0;
 }

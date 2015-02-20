@@ -15,7 +15,7 @@ FILE *fid;
 unsigned char uh;
 char filename[256];
 
-sprintf(filename,"%s/i_tri_f_%d.txt",dirname,N);
+sprintf(filename,"%s/i_tri_f_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -48,7 +48,7 @@ FILE *fid;
 unsigned char uh;
 char filename[256];
 
-sprintf(filename,"%s/i_tri_c_%d.txt",dirname,N);
+sprintf(filename,"%s/i_tri_c_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -81,7 +81,7 @@ FILE *fid;
 unsigned char uh,xh;
 char filename[256];
 
-sprintf(filename,"%s/if_tri_f_%d.txt",dirname,N);
+sprintf(filename,"%s/if_tri_f_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -115,7 +115,7 @@ FILE *fid;
 unsigned char uh,xh;
 char filename[256];
 
-sprintf(filename,"%s/if_tri_c_%d.txt",dirname,N);
+sprintf(filename,"%s/if_tri_c_f_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
