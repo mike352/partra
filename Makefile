@@ -12,6 +12,10 @@ OBJFILES= $(addsuffix .o,$(basename $(wildcard src/ising/*.c))) \
 		  $(addsuffix .o,$(basename $(wildcard src/reductions/*.c))) \
 		  $(addsuffix .o,$(basename $(wildcard src/genfuncs/*.c)))
 
+EXPFILES= $(wildcard examples/*.c)
+
+EXPOUT= $(addprefix partra_, $(notdir $(basename $(wildcard examples/*.c))))
+		  
 #Header files
 HEADFILES := $(wildcard src/include/*.h)
 
@@ -32,13 +36,10 @@ standalone: staticlib partra examples
 partra: src/partra.c
 	$(CC) $(CFLAGS1) $(COFLAG) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra
 
-examples: bitarch example
+examples: $(EXPFILES)
 
-bitarch: examples/bitarchitecture.c
-	$(CC) $(CFLAGS1) $(COFLAG) examples/bitarchitecture.c -lpartra  -I$(HEADDIR) -L. -o partra_bitarch
-
-example: examples/example.c
-	$(CC) $(CFLAGS1) $(COFLAG) examples/example.c -lpartra  -I$(HEADDIR) -L. -o partra_example
+examples/%.c: 
+	$(CC) $(CFLAGS1) $(COFLAG) $@ -lpartra  -I$(HEADDIR) -L. -o $(addprefix partra_, $(notdir $(basename $@)))
 	
 staticlib: objects
 
@@ -61,7 +62,8 @@ install:
 	cp libpartra.a $(LIBDIR)/
 	mv libpartra.a $(PREFIX)/lib
 	cp $(HEADFILES) $(PREFIX)/include
-	mv partra partra_bitarch partra_example $(PREFIX)/bin
+	mv partra $(PREFIX)/bin
+	mv $(EXPOUT) $(PREFIX)/bin
 
 all: compile install
 	
