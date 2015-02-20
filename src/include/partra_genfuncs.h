@@ -48,6 +48,9 @@ void row_free_ll(unsigned long long***,const unsigned long long*);
 unsigned char matrix_setadd_ll(unsigned long long*****, const unsigned long long*, const unsigned long long, const unsigned long long, const unsigned long long*);
 unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, const unsigned long long, const unsigned long long*);
 
+/*Matrix functions*/
+unsigned char matrix_fprintf(const unsigned char*****, const unsigned long long*, const char*, const char*);
+
 #ifdef __cplusplus
 }
 #endif

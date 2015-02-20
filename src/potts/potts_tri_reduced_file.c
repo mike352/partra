@@ -1,317 +1,54 @@
 #include "partra_genfuncs.h"
 #include "partra_reductions.h"
-#include "partra_ising.h"
-
-/*Size of Ising 0+ sector follows OEIS series A000029*/
-/*Size of Ising 0 sector follows OEIS series A000031*/
-/*Size of Ising + sector follows OEIS series A005418*/
-
-/*****************************************************/
-/**********Full Ising square transfer matrices********/
-/*****************************************************/
-
-/*******************************/
-unsigned char i_sq_f_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh;
-char filename[256];
-
-sprintf(filename,"%s/i_sq_f_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Free row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char i_sq_c_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh;
-char filename[256];
-
-sprintf(filename,"%s/i_sq_c_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Cylindrical row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum(n^circ_single_lshift(n,N));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+uh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char if_sq_f_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh,xh;
-char filename[256];
-
-sprintf(filename,"%s/if_sq_f_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Free row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	xh = N-(bit_sum(n));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char if_sq_c_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh,xh;
-char filename[256];
-
-sprintf(filename,"%s/if_sq_c_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Cylindrical row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum(n^circ_single_lshift(n,N));
-	xh = N-(bit_sum(n));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+uh),(xh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
+#include "partra_potts.h"
 
 
 /*****************************************************/
-/*******Full Ising triangular transfer matrices*******/
+/*****Reduced Potts triangular transfer matrices******/
 /*****************************************************/
 
 /*******************************/
-unsigned char i_tri_f_f_file(const unsigned char N, const char* dirname)
+unsigned char p2_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh;
-char filename[256];
-
-sprintf(filename,"%s/i_tri_f_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return 4;
 }
-
-/*Free row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char i_tri_c_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh;
-char filename[256];
-
-sprintf(filename,"%s/i_tri_c_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Cylindrical row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum(n^circ_single_lshift(n,N));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char if_tri_f_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh,xh;
-char filename[256];
-
-sprintf(filename,"%s/if_tri_f_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Free row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	xh = N-(bit_sum(n));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh),(xh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*******************************/
-unsigned char if_tri_c_f_file(const unsigned char N, const char* dirname)
-{
-unsigned long long n;
-unsigned long long m;
-FILE *fid;
-unsigned char uh,xh;
-char filename[256];
-
-sprintf(filename,"%s/if_tri_c_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
-
-/*Cylindrical row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum(n^circ_single_lshift(n,N));
-	xh = N-(bit_sum(n));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-	    fprintf(fid,"%d %d\n",(bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh),(xh));
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-return 0;
-}
-
-
-/*****************************************************/
-/********Reduced Ising square transfer matrices*******/
-/*****************************************************/
-
-/*******************************/
-unsigned char i_sq_f_r_file(const unsigned char N, const char* dirname)
-{
-unsigned char umax=2*N-1;
+unsigned char umax = 3*N-2;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
+unsigned long long n,m,p,q,r,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
 
-sprintf(filename,"%s/i_sq_f_r_%d.txt",dirname,N);
+
+sprintf(filename,"%s/p_tri_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -320,7 +57,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_f(N,&bitarray,&reflec,&total);
+flag = red_simple_bin_f(N,bin,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -331,16 +68,22 @@ if (flag!=0)
 bitarray's zero bits are unique configurations
 reflec's 1 bits are not reflection symmetric*/
 
+
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=1;p<N;p++) //p starts at 1 for free b.c.
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac2=lldiv(m,csize);
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
@@ -353,16 +96,27 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+uh)]++;
-						mm=bit_reflection(mm,N);
+						utest = nn ^ mm;
+						uinter=0ULL;
+						for (r=0;r<N;r++)
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						utest = nn ^ circ_bin_lshift(mm,N,bin);
+						for (r=1;r<N;r++) //r starts at 1 for free b.c.
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						melement[uh+uinter]++;
+						mm=bit_reflection_bin(mm,N,bin);
 					}
-					nn=bit_reflection(nn,N);
+					nn=bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu \n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,p,melement[p]/(1ULL+flip2)); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -380,13 +134,13 @@ free((void*)melement);
 return 0;
 }
 
-
 /*******************************/
-unsigned char i_sq_c_r_file(const unsigned char N, const char* dirname)
+unsigned char p2_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-unsigned char umax=2*N;
+unsigned char umax = 3*N;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -394,20 +148,26 @@ unsigned char* order;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
 
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
 if ((melement==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
 	return 2;
 }
 
-sprintf(filename,"%s/i_sq_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/p_tri_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -416,7 +176,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
+flag = red_simple_bin_c(N,bin,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -429,15 +189,20 @@ reflec is a bitfield of size total, indexed by unique configurations, 1 bits are
 order is an array of size total indexed by unique configuration and gives order of rotations. order=0 for no extra rotations, order=1 for one rotation, etc.*/
 
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		uh = bit_sum(n^circ_single_lshift(n,N));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=0;p<N;p++)
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
@@ -454,20 +219,31 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(bit_sum(nn^mm)+uh)]++;
-								mm = circ_single_lshift(mm,N);
+								utest = nn ^ mm;
+								uinter=0ULL;
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								utest = nn ^ circ_bin_lshift(mm,N,bin);
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								melement[uh+uinter]++;
+								mm = circ_bin_lshift(mm,N,bin);
 							}
-							nn = circ_single_lshift(nn,N);
+							nn = circ_bin_lshift(nn,N,bin);
 						}
-						mm = bit_reflection(mm,N);
+						mm = bit_reflection_bin(mm,N,bin);
 					}
-					nn = bit_reflection(nn,N);
+					nn = bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -486,27 +262,42 @@ free((void*)reflec);
 free((void*)order);
 free((void*)melement);
 return 0;
+
 }
 
-
 /*******************************/
-unsigned char if_sq_f_r_file(const unsigned char N, const char* dirname)
+unsigned char pf2_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-unsigned char umax=2*N-1;
-unsigned char xmax=N;
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
+unsigned char umax = 3*N-2;
+unsigned char xmax = N;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
+unsigned long long n,m,p,q,r,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -530,7 +321,7 @@ for(n = 0ULL; n < (umax+1); n++)
 }
 
 
-sprintf(filename,"%s/if_sq_f_r_%d.txt",dirname,N);
+sprintf(filename,"%s/pf_tri_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -539,7 +330,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_f(N,&bitarray,&reflec,&total);
+flag = red_simple_bin_f(N,bin,&bitarray,&reflec,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -550,17 +341,27 @@ if (flag!=0)
 bitarray's zero bits are unique configurations
 reflec's 1 bits are not reflection symmetric*/
 
+
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		xh = N-(bit_sum(n));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=1;p<N;p++) //p starts at 1 for free b.c.
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		xh = 0ULL;
+		for (p=0;p<N;p++)
+		{
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac2=lldiv(m,csize);
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
@@ -573,18 +374,29 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+uh)][(xh)]++;
-						mm=bit_reflection(mm,N);
+						utest = nn ^ mm;
+						uinter=0ULL;
+						for (r=0;r<N;r++)
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						utest = nn ^ circ_bin_lshift(mm,N,bin);
+						for (r=1;r<N;r++) //r starts at 1 for free b.c.
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						melement[uh+uinter][xh]++;
+						mm=bit_reflection_bin(mm,N,bin);
 					}
-					nn=bit_reflection(nn,N);
+					nn=bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<xmax+1;q++)
+					for (q=0;q<(xmax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/(1ULL+flip2)); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -609,12 +421,13 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c_r_file(const unsigned char N, const char* dirname)
+unsigned char pf2_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-unsigned char umax=2*N;
-unsigned char xmax=N;
+unsigned char umax = 3*N;
+unsigned char xmax = N;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -622,11 +435,17 @@ unsigned char* order;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned long long n,m,p,q,r,s,t,nn,mm;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -649,7 +468,7 @@ for(n = 0ULL; n < (umax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/if_sq_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/pf_tri_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -658,7 +477,7 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
+flag = red_simple_bin_c(N,bin,&bitarray,&reflec,&order,&total);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
 if (flag!=0)
 {
@@ -671,16 +490,25 @@ reflec is a bitfield of size total, indexed by unique configurations, 1 bits are
 order is an array of size total indexed by unique configuration and gives order of rotations. order=0 for no extra rotations, order=1 for one rotation, etc.*/
 
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		uh = bit_sum(n^circ_single_lshift(n,N));
-		xh = N-(bit_sum(n));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=0;p<N;p++)
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		xh = 0ULL;
+		for (p=0;p<N;p++)
+		{
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
@@ -697,22 +525,33 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[((bit_sum(nn^mm))+uh)][(xh)]++;
-								mm = circ_single_lshift(mm,N);
+								utest = nn ^ mm;
+								uinter=0ULL;
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								utest = nn ^ circ_bin_lshift(mm,N,bin);
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								melement[uh+uinter][xh]++;
+								mm = circ_bin_lshift(mm,N,bin);
 							}
-							nn = circ_single_lshift(nn,N);
+							nn = circ_bin_lshift(nn,N,bin);
 						}
-						mm = bit_reflection(mm,N);
+						mm = bit_reflection_bin(mm,N,bin);
 					}
-					nn = bit_reflection(nn,N);
+					nn = bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<xmax+1;q++)
+					for (q=0;q<(xmax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -739,13 +578,322 @@ return 0;
 }
 
 
+/*******************************/
+unsigned char p_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+{
+char option[256];
+printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
+scanf("%s",option);
+if (strcmp(option,"y")!=0)
+{
+	return 4;
+}
+unsigned char umax = 3*N-2;
 
-/*****************************************************/
-/******Reduced Ising triangular transfer matrices*****/
-/*****************************************************/
+unsigned char flag;
+unsigned char bin=0;
+unsigned long long total=0ULL;
+unsigned char* bitarray;
+unsigned char* reflec;
+FILE* fid;
+char filename[256];	
+const unsigned char csize=CHAR_BIT;
+unsigned long long n,m,p,q,r,nn,mm,sum;
+unsigned char* pnums;
+unsigned char* melement; 
+lldiv_t bitfrac, bitfrac2;
+unsigned char flip, flip2;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
+if ((pnums==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
+if ((melement==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+
+//Find valid Potts numbers
+for (p=0ULL;p<(1ULL<<bin)-Q;p++)
+{	
+	for (n=0ULL;n<(1ULL<<(bin*N));n++)
+	{
+		sum = 0ULL;
+		for (m=0ULL;m<N;m++)
+		{
+			sum = sum + (((n&(((1ULL<<bin)-p-1)<<bin*m))>>bin*m)==((1ULL<<bin)-p-1));
+		}
+		if (sum!=0)
+		{
+			bitfrac=lldiv(n,csize); 
+			pnums[bitfrac.quot]=pnums[bitfrac.quot] | (1<<bitfrac.rem);
+		}
+	}
+}	
+//Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
+
+
+sprintf(filename,"%s/p_tri_f_r_%llu_%d.txt",dirname,Q,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
+{
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
+}	
+
+//Compute unique configurations
+flag = red_gen_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
+//printf("\nN=%llu: unique=%llu\n",N,total); 
+free((void*)pnums);
+if (flag!=0)
+{
+	fclose(fid);
+	return flag;
+}
+/*Conventions: 
+bitarray's zero bits are unique configurations
+reflec's 1 bits are not reflection symmetric*/
+
+
+//Calculate transfer matrix
+for (n=0;n<(1ULL<<N*bin);n++)
+{
+	bitfrac=lldiv(n,csize);
+	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
+	{
+		rtotal++;
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=1;p<N;p++) //p starts at 1 for free b.c.
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
+		for (m=0;m<(1ULL<<N*bin);m++)
+		{
+			bitfrac2=lldiv(m,csize);
+			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
+			{
+				ctotal++;
+				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
+				nn=n;
+				for (p=0;p<flip+1;p++)
+				{
+					mm = m;
+					for (q=0;q<flip2+1;q++)
+					{
+						utest = nn ^ mm;
+						uinter=0ULL;
+						for (r=0;r<N;r++)
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						utest = nn ^ circ_bin_lshift(mm,N,bin);
+						for (r=1;r<N;r++) //r starts at 1 for free b.c.
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						melement[uh+uinter]++;
+						mm=bit_reflection_bin(mm,N,bin);
+					}
+					nn=bit_reflection_bin(nn,N,bin);
+				}
+				for (p=0;p<umax+1;p++)
+				{
+					if (melement[p]!=0)
+					{
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,p,melement[p]/(1ULL+flip2)); //add normalization constant only to row vector
+						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
+					}
+				}
+			}
+		}
+		ctotal=0ULL;
+	}
+}
+
+printf("\nFile %s created.",filename);
+fclose(fid);
+free((void*)bitarray);
+free((void*)reflec);
+free((void*)melement);
+return 0;
+}
+
 
 /*******************************/
-unsigned char i_tri_f_r_file(const unsigned char N, const char* dirname)
+unsigned char p_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+{
+unsigned char umax = 3*N;
+
+unsigned char flag;
+unsigned char bin=0;
+unsigned long long total=0ULL;
+unsigned char* bitarray;
+unsigned char* reflec;
+unsigned char* order;
+FILE* fid;
+char filename[256];	
+const unsigned char csize=CHAR_BIT;
+unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
+unsigned char* pnums;
+unsigned char* melement; 
+lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
+unsigned char flip, flip2;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
+if ((pnums==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+
+melement = (unsigned char*) calloc((umax+1),sizeof(unsigned char));
+if ((melement==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+
+//Find valid Potts numbers
+for (p=0ULL;p<(1ULL<<bin)-Q;p++)
+{	
+	for (n=0ULL;n<(1ULL<<(bin*N));n++)
+	{
+		sum = 0ULL;
+		for (m=0ULL;m<N;m++)
+		{
+			sum = sum + (((n&(((1ULL<<bin)-p-1)<<bin*m))>>bin*m)==((1ULL<<bin)-p-1));
+		}
+		if (sum!=0)
+		{
+			bitfrac=lldiv(n,csize); 
+			pnums[bitfrac.quot]=pnums[bitfrac.quot] | (1<<bitfrac.rem);
+		}
+	}
+}	
+//Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
+
+sprintf(filename,"%s/p_tri_c_r_%llu_%d.txt",dirname,Q,N);
+fid = fopen(filename,"w");
+if (fid == NULL)
+{
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
+}	
+
+//Compute unique configurations
+flag = red_gen_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
+//printf("\nN=%llu: unique=%llu\n",N,total); 
+free((void*)pnums);
+if (flag!=0)
+{
+	fclose(fid);
+	return flag;
+}
+/*Conventions: 
+bitarray is a bitfield of size 2^N, zero bits are unique configurations
+reflec is a bitfield of size total, indexed by unique configurations, 1 bits are not reflection symmetric
+order is an array of size total indexed by unique configuration and gives order of rotations. order=0 for no extra rotations, order=1 for one rotation, etc.*/
+
+//Calculate transfer matrix
+for (n=0;n<(1ULL<<N*bin);n++)
+{
+	bitfrac=lldiv(n,csize);
+	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
+	{
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=0;p<N;p++)
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		bitfrac2=lldiv(rtotal,csize);
+		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
+		for (m=0;m<(1ULL<<N*bin);m++)
+		{
+			bitfrac3=lldiv(m,csize);
+			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
+			{
+				bitfrac4=lldiv(ctotal,csize);
+				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
+				nn=n;
+				mm=m;
+				for (p=0;p<flip+1;p++)
+				{
+					for (q=0;q<flip2+1;q++)
+					{
+						for (r=0;r<order[rtotal]+1;r++)
+						{
+							for (s=0;s<order[ctotal]+1;s++)
+							{
+								utest = nn ^ mm;
+								uinter=0ULL;
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								utest = nn ^ circ_bin_lshift(mm,N,bin);
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								melement[uh+uinter]++;
+								mm = circ_bin_lshift(mm,N,bin);
+							}
+							nn = circ_bin_lshift(nn,N,bin);
+						}
+						mm = bit_reflection_bin(mm,N,bin);
+					}
+					nn = bit_reflection_bin(nn,N,bin);
+				}
+				for (p=0;p<umax+1;p++)
+				{
+					if (melement[p]!=0)
+					{
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
+						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
+					}
+				}
+				ctotal++;
+			}
+		}
+		ctotal=0ULL;
+		rtotal++;
+	}
+}
+
+printf("\nFile %s created.",filename);
+fclose(fid);
+free((void*)bitarray);
+free((void*)reflec);
+free((void*)order);
+free((void*)melement);
+return 0;
+}
+
+
+/*******************************/
+unsigned char pf_tri_f_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
@@ -755,232 +903,36 @@ if (strcmp(option,"y")!=0)
 	return 4;
 }
 
-unsigned char umax=3*N-2;
+unsigned char umax = 3*N-2;
+unsigned char xmax = N;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
-unsigned char* melement; 
-lldiv_t bitfrac, bitfrac2;
-unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
-
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
-if ((melement==NULL))
-{
-	printf("\nERROR: Could not allocate memory.");
-	return 2;
-}
-
-sprintf(filename,"%s/i_tri_f_r_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}	
-
-//Compute unique configurations
-flag = red_simple_f(N,&bitarray,&reflec,&total);
-//printf("\nN=%llu: unique=%llu\n",N,total); 
-if (flag!=0)
-{
-	fclose(fid);
-	return flag;
-}
-/*Conventions: 
-bitarray's zero bits are unique configurations
-reflec's 1 bits are not reflection symmetric*/
-
-//Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
-{
-	bitfrac=lldiv(n,csize);
-	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
-	{
-		rtotal++;
-		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
-		{
-			bitfrac2=lldiv(m,csize);
-			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
-			{
-				ctotal++;
-				flip2 = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
-				nn=n;
-				for (p=0;p<flip+1;p++)
-				{
-					mm = m;
-					for (q=0;q<flip2+1;q++)
-					{
-						melement[(bit_sum(nn^mm)+bit_sum((~1ULL&nn)^(~1ULL&circ_single_lshift(mm,N)))+uh)]++;
-						mm=bit_reflection(mm,N);
-					}
-					nn=bit_reflection(nn,N);
-				}
-				for (p=0;p<umax+1;p++)
-				{
-					if (melement[p]!=0)
-					{
-						fprintf(fid,"%llu %llu %llu %llu \n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
-						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
-					}
-				}
-			}
-		}
-		ctotal=0ULL;
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-free((void*)bitarray);
-free((void*)reflec);
-free((void*)melement);
-return 0;
-}
-
-
-/*******************************/
-unsigned char i_tri_c_r_file(const unsigned char N, const char* dirname)
-{
-unsigned char umax=3*N;
-
-unsigned char flag;
-unsigned long long total=0ULL;
-unsigned char* bitarray;
-unsigned char* reflec;
-unsigned char* order;
-FILE* fid;
-char filename[256];	
-const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
-unsigned char* melement; 
-lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
-
-melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
-if ((melement==NULL))
-{
-	printf("\nERROR: Could not allocate memory.");
-	return 2;
-}
-
-sprintf(filename,"%s/i_tri_c_r_%d.txt",dirname,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}	
-
-//Compute unique configurations
-flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
-//printf("\nN=%llu: unique=%llu\n",N,total); 
-if (flag!=0)
-{
-	fclose(fid);
-	return flag;
-}
-/*Conventions: 
-bitarray is a bitfield of size 2^N, zero bits are unique configurations
-reflec is a bitfield of size total, indexed by unique configurations, 1 bits are not reflection symmetric
-order is an array of size total indexed by unique configuration and gives order of rotations. order=0 for no extra rotations, order=1 for one rotation, etc.*/
-
-//Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
-{
-	bitfrac=lldiv(n,csize);
-	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
-	{
-		uh = bit_sum(n^circ_single_lshift(n,N));
-		bitfrac2=lldiv(rtotal,csize);
-		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
-		{
-			bitfrac3=lldiv(m,csize);
-			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
-			{
-				bitfrac4=lldiv(ctotal,csize);
-				flip2 = (reflec[bitfrac4.quot]&(1<<bitfrac4.rem))>>bitfrac4.rem; //whether to reflect configuration
-				nn=n;
-				mm=m;
-				for (p=0;p<flip+1;p++)
-				{
-					for (q=0;q<flip2+1;q++)
-					{
-						for (r=0;r<order[rtotal]+1;r++)
-						{
-							for (s=0;s<order[ctotal]+1;s++)
-							{
-								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)]++;
-								mm = circ_single_lshift(mm,N);
-							}
-							nn = circ_single_lshift(nn,N);
-						}
-						mm = bit_reflection(mm,N);
-					}
-					nn = bit_reflection(nn,N);
-				}
-				for (p=0;p<umax+1;p++)
-				{
-					if (melement[p]!=0)
-					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
-						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
-					}
-				}
-				ctotal++;
-			}
-		}
-		ctotal=0ULL;
-		rtotal++;
-	}
-}
-
-printf("\nFile %s created.",filename);
-fclose(fid);
-free((void*)bitarray);
-free((void*)reflec);
-free((void*)order);
-free((void*)melement);
-return 0;
-}
-
-
-/*******************************/
-unsigned char if_tri_f_r_file(const unsigned char N, const char* dirname)
-{
-char option[256];
-printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
-scanf("%s",option);
-if (strcmp(option,"y")!=0)
-{
-	return 4;
-}
-
-unsigned char umax=3*N-2;
-unsigned char xmax=N;
-
-unsigned char flag;
-unsigned long long total=0ULL;
-unsigned char* bitarray;
-unsigned char* reflec;
-FILE* fid;
-char filename[256];	
-const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
+unsigned long long n,m,p,q,r,nn,mm,sum;
+unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
 unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
+if ((pnums==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -1003,8 +955,27 @@ for(n = 0ULL; n < (umax+1); n++)
 	}
 }
 
+//Find valid Potts numbers
+for (p=0ULL;p<(1ULL<<bin)-Q;p++)
+{	
+	for (n=0ULL;n<(1ULL<<(bin*N));n++)
+	{
+		sum = 0ULL;
+		for (m=0ULL;m<N;m++)
+		{
+			sum = sum + (((n&(((1ULL<<bin)-p-1)<<bin*m))>>bin*m)==((1ULL<<bin)-p-1));
+		}
+		if (sum!=0)
+		{
+			bitfrac=lldiv(n,csize); 
+			pnums[bitfrac.quot]=pnums[bitfrac.quot] | (1<<bitfrac.rem);
+		}
+	}
+}	
+//Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
 
-sprintf(filename,"%s/if_tri_f_r_%d.txt",dirname,N);
+
+sprintf(filename,"%s/pf_tri_f_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1013,8 +984,9 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_f(N,&bitarray,&reflec,&total);
+flag = red_gen_bin_f(N,bin,&bitarray,&reflec,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
+free((void*)pnums);
 if (flag!=0)
 {
 	fclose(fid);
@@ -1024,17 +996,27 @@ if (flag!=0)
 bitarray's zero bits are unique configurations
 reflec's 1 bits are not reflection symmetric*/
 
+
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
 		rtotal++;
-		uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-		xh = N-(bit_sum(n));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=1;p<N;p++) //p starts at 1 for free b.c.
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		xh = 0ULL;
+		for (p=0;p<N;p++)
+		{
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		flip = (reflec[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac2=lldiv(m,csize);
 			if (((bitarray[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem)==0) //bitarray unique configuration
@@ -1047,18 +1029,29 @@ for (n=0;n<(1ULL<<N);n++)
 					mm = m;
 					for (q=0;q<flip2+1;q++)
 					{
-						melement[(bit_sum(nn^mm)+bit_sum((~1ULL&nn)^(~1ULL&circ_single_lshift(mm,N)))+uh)][(xh)]++;
-						mm=bit_reflection(mm,N);
+						utest = nn ^ mm;
+						uinter=0ULL;
+						for (r=0;r<N;r++)
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						utest = nn ^ circ_bin_lshift(mm,N,bin);
+						for (r=1;r<N;r++) //r starts at 1 for free b.c.
+						{
+							uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*r))>>bin*r)==0ULL);
+						}
+						melement[uh+uinter][xh]++;
+						mm=bit_reflection_bin(mm,N,bin);
 					}
-					nn=bit_reflection(nn,N);
+					nn=bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<xmax+1;q++)
+					for (q=0;q<(xmax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/(1ULL+flip2)); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -1083,12 +1076,13 @@ return 0;
 
 
 /*******************************/
-unsigned char if_tri_c_r_file(const unsigned char N, const char* dirname)
+unsigned char pf_tri_c_r_file(const unsigned char N, const unsigned long long Q, const char* dirname)
 {
-unsigned char umax=3*N;
-unsigned char xmax=N;
+unsigned char umax = 3*N;
+unsigned char xmax = N;
 
 unsigned char flag;
+unsigned char bin=0;
 unsigned long long total=0ULL;
 unsigned char* bitarray;
 unsigned char* reflec;
@@ -1096,11 +1090,25 @@ unsigned char* order;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned long long n,m,p,q,r,s,t,nn,mm,sum;
+unsigned char* pnums;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
 unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned long long utest,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,uinter,xh;
+
+while((1ULL<<bin)<Q)
+{
+	bin++;
+}
+
+pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
+if ((pnums==NULL))
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -1123,7 +1131,26 @@ for(n = 0ULL; n < (umax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/if_tri_c_r_%d.txt",dirname,N);
+//Find valid Potts numbers
+for (p=0ULL;p<(1ULL<<bin)-Q;p++)
+{	
+	for (n=0ULL;n<(1ULL<<(bin*N));n++)
+	{
+		sum = 0ULL;
+		for (m=0ULL;m<N;m++)
+		{
+			sum = sum + (((n&(((1ULL<<bin)-p-1)<<bin*m))>>bin*m)==((1ULL<<bin)-p-1));
+		}
+		if (sum!=0)
+		{
+			bitfrac=lldiv(n,csize); 
+			pnums[bitfrac.quot]=pnums[bitfrac.quot] | (1<<bitfrac.rem);
+		}
+	}
+}	
+//Convention: pnums is a bitarray whose 0 bits correspond to the valid Potts numbers
+
+sprintf(filename,"%s/pf_tri_c_r_%llu_%d.txt",dirname,Q,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -1132,8 +1159,9 @@ if (fid == NULL)
 }	
 
 //Compute unique configurations
-flag = red_simple_c(N,&bitarray,&reflec,&order,&total);
+flag = red_gen_bin_c(N,bin,&bitarray,&reflec,&order,&total,pnums);
 //printf("\nN=%llu: unique=%llu\n",N,total); 
+free((void*)pnums);
 if (flag!=0)
 {
 	fclose(fid);
@@ -1145,16 +1173,25 @@ reflec is a bitfield of size total, indexed by unique configurations, 1 bits are
 order is an array of size total indexed by unique configuration and gives order of rotations. order=0 for no extra rotations, order=1 for one rotation, etc.*/
 
 //Calculate transfer matrix
-for (n=0;n<(1ULL<<N);n++)
+for (n=0;n<(1ULL<<N*bin);n++)
 {
 	bitfrac=lldiv(n,csize);
 	if (((bitarray[bitfrac.quot]&(1<<bitfrac.rem))>>bitfrac.rem)==0) //bitarray unique configuration
 	{
-		uh = bit_sum(n^circ_single_lshift(n,N));
-		xh = N-(bit_sum(n));
+		utest = n ^ circ_bin_lshift(n,N,bin);
+		uh=0ULL;
+		for (p=0;p<N;p++)
+		{
+			uh = uh + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
+		xh = 0ULL;
+		for (p=0;p<N;p++)
+		{
+			xh = xh + (((n & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
+		}
 		bitfrac2=lldiv(rtotal,csize);
 		flip = (reflec[bitfrac2.quot]&(1<<bitfrac2.rem))>>bitfrac2.rem; //whether to reflect configuration
-		for (m=0;m<(1ULL<<N);m++)
+		for (m=0;m<(1ULL<<N*bin);m++)
 		{
 			bitfrac3=lldiv(m,csize);
 			if (((bitarray[bitfrac3.quot]&(1<<bitfrac3.rem))>>bitfrac3.rem)==0) //bitarray unique configuration
@@ -1171,22 +1208,33 @@ for (n=0;n<(1ULL<<N);n++)
 						{
 							for (s=0;s<order[ctotal]+1;s++)
 							{
-								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)][(xh)]++;
-								mm = circ_single_lshift(mm,N);
+								utest = nn ^ mm;
+								uinter=0ULL;
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								utest = nn ^ circ_bin_lshift(mm,N,bin);
+								for (t=0;t<N;t++)
+								{
+									uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*t))>>bin*t)==0ULL);
+								}
+								melement[uh+uinter][xh]++;
+								mm = circ_bin_lshift(mm,N,bin);
 							}
-							nn = circ_single_lshift(nn,N);
+							nn = circ_bin_lshift(nn,N,bin);
 						}
-						mm = bit_reflection(mm,N);
+						mm = bit_reflection_bin(mm,N,bin);
 					}
-					nn = bit_reflection(nn,N);
+					nn = bit_reflection_bin(nn,N,bin);
 				}
 				for (p=0;p<umax+1;p++)
 				{
-					for (q=0;q<xmax+1;q++)
+					for (q=0;q<(xmax+1);q++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -1211,46 +1259,3 @@ for (n=0ULL;n<(umax+1);n++)
 free((void*)melement);
 return 0;
 }
-
-
-/*****************************************************/
-/*********************API Functions*******************/
-/*****************************************************/
-
-/*****************************************************/
-/**********Full Ising square transfer matrices********/
-/*****************************************************/
-
-/*******************************/
-unsigned char i_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
-{
-msize[1]=2ULL;
-sprintf(filename,"i_sq_f_%d.txt",N);
-
-unsigned long long n;
-unsigned long long m;
-unsigned char uh;
-unsigned char flag;
-
-msize[0] = 1ULL<<N;
-flag = matrix_alloc(matrix,msize,1);
-if (flag!=0)
-{
-	return 2;
-}
-
-/*Free row boundary conditions*/
-for(n=0; n<(1ULL<<N); n++)
-{
-	uh = bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(n,N)));
-	for(m=0; m<(1ULL<<N); m++)
-	{
-		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
-		(*matrix)[n][m][1][1]=1;
-	}
-}
-
-return 0;
-}
-

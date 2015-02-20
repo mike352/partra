@@ -303,6 +303,10 @@ if (argc==2)
 			totaltime = difftime(toc,tic);
 			printf("\n   The total time in seconds was %gs.",totaltime);
 		}
+		else
+		{
+			return 0;
+		}
 	}
 }
 else if (argc==1) //Command line options

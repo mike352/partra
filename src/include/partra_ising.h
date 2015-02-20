@@ -43,23 +43,24 @@ unsigned char if_tri_f_r_file(const unsigned char, const char*); //Ising in a fi
 unsigned char if_tri_c_r_file(const unsigned char, const char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 
 unsigned char i_sq_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, free row b.c.
+unsigned char i_sq_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, cylindrical row b.c.
+unsigned char if_sq_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, free row b.c.
+unsigned char if_sq_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, cylindrical row b.c.
 /*
-unsigned char i_sq_c_f(const unsigned char, const char*); //Ising full transfer matrix, cylindrical row b.c.
-unsigned char if_sq_f_f(const unsigned char, const char*); //Ising in a field full transfer matrix, free row b.c.
-unsigned char if_sq_c_f(const unsigned char, const char*); //Ising in a field full transfer matrix, cylindrical row b.c.
-unsigned char i_sq_f_r(const unsigned char, const char*); //Ising reduced transfer matrix, free row b.c.
-unsigned char i_sq_c_r(const unsigned char, const char*); //Ising reduced transfer matrix, cylindrical row b.c.
-unsigned char if_sq_f_r(const unsigned char, const char*); //Ising in a field reduced transfer matrix, free row b.c.
-unsigned char if_sq_c_r(const unsigned char, const char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
-
-unsigned char i_tri_f_f(const unsigned char, const char*); //Ising full transfer matrix, free row b.c.
-unsigned char i_tri_c_f(const unsigned char, const char*); //Ising full transfer matrix, cylindrical row b.c.
-unsigned char if_tri_f_f(const unsigned char, const char*); //Ising in a field full transfer matrix, free row b.c.
-unsigned char if_tri_c_f(const unsigned char, const char*); //Ising in a field full transfer matrix, cylindrical row b.c.
-unsigned char i_tri_f_r(const unsigned char, const char*); //Ising reduced transfer matrix, free row b.c.
-unsigned char i_tri_c_r(const unsigned char, const char*); //Ising reduced transfer matrix, cylindrical row b.c.
-unsigned char if_tri_f_r(const unsigned char, const char*); //Ising in a field reduced transfer matrix, free row b.c.
-unsigned char if_tri_c_r(const unsigned char, const char*); //Ising in a field reduced transfer matrix, cylindrical row b.c.
+unsigned char i_sq_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, free row b.c.
+unsigned char i_sq_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, cylindrical row b.c.
+unsigned char if_sq_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, free row b.c.
+unsigned char if_sq_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, cylindrical row b.c.
+*/
+unsigned char i_tri_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, free row b.c.
+unsigned char i_tri_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, cylindrical row b.c.
+unsigned char if_tri_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, free row b.c.
+unsigned char if_tri_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, cylindrical row b.c.
+/*
+unsigned char i_tri_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, free row b.c.
+unsigned char i_tri_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, cylindrical row b.c.
+unsigned char if_tri_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, free row b.c.
+unsigned char if_tri_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, cylindrical row b.c.
 */
 #ifdef __cplusplus
 }
