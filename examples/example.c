@@ -22,7 +22,7 @@ if (flag!=0)
 //Second file - outputs should be equal
 flag = i_sq_f_f(&M,msize,filename1,N);
 sprintf(filename2,"%s/_%s",dirname,filename1);
-printf("\nfilename2 = %s",filename2);
+//printf("\nfilename2 = %s",filename2);
 fid = fopen(filename2,"w");
 for (n=0ULL;n<msize[0];n++)
 {

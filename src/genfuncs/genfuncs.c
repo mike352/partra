@@ -745,3 +745,39 @@ else //Not enough room - re-allocate
 return 0;
 }
 
+
+unsigned char matrix_fprintf(const unsigned char***** matrix, const unsigned long long* msize, const char* filename, const char* dirname)
+{
+unsigned long long n,m,p,q;
+int fcheck=0;
+char outfile[256];
+FILE* fid;
+
+sprintf(outfile,"%s/%s",dirname,filename);
+fid = fopen(outfile,"w");
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		for (p=0;p<(*matrix)[n][m][0][0];p++)
+		{
+			fprintf(fid,"%llu %llu",n,m);
+			for (q=0;q<msize[1];q++)
+			{
+				fcheck = fprintf(fid," %hhu",(*matrix)[n][m][1][p*msize[1]+q]);
+				if (fcheck<0)
+				{
+					printf("ERROR: Problem writing to output file. %s\n",strerror(errno));
+					return 1;
+				}
+			}
+			fprintf(fid,"\n");
+		}
+	}
+}
+fclose(fid);
+
+
+
+return 0;
+}

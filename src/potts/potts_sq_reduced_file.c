@@ -104,7 +104,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,p,melement[p]/(1ULL+flip2)); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -226,7 +226,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -367,7 +367,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/(1ULL+flip2)); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -517,7 +517,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -668,7 +668,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,melement[p]/(1ULL+flip2),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal,ctotal,p,melement[p]/(1ULL+flip2)); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -819,7 +819,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL)),p); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -987,7 +987,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,melement[p][q]/(1ULL+flip2),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/(1ULL+flip2)); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -1165,7 +1165,7 @@ for (n=0;n<(1ULL<<N*bin);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL)),p,q); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
