@@ -26,11 +26,12 @@ unsigned char* reflec;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
+unsigned long long n,m,nn,mm;
+unsigned char p,q;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2;
-unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,flip, flip2;
+unsigned long long rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
@@ -90,7 +91,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu \n",rtotal,ctotal,p,melement[p]/(1ULL+flip2)); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %hhu %hhu \n",rtotal,ctotal,p,melement[p]/(1+flip2)); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -122,11 +123,12 @@ unsigned char* order;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned long long n,m,r,s,nn,mm;
+unsigned char p,q;
 unsigned char* melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-unsigned char flip, flip2;
-unsigned long long uh,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,flip, flip2;
+unsigned long long rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char*) malloc((umax+1)*sizeof(unsigned char));
 if ((melement==NULL))
@@ -178,9 +180,9 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					for (q=0;q<flip2+1;q++)
 					{
-						for (r=0;r<order[rtotal]+1;r++)
+						for (r=0ULL;r<order[rtotal]+1;r++)
 						{
-							for (s=0;s<order[ctotal]+1;s++)
+							for (s=0ULL;s<order[ctotal]+1;s++)
 							{
 								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)]++;
 								mm = circ_single_lshift(mm,N);
@@ -195,7 +197,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
+						fprintf(fid,"%llu %llu %hhu %hhu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1+flip2)*(order[ctotal]+1))); //add normalization constant only to row vector
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -238,11 +240,12 @@ unsigned char* reflec;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,nn,mm;
+unsigned long long n,m,nn,mm;
+unsigned char p,q;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2;
-unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,xh,flip, flip2;
+unsigned long long rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -320,7 +323,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/(1ULL+flip2)); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %hhu %hhu %hhu\n",rtotal,ctotal,p,q,melement[p][q]/(1+flip2)); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -358,11 +361,12 @@ unsigned char* order;
 FILE* fid;
 char filename[256];	
 const unsigned char csize=CHAR_BIT;
-unsigned long long n,m,p,q,r,s,nn,mm;
+unsigned long long n,m,r,s,nn,mm;
+unsigned char p,q;
 unsigned char** melement; 
 lldiv_t bitfrac, bitfrac2, bitfrac3, bitfrac4;
-unsigned char flip, flip2;
-unsigned long long uh,xh,rtotal=0ULL,ctotal=0ULL;
+unsigned char uh,xh,flip,flip2;
+unsigned long long rtotal=0ULL,ctotal=0ULL;
 
 melement = (unsigned char**) malloc((umax+1)*sizeof(unsigned char*));
 if ((melement==NULL))
@@ -429,9 +433,9 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					for (q=0;q<flip2+1;q++)
 					{
-						for (r=0;r<order[rtotal]+1;r++)
+						for (r=0ULL;r<order[rtotal]+1;r++)
 						{
-							for (s=0;s<order[ctotal]+1;s++)
+							for (s=0ULL;s<order[ctotal]+1;s++)
 							{
 								melement[(bit_sum(nn^mm)+bit_sum(nn^circ_single_lshift(mm,N))+uh)][(xh)]++;
 								mm = circ_single_lshift(mm,N);
@@ -448,7 +452,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip2)*(order[ctotal]+1ULL))); //add normalization constant only to row vector
+							fprintf(fid,"%llu %llu %hhu %hhu %hhu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1+flip2)*(order[ctotal]+1))); //add normalization constant only to row vector
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
