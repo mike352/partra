@@ -12,8 +12,6 @@ OBJFILES= $(addsuffix .o,$(basename $(wildcard src/ising/*.c))) \
 		  $(addsuffix .o,$(basename $(wildcard src/reductions/*.c))) \
 		  $(addsuffix .o,$(basename $(wildcard src/genfuncs/*.c)))
 
-EXPFILES= $(wildcard examples/*.c)
-
 EXPOUT= $(addprefix partra_, $(notdir $(basename $(wildcard examples/*.c))))
 		  
 #Header files
@@ -33,17 +31,17 @@ compile: staticlib standalone
 
 standalone: staticlib partra examples
 
-partra: src/partra.c
+partra: src/partra.c libpartra.a
 	$(CC) $(CFLAGS1) $(COFLAG) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra
 
-examples: $(EXPFILES)
+examples: $(EXPOUT)
 
-examples/%.c: 
-	$(CC) $(CFLAGS1) $(COFLAG) $@ -lpartra  -I$(HEADDIR) -L. -o $(addprefix partra_, $(notdir $(basename $@)))
+partra_%: examples/%.c
+	$(CC) $(CFLAGS1) $(COFLAG) $< -lpartra  -I$(HEADDIR) -L. $(addprefix -o , $@)
 	
-staticlib: objects
+staticlib: libpartra.a
 
-objects: $(OBJFILES)
+libpartra.a: $(OBJFILES)
 	ar rcs libpartra.a $^
 
 src/ising/%.o: src/ising/%.c
