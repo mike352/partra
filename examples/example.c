@@ -16,6 +16,11 @@ if (flag!=0)
 {
 	return 0;
 }
+flag = i_sq_f_f_file_ldc(N,dirname,.324+I*.546); 
+if (flag!=0)
+{
+	return 0;
+}
 
 //Second file - outputs should be equal
 flag = i_sq_f_f(&M,msize,filename1,N);
@@ -33,6 +38,7 @@ for (n=0ULL;n<msize[0];n++)
 }
 fclose(fid);
 */
+
 
 matrix_free(M,msize);
 return 0;

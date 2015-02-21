@@ -14,6 +14,7 @@
 #include "partra_genfuncs.h"
 #include "partra_reductions.h"
 #include "partra_ising.h"
+#include "partra_ising_ldc.h"
 #include "partra_potts.h"
 
 #ifndef PARTRA_TYPEDEF
