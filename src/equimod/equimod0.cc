@@ -24,7 +24,7 @@ int compare (const void *a, const void *b)
 	if ( abs(*(arcomplex<double>*)a) < abs(*(arcomplex<double>*)b)) return 1;
 }
 
-double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, unsigned char**** M, const double x, const double y, arcomplex<double> *valA, arcomplex<double> *eigenarray, const unsigned long long numeigs)
+double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, unsigned char**** M, arcomplex<double>  z, const double x, const double y, arcomplex<double> *valA, arcomplex<double> *eigenarray, const unsigned long long numeigs)
 {
 	unsigned long long n,m,p,q;
 	
@@ -40,7 +40,7 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 		{
 			for (p=0ULL;p<M[n][m][0][0];p++)
 			{
-				valA[n*msize[0]+m] = arcomplex<double>(M[n][m][1][msize[1]*p+1],0.0)*pow(t,M[n][m][1][msize[1]*p]);
+				valA[n*msize[0]+m] = arcomplex<double>(M[n][m][1][msize[1]*p+2],0.0)*pow(t,M[n][m][1][msize[1]*p])*pow(z,M[n][m][1][msize[1]*p+1]);
 			}
 		}
 	}
@@ -158,7 +158,7 @@ struct Brent : Bracketmethod {
 	Doub xmin,fmin;
 	const Doub tol;
 	Brent(const Doub toll=3.0e-8) : tol(toll) {}
-	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, unsigned char****, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, unsigned char**** M, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
+	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, unsigned char**** M, arcomplex<double> z, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
 	{
 		const Int ITMAX=100;
 		const Doub CGOLD=0.3819660;
@@ -171,7 +171,7 @@ struct Brent : Bracketmethod {
 		a=(ax < cx ? ax : cx);
 		b=(ax > cx ? ax : cx);
 		x=w=v=bx;
-		fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,angle,x,valA,eigenarray,numeigs);
+		fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,x,valA,eigenarray,numeigs);
 		if (*flagp==0)
 		{
 			fw=fv=fx=fval;
@@ -210,7 +210,7 @@ struct Brent : Bracketmethod {
 				d=CGOLD*(e=(x >= xm ? a-x : b-x));
 			}
 			u=(abs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
-			fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,angle,u,valA,eigenarray,numeigs);
+			fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,u,valA,eigenarray,numeigs);
 			if (*flagp==0)
 			{
 				fu=fval;
@@ -268,7 +268,7 @@ int main()
 
 	unsigned long long msize[2];      	// TM size
 	partra_matrix M;
-	long double z = 0.99;
+	arcomplex<double> z(0.99,0.0);
 	double x,y1,y2,y3;
 	double r;
 	arcomplex<double>* valA;   	// pointer to an array that stores values of A
@@ -286,8 +286,8 @@ int main()
 	time_t tic;
 	time_t toc;
 	double totaltime;
-7
-	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, unsigned char****, const double, const double, arcomplex<double>*,arcomplex<double>*,const unsigned long long) = &EigenRatio;
+
+	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*,arcomplex<double>*,const unsigned long long) = &EigenRatio;
 
 	std::cout << "Choose an output file number: " ;
 	std::cin >> n;
@@ -301,11 +301,13 @@ int main()
 	{
 		return 0;
 	}
-	flag = matrix_sub_mpf(M,msize,z);
-	if (flag!=0)
+	
+	//Create array for eigenvalues
+	if(msize[0]<11)
 	{
-		return 0;
+		numeigs = msize[0]-1;
 	}
+	arcomplex<double> *eigenarray = new arcomplex<double>[numeigs];
 
 	//Open the output file
 	sprintf(filename2,"equimod_%s_%.4f_%llu.txt",filename1,abs(z),n);
@@ -318,12 +320,6 @@ int main()
 	}
 	setvbuf(fid,NULL,_IOLBF,32); 
 
-	//Create array for eigenvalues
-	if(msize[0]<11)
-	{
-		numeigs = msize[0]-1;
-	}
-	arcomplex<double> *eigenarray = new arcomplex<double>[numeigs];
 
 	// Defining Matrix valA
 	valA  = new arcomplex<double>[msize[0]*msize[0]];
@@ -349,7 +345,7 @@ int main()
 			brent.cx = y3;
 
 			// Finding eigenvalues
-			r = brent.minimize(objtfnpt,maxit,&ratio,&flag,&phase,msize,M,x,valA,eigenarray,numeigs);
+			r = brent.minimize(objtfnpt,maxit,&ratio,&flag,&phase,msize,M,z,x,valA,eigenarray,numeigs);
 
 			// Printing solution.
 
