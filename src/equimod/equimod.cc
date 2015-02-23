@@ -24,16 +24,9 @@ int compare (const void *a, const void *b)
 	if ( abs(*(arcomplex<double>*)a) < abs(*(arcomplex<double>*)b)) return 1;
 }
 
-double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, unsigned char**** M, arcomplex<double>  z, const double x, const double y, arcomplex<double> *valA)
+double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, unsigned char**** M, arcomplex<double>  z, const double x, const double y, arcomplex<double> *valA, arcomplex<double> *eigenarray, const unsigned long long numeigs)
 {
 	unsigned long long n,m,p;
-	unsigned char numeigs=11;
-	if(msize[0]<11)
-	{
-		numeigs = msize[0]-1;
-	}
-
-	arcomplex<double> *eigenarray = new arcomplex<double>[numeigs];
 	
 	//Defining t
 	arcomplex<double> t(x,y);
@@ -84,7 +77,6 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 		*flag = 1;
 	}
 
-	delete[] eigenarray;
 	return *ratio;
 }
 
@@ -166,7 +158,7 @@ struct Brent : Bracketmethod {
 	Doub xmin,fmin;
 	const Doub tol;
 	Brent(const Doub toll=3.0e-8) : tol(toll) {}
-	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, unsigned char**** M, arcomplex<double> z, const double angle, arcomplex<double> *valA)
+	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, unsigned char**** M, arcomplex<double> z, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
 	{
 		const Int ITMAX=100;
 		const Doub CGOLD=0.3819660;
@@ -179,7 +171,7 @@ struct Brent : Bracketmethod {
 		a=(ax < cx ? ax : cx);
 		b=(ax > cx ? ax : cx);
 		x=w=v=bx;
-		fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,x,valA);
+		fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,x,valA,eigenarray,numeigs);
 		if (*flagp==0)
 		{
 			fw=fv=fx=fval;
@@ -218,7 +210,7 @@ struct Brent : Bracketmethod {
 				d=CGOLD*(e=(x >= xm ? a-x : b-x));
 			}
 			u=(abs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
-			fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,u,valA);
+			fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,z,angle,u,valA,eigenarray,numeigs);
 			if (*flagp==0)
 			{
 				fu=fval;
@@ -256,14 +248,15 @@ struct Brent : Bracketmethod {
 
 int main()
 {
-	unsigned char N=8;
-	unsigned long long int Rtotal = 10000; 	//Total number of points
+	unsigned char N=4;
+	unsigned long long int Rtotal = 100000; 	//Total number of points
 	double ratiotol=1e-8;	//Tolerance for Convergence in Brent
 	int maxit=50000;	//Maximum number of ARPACK iterations (was 50000)
 	double xmin = 0;
-	double xmax = 2;
+	double xmax = 6;
 	double ymin = 0;
-	double ymax = 2;
+	double ymax = 12;
+	unsigned long long numeigs=11;
 	
 	//power law transformation of uniform distribution of random numbers. 
 	//flatness of 1 is flat. flatness of n is rand^n.
@@ -294,7 +287,7 @@ int main()
 	time_t toc;
 	double totaltime;
 
-	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*) = &EigenRatio;
+	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, unsigned char****, arcomplex<double>, const double, const double, arcomplex<double>*,arcomplex<double>*,const unsigned long long) = &EigenRatio;
 
 	std::cout << "Choose an output file number: " ;
 	std::cin >> n;
@@ -308,6 +301,13 @@ int main()
 	{
 		return 0;
 	}
+	
+	//Create array for eigenvalues
+	if(msize[0]<11)
+	{
+		numeigs = msize[0]-1;
+	}
+	arcomplex<double> *eigenarray = new arcomplex<double>[numeigs];
 
 	//Open the output file
 	sprintf(filename2,"equimod_%s_%.4f_%llu.txt",filename1,abs(z),n);
@@ -345,7 +345,7 @@ int main()
 			brent.cx = y3;
 
 			// Finding eigenvalues
-			r = brent.minimize(objtfnpt,maxit,&ratio,&flag,&phase,msize,M,z,x,valA);
+			r = brent.minimize(objtfnpt,maxit,&ratio,&flag,&phase,msize,M,z,x,valA,eigenarray,numeigs);
 
 			// Printing solution.
 
@@ -384,6 +384,7 @@ int main()
 	fclose(fid);
 	delete[] valA;
 	matrix_free(M,msize);
+	delete[] eigenarray;
 	return 0;
 }
 
