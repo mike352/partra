@@ -29,7 +29,7 @@ Design principle:
 Only unsigned char or unsigned long long data types are used for integers for consistency. The sole exception currently is the dcheck variable which checks whether a directory was successfully created, which is of type int because output from mkdir commands can be -1. For strings, only char arrays of size 256 are used for consistency.
 */
 
-#include "partra_ansi.h"
+#include "partra.h"
 
 //Only used to create a data directory or check that one already exists
  #if (defined(__unix__) || defined(__APPLE__))
@@ -61,7 +61,7 @@ char Qs[256];
 unsigned long long Q=0ULL;
 unsigned char bin=0;
 char dirname[256];
-int dcheck; //Needs to be of type int for use with mkdir
+int dcheck,scheck; //Needs to be of type int for use with mkdir and for checking scanf
 time_t tic;
 time_t toc;
 double totaltime;
@@ -107,7 +107,12 @@ else if (OS==0) //Windows
 else if (OS==-1) //Ask instead
 {
 	printf("\nDirectory to place output files: ");
-	scanf("%s",dirname);
+	scheck=scanf("%s",dirname);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
 }
 
 
@@ -313,7 +318,12 @@ else if (argc==1) //Command line options
 {
 	//Model choice
 	printf("Ising or Ising in a field or Potts or Potts in a field  (i,if,p,pf): ");
-	scanf("%s",option1);
+	scheck=scanf("%s",option1);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
 	if ((strcmp(option1,"i")!=0)&(strcmp(option1,"if")!=0)&(strcmp(option1,"p")!=0)&(strcmp(option1,"pf")!=0))
 	{
 		printf("\nERROR: Wrong input.");
@@ -324,7 +334,12 @@ else if (argc==1) //Command line options
 	if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 	{
 		printf("Potts q value  (3 to 2^%d-1): ",row_max_size);
-		scanf("%255s",Qs);
+		scheck=scanf("%255s",Qs);
+		if (scheck<=0)
+		{
+			printf("ERROR: %s",strerror(errno));
+			return 0;
+		}
 		if (strspn(Qs,"1234567890")<strlen(Qs))
 		{
 			printf("\nERROR: Invalid q value.\n"); //prevents negative values which would get reinterpreted, floats, and others
@@ -357,7 +372,12 @@ else if (argc==1) //Command line options
 
 	//Ask for row boundary condition
 	printf("Row boundary condition (f,c): ");
-	scanf("%s",option2);
+	scheck=scanf("%s",option2);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
 	if ((strcmp(option2,"f")!=0)&(strcmp(option2,"c")!=0))
 	{
 		printf("\nERROR: Wrong input.");
@@ -366,7 +386,12 @@ else if (argc==1) //Command line options
 
 	//Ask for transfer matrix reduction
 	printf("Full or reduced transfer matrix (f,r): ");
-	scanf("%s",option3);
+	scheck=scanf("%s",option3);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
 	if ((strcmp(option3,"f")!=0)&(strcmp(option3,"r")!=0))
 	{
 		printf("\nERROR: Wrong input.");
@@ -377,7 +402,12 @@ else if (argc==1) //Command line options
 	if ((strcmp(option1,"i")==0)|(strcmp(option1,"if")==0))
 	{
 		printf("Row size (1 to %hhu): ",row_max_size); 
-		scanf("%hhu",&N);
+		scheck=scanf("%hhu",&N);
+		if (scheck<=0)
+		{
+			printf("ERROR: %s",strerror(errno));
+			return 0;
+		}
 		if (N<1)
 		{
 			printf("\nERROR: Row size should be greater than 0.\n");
@@ -392,7 +422,12 @@ else if (argc==1) //Command line options
 	else if ((strcmp(option1,"p")==0)|(strcmp(option1,"pf")==0))
 	{
 		printf("Row size (1 to %hhu): ",row_max_size/bin); 
-		scanf("%hhu",&N);
+		scheck=scanf("%hhu",&N);
+		if (scheck<=0)
+		{
+			printf("ERROR: %s",strerror(errno));
+			return 0;
+		}
 		if (N<1)
 		{
 			printf("\nERROR: Row size should be greater than 0.\n");
@@ -407,7 +442,12 @@ else if (argc==1) //Command line options
 
 	//Lattice
 	printf("Square or triangular lattice (s,t): ");
-	scanf("%s",option4);
+	scheck=scanf("%s",option4);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
 	if ((strcmp(option4,"s")!=0)&(strcmp(option4,"t")!=0))
 	{
 		printf("\nERROR: Wrong input.");

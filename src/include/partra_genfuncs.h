@@ -49,7 +49,7 @@ unsigned char matrix_setadd_ll(unsigned long long*****, const unsigned long long
 unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, const unsigned long long, const unsigned long long*);
 
 /*Matrix functions*/
-unsigned char matrix_fprintf(const unsigned char*****, const unsigned long long*, const char*, const char*);
+unsigned char matrix_fprintf(unsigned char*****, unsigned long long*, char*, char*);
 
 #ifdef __cplusplus
 }

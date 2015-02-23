@@ -746,7 +746,7 @@ return 0;
 }
 
 
-unsigned char matrix_fprintf(const unsigned char***** matrix, const unsigned long long* msize, const char* filename, const char* dirname)
+unsigned char matrix_fprintf(unsigned char***** matrix, unsigned long long* msize, char* filename, char* dirname)
 {
 unsigned long long n,m,p,q;
 int fcheck=0;

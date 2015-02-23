@@ -1,4 +1,5 @@
 #include "partra.h"
+#include <complex.h>
 
 int main(void)
 {
@@ -6,17 +7,12 @@ unsigned char N=2;
 char dirname[256] = "data";
 unsigned char flag;
 
-Matrix M;
+partra_matrix M;
 unsigned long long msize[2];
 char filename1[256],filename2[256];
 
 //Create and output first file
 flag = i_sq_f_f_file(N,dirname); 
-if (flag!=0)
-{
-	return 0;
-}
-flag = i_sq_f_f_file_ldc(N,dirname,.324+I*.546); 
 if (flag!=0)
 {
 	return 0;

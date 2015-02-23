@@ -57,9 +57,9 @@ src/genfuncs/%.o: src/genfuncs/%.c
 	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
 
 install:
-	cp libpartra.a $(LIBDIR)/
+	cp -a libpartra.a $(LIBDIR)/
 	mv libpartra.a $(PREFIX)/lib
-	cp $(HEADFILES) $(PREFIX)/include
+	cp -a $(HEADFILES) $(PREFIX)/include
 	mv partra $(PREFIX)/bin
 	mv $(EXPOUT) $(PREFIX)/bin
 

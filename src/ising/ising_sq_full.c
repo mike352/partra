@@ -13,7 +13,7 @@
 unsigned char i_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_sq_f_f_%d.txt",N);
+sprintf(filename,"i_sq_f_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -47,7 +47,7 @@ return 0;
 unsigned char i_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_sq_c_f_%d.txt",N);
+sprintf(filename,"i_sq_c_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -81,7 +81,7 @@ return 0;
 unsigned char if_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_sq_f_f_%d.txt",N);
+sprintf(filename,"if_sq_f_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -117,7 +117,7 @@ return 0;
 unsigned char if_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_sq_c_f_%d.txt",N);
+sprintf(filename,"if_sq_c_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;

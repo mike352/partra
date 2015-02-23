@@ -11,7 +11,7 @@
 unsigned char p2_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=2ULL;
-sprintf(filename,"p_sq_f_f_%llu_%d.txt",Q,N);
+sprintf(filename,"p_sq_f_f_%llu_%d",Q,N);
 
 unsigned char bin=0;
 unsigned long long n,m,p;
@@ -64,7 +64,7 @@ return 0;
 unsigned char p2_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=2ULL;
-sprintf(filename,"p_sq_c_f_%llu_%d.txt",Q,N);
+sprintf(filename,"p_sq_c_f_%llu_%d",Q,N);
 
 unsigned char bin=0;
 unsigned long long n,m,p;
@@ -117,7 +117,7 @@ return 0;
 unsigned char pf2_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=3ULL;
-sprintf(filename,"pf_sq_f_f_%llu_%d.txt",Q,N);
+sprintf(filename,"pf_sq_f_f_%llu_%d",Q,N);
 
 unsigned char bin=0;
 unsigned long long n,m,p;
@@ -176,7 +176,7 @@ return 0;
 unsigned char pf2_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=3ULL;
-sprintf(filename,"pf_sq_c_f_%llu_%d.txt",Q,N);
+sprintf(filename,"pf_sq_c_f_%llu_%d",Q,N);
 
 unsigned char bin=0;
 unsigned long long n,m,p;
@@ -235,7 +235,7 @@ return 0;
 unsigned char p_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=2ULL;
-sprintf(filename,"p_sq_f_f_%llu_%d.txt",Q,N);
+sprintf(filename,"p_sq_f_f_%llu_%d",Q,N);
 
 const unsigned char csize=CHAR_BIT;
 unsigned char bin=0;
@@ -327,7 +327,7 @@ return 0;
 unsigned char p_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=2ULL;
-sprintf(filename,"p_sq_c_f_%llu_%d.txt",Q,N);
+sprintf(filename,"p_sq_c_f_%llu_%d",Q,N);
 
 const unsigned char csize=CHAR_BIT;
 unsigned char bin=0;
@@ -418,7 +418,7 @@ return 0;
 unsigned char pf_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=3ULL;
-sprintf(filename,"pf_sq_f_f_%llu_%d.txt",Q,N);
+sprintf(filename,"pf_sq_f_f_%llu_%d",Q,N);
 
 const unsigned char csize=CHAR_BIT;
 unsigned char bin=0;
@@ -515,7 +515,7 @@ return 0;
 unsigned char pf_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
 msize[1]=3ULL;
-sprintf(filename,"pf_sq_c_f_%llu_%d.txt",Q,N);
+sprintf(filename,"pf_sq_c_f_%llu_%d",Q,N);
 
 const unsigned char csize=CHAR_BIT;
 unsigned char bin=0;

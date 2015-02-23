@@ -11,7 +11,12 @@ unsigned char i_tri_f_r_file(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
-scanf("%s",option);
+int scheck=scanf("%s",option);
+if (scheck<=0)
+{
+	printf("ERROR: %s",strerror(errno));
+	return 0;
+}
 if (strcmp(option,"y")!=0)
 {
 	return 4;
@@ -224,7 +229,12 @@ unsigned char if_tri_f_r_file(const unsigned char N, const char* dirname)
 {
 char option[256];
 printf("\nThe full transfer matrix for free row boundary conditions does not have a direct sum in terms of parity sectors. Therefore the reduced transfer matrix is not a valid reflection symmetric sector. Continue anyway? (y,n): ");
-scanf("%s",option);
+int scheck=scanf("%s",option);
+if (scheck<=0)
+{
+	printf("ERROR: %s",strerror(errno));
+	return 0;
+}
 if (strcmp(option,"y")!=0)
 {
 	return 4;
