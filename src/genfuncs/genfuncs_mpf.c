@@ -54,7 +54,9 @@ for (n=0ULL;n<msize[0];n++)
 		for (p=0;p<(*matrix)[n][m][0][0];p++)
 		{
 			row[2*p]=(*matrix)[n][m][1][msize[1]*p+a];
-			row[2*p+2] = mpf_get_d(mpf_mul_ui(tmp,mpf_pow_ui(tmp,z,(*matrix)[n][m][1][msize[1]*p+b]),(*matrix)[n][m][1][msize[1]*p+2])));
+			mpf_pow_ui(tmp,z,(*matrix)[n][m][1][msize[1]*p+b]);
+			mpf_mul_ui(tmp,tmp,(*matrix)[n][m][1][msize[1]*p+2]);
+			row[2*p+2] = mpf_get_d(tmp);
 		}
 		matrix[n][m][1] = realloc(matrix[n][m][1],2*(*matrix)[n][m][0][0]*sizeof(double));
 		if (matrix[n][m][1] == NULL)
