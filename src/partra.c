@@ -306,7 +306,7 @@ if (argc==2)
 		{
 			time(&toc);
 			totaltime = difftime(toc,tic);
-			printf("\n   The total time in seconds was %gs.",totaltime);
+			printf("\n   The total time in seconds was %gs.\n",totaltime);
 		}
 		else
 		{
@@ -460,7 +460,7 @@ else if (argc==1) //Command line options
 	{
 		time(&toc);
 		totaltime = difftime(toc,tic);
-		printf("\n   The total time in seconds was %gs.",totaltime);
+		printf("\n   The total time in seconds was %gs.\n",totaltime);
 	}
 }
 else

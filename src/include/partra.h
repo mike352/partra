@@ -10,6 +10,7 @@
 #include <stdarg.h>
 #include <complex.h>
 #include <time.h>
+#include <tgmath.h>
 
 //Partra header files
 #include "partra_ansi.h"

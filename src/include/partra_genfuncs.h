@@ -9,6 +9,7 @@
 #include <string.h>
 #include <complex.h>
 #include <stdarg.h>
+#include <tgmath.h>
 
 #ifdef __cplusplus
 extern "C" {

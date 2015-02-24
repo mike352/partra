@@ -2,7 +2,7 @@
 CC=gcc
 
 #Flags to use when compiling:
-CFLAGS1=-Wall
+CFLAGS1=-Wall -lm -lgmp
 CFLAGS2=-c
 #Optimization flags: -O3 is safe. -Ofast should be tested for numerics, but safe for integers
 COFLAG=-Ofast
@@ -32,12 +32,12 @@ compile: staticlib standalone
 standalone: staticlib partra examples
 
 partra: src/partra.c libpartra.a
-	$(CC) $(CFLAGS1) $(COFLAG) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra
+	$(CC) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra $(CFLAGS1) $(COFLAG)
 
 examples: $(EXPOUT)
 
 partra_%: examples/%.c
-	$(CC) $(CFLAGS1) $(COFLAG) $< -lpartra  -I$(HEADDIR) -L. $(addprefix -o , $@)
+	$(CC) $< -lpartra  -I$(HEADDIR) -L. $(addprefix -o , $@) $(CFLAGS1) $(COFLAG)
 	
 staticlib: libpartra.a
 
@@ -45,16 +45,16 @@ libpartra.a: $(OBJFILES)
 	ar rcs libpartra.a $^
 
 src/ising/%.o: src/ising/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGS1) $(CFLAGS2) $(COFLAG)
 
 src/potts/%.o: src/potts/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGS1) $(CFLAGS2) $(COFLAG)
 
 src/reductions/%.o: src/reductions/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGS1) $(CFLAGS2) $(COFLAG)
 
 src/genfuncs/%.o: src/genfuncs/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGS1) $(CFLAGS2) $(COFLAG)
 
 install:
 	cp -a libpartra.a $(LIBDIR)/

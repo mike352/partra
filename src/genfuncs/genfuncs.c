@@ -1,4 +1,5 @@
 #include "partra_genfuncs.h"
+#include <math.h>
 
 /*This function performs a circular shift to the left of all bits in number of a particular width, erasing any bits to the left of the given width.*/
 unsigned long long circ_single_lshift(unsigned long long number, const unsigned char width)
@@ -881,4 +882,239 @@ for (q=0ULL;q<msize[0];q++)
 }
 free((void*)matrix);
 
+}
+
+
+/*******************************/
+unsigned char matrix_sub_d(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
+{
+unsigned long long n,m,p;
+unsigned char ordering[2], remaining;
+unsigned char flag;
+double z1,z2;
+
+va_list vl;
+va_start(vl,which);
+
+if (strcmp(which,"u")==0)
+{
+	if (imsize[1]==3)
+	{
+		ordering[0]=0;
+		ordering[1]=1;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else if (imsize[1]==2)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"x")==0)
+{
+	if (imsize[1]==3)
+	{
+		ordering[0]=1;
+		ordering[1]=0;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else if (imsize[1]==2)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"ux")==0)
+{
+	if (imsize[1]==2)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<2)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=0;
+	ordering[1]=1;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-2;
+}
+else if (strcmp(which,"xu")==0)
+{
+	if (imsize[1]==2)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<2)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=1;
+	ordering[1]=0;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-2;
+}
+else
+{
+	printf("ERROR: Incorrect choice of variable substitution. Only \"u\", \"x\", \"ux\", \"xu\" allowed.\n");
+	return 3;
+}
+
+omsize[0]=imsize[0];
+flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+if (flag!=0)
+{
+	return flag;
+}
+
+if (remaining==1)
+{
+	for (n=0ULL;n<omsize[0];n++)
+	{
+		for (m=0ULL;m<omsize[0];m++)
+		{
+			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			{
+				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				if ((*omatrix)[n][m][1]==NULL)
+				{
+					printf("ERROR: Unable to reallocate memory.\n");
+					matrix_free_d((*omatrix),omsize);
+					return 2;
+				}
+			}
+			for (p=0;p<imatrix[n][m][0][0];p++)
+			{
+				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[0]];
+				(*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+			}
+		}
+	}
+}
+else if ((remaining==0)&(imsize[1]==3))
+{
+	for (n=0ULL;n<omsize[0];n++)
+	{
+		for (m=0ULL;m<omsize[0];m++)
+		{
+			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			{
+				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				if ((*omatrix)[n][m][1]==NULL)
+				{
+					printf("ERROR: Unable to reallocate memory.\n");
+					matrix_free_d((*omatrix),omsize);
+					return 2;
+				}
+			}
+			for (p=0;p<imatrix[n][m][0][0];p++)
+			{
+				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*pow(z2,imatrix[n][m][1][imsize[1]*p+1])*imatrix[n][m][1][imsize[1]*p+2];
+			}
+		}
+	}
+}
+else if ((remaining==0)&(imsize[1]==2))
+{
+	for (n=0ULL;n<omsize[0];n++)
+	{
+		for (m=0ULL;m<omsize[0];m++)
+		{
+			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			{
+				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				if ((*omatrix)[n][m][1]==NULL)
+				{
+					printf("ERROR: Unable to reallocate memory.\n");
+					matrix_free_d((*omatrix),omsize);
+					return 2;
+				}
+			}
+			for (p=0;p<imatrix[n][m][0][0];p++)
+			{
+				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			}
+		}
+	}
+}
+
+return 0;
+}
+
+/*******************************/
+unsigned char matrix_sub_d_d(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, double z1)
+{
+unsigned long long n,m,p;
+unsigned char flag;
+
+if (imsize[1]==2)
+{
+	omsize[1]=imsize[1]-1;
+}
+else
+{
+	printf("ERROR: No free variables to use for substitution\n");
+	return 3;
+}
+
+
+omsize[0]=imsize[0];
+flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+if (flag!=0)
+{
+	return flag;
+}
+
+for (n=0ULL;n<omsize[0];n++)
+{
+	for (m=0ULL;m<omsize[0];m++)
+	{
+		if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+		{
+			(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+			(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+			if ((*omatrix)[n][m][1]==NULL)
+			{
+				printf("ERROR: Unable to reallocate memory.\n");
+				matrix_free_d((*omatrix),omsize);
+				return 2;
+			}
+		}
+		for (p=0;p<imatrix[n][m][0][0];p++)
+		{
+			(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+		}
+	}
+}
+
+return 0;
 }
