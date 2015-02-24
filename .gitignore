@@ -46,3 +46,8 @@
 data/
 test/
 tests/
+
+# Partra executables to ignore
+partra
+partra_bitarchitecture
+partra_example
