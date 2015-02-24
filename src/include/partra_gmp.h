@@ -1,5 +1,5 @@
-#ifndef PARTRA_H
-#define PARTRA_H
+#ifndef PARTRA_ANSI_H
+#define PARTRA_ANSI_H
 
 #include <stdio.h>
 #include <limits.h>
@@ -10,11 +10,9 @@
 #include <stdarg.h>
 #include <complex.h>
 #include <time.h>
-#include <tgmath.h>
 
 //Partra header files
-#include "partra_ansi.h"
-#include "partra_gmp.h"
+#include "partra_genfuncs_mpf.h"
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF
