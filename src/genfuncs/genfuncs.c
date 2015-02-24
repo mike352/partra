@@ -1012,8 +1012,8 @@ if (remaining==1)
 			}
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[0]];
-				(*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
+				(*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}

@@ -10,7 +10,8 @@
 #include <stdarg.h>
 #include <complex.h>
 #include <time.h>
-#include <tgmath.h>
+#include <math.h>
+#include "gmp.h"
 
 //Partra header files
 #include "partra_ansi.h"
@@ -21,7 +22,7 @@
 typedef unsigned char**** partra_matrix;
 typedef unsigned char*** partra_row;
 
-typedef unsigned char**** partra_matrix_d;
+typedef double**** partra_matrix_d;
 #endif
 
 #endif

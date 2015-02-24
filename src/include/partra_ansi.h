@@ -23,7 +23,7 @@
 typedef unsigned char**** partra_matrix;
 typedef unsigned char*** partra_row;
 
-typedef unsigned char**** partra_matrix_d;
+typedef double**** partra_matrix_d;
 #endif
 
 #endif

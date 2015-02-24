@@ -147,8 +147,8 @@ if (remaining==1)
 			}
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[0]];
-				mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p+ordering[1]]);
+				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
+				mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p+ordering[0]]);
 				mpf_mul_ui(tmp1,tmp1,imatrix[n][m][1][imsize[1]*p+2]);
 				(*omatrix)[n][m][1][omsize[1]*p+1] = mpf_get_d(tmp1);
 			}

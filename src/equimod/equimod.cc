@@ -14,7 +14,9 @@
 #include "blas1c.h"		//ARPACK
 #include "nr3_errno.h"		//Numerical Recipes defitions
 #include "partra.h"
+#include "gmp.h"
 //#include "mpc.h" 
+
 
 
 int compare (const void *a, const void *b)
@@ -24,7 +26,7 @@ int compare (const void *a, const void *b)
 	if ( abs(*(arcomplex<double>*)a) < abs(*(arcomplex<double>*)b)) return 1;
 }
 
-double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, unsigned char**** M, const double x, const double y, arcomplex<double> *valA, arcomplex<double> *eigenarray, const unsigned long long numeigs)
+double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsigned long long* msize, double**** M, const double x, const double y, arcomplex<double> *valA, arcomplex<double> *eigenarray, const unsigned long long numeigs)
 {
 	unsigned long long n,m,p,q;
 	
@@ -37,10 +39,11 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 	for(n=0ULL;n<msize[0];n++)
 	{
 		for (m=0ULL;m<msize[0];m++)
-		{
+		{printf("%f %f\n",M[n][m][1][0],M[n][m][1][1]);
+			valA[n*msize[0]+m]=arcomplex<double>(0,0);
 			for (p=0ULL;p<M[n][m][0][0];p++)
 			{
-				valA[n*msize[0]+m] = arcomplex<double>(M[n][m][1][msize[1]*p+1],0.0)*pow(t,M[n][m][1][msize[1]*p]);
+				valA[n*msize[0]+m] =valA[n*msize[0]+m] + arcomplex<double>(M[n][m][1][msize[1]*p+1],0.0)*pow(t,M[n][m][1][msize[1]*p]);
 			}
 		}
 	}
@@ -65,9 +68,9 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 		}
 		qsort(eigenarray,numeigs,sizeof(arcomplex<double>),compare);
 
-		//std::cout << "E1 = " << eigenarray[0] << std::endl;
-		//std::cout << "E2 = " << eigenarray[1] << std::endl;
-		//std::cout << "E3 = " << eigenarray[2] << std::endl;
+		std::cout << "E1 = " << eigenarray[0] << std::endl;
+		std::cout << "E2 = " << eigenarray[1] << std::endl;
+		std::cout << "E3 = " << eigenarray[2] << std::endl;
 		*ratio = fabs(abs(eigenarray[0])-abs(eigenarray[1]))/abs(eigenarray[1]);
 		*phase = acos((real(eigenarray[0])*real(eigenarray[1])+imag(eigenarray[0])*imag(eigenarray[1]))/(abs(eigenarray[0])*abs(eigenarray[1])))/M_PI;
 		*flag = 0;
@@ -158,7 +161,7 @@ struct Brent : Bracketmethod {
 	Doub xmin,fmin;
 	const Doub tol;
 	Brent(const Doub toll=3.0e-8) : tol(toll) {}
-	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, unsigned char****, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, unsigned char**** M, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
+	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, double****, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, double**** M, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
 	{
 		const Int ITMAX=100;
 		const Doub CGOLD=0.3819660;
@@ -249,7 +252,7 @@ struct Brent : Bracketmethod {
 int main()
 {
 	unsigned char N=4;
-	unsigned long long int Rtotal = 100000; 	//Total number of points
+	unsigned long long int Rtotal = 1; 	//Total number of points
 	double ratiotol=1e-8;	//Tolerance for Convergence in Brent
 	int maxit=50000;	//Maximum number of ARPACK iterations (default used was 50000)
 	double xmin = 0;
@@ -266,9 +269,11 @@ int main()
 	unsigned long long ii, jj, tmp;	// Counters and tmp
 	unsigned long long arerrors=0, brenterrors=0, localmin=0;
 
-	unsigned long long msize[2];      	// TM size
-	partra_matrix M;
-	long double z = 0.99;
+	unsigned long long misize[2];      	// TM size
+	unsigned long long msize[2];
+	partra_matrix Mi;
+	partra_matrix_d M;
+	double z = 0.99;
 	double x,y1,y2,y3;
 	double r;
 	arcomplex<double>* valA;   	// pointer to an array that stores values of A
@@ -286,8 +291,10 @@ int main()
 	time_t tic;
 	time_t toc;
 	double totaltime;
-7
-	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, unsigned char****, const double, const double, arcomplex<double>*,arcomplex<double>*,const unsigned long long) = &EigenRatio;
+
+	
+	double (*objtfnpt)(const int,double*, int*, double*, unsigned long long*, double****, const double, const double, arcomplex<double>*,arcomplex<double>*,const unsigned long long) = &EigenRatio;
+	
 
 	std::cout << "Choose an output file number: " ;
 	std::cin >> n;
@@ -296,24 +303,27 @@ int main()
 	srand (time(NULL)); //Seed the random number generator
 
 	//Create transfer matrix
-	flag = if_sq_c_f(&M,msize,filename1,N);
+	flag = if_sq_c_f(&Mi,misize,filename1,N);
 	if (flag!=0)
 	{
 		return 0;
 	}
-	flag = matrix_sub_mpf(M,msize,z);
+	char subs[256]="x";
+	flag = matrix_sub_d(&M,msize,Mi,misize,subs,z);
 	if (flag!=0)
 	{
+		matrix_free(Mi,misize);
 		return 0;
 	}
+	matrix_free(Mi,misize);
 
 	//Open the output file
-	sprintf(filename2,"equimod_%s_%.4f_%llu.txt",filename1,abs(z),n);
+	sprintf(filename2,"equimod_%s_%.4f_%llu.txt",filename1,fabs(z),n);
 	fid = fopen(filename2,"w");
 	if (fid == NULL)
 	{
 		printf("ERROR: Could not open output file %s\n",filename2);
-		matrix_free(M,msize);
+		matrix_free_d(M,msize);
 		return 0;
 	}
 	setvbuf(fid,NULL,_IOLBF,32); 
@@ -387,7 +397,7 @@ int main()
 
 	fclose(fid);
 	delete[] valA;
-	matrix_free(M,msize);
+	matrix_free_d(M,msize);
 	delete[] eigenarray;
 	return 0;
 }
