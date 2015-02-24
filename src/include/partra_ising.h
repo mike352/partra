@@ -14,6 +14,8 @@
 #define PARTRA_TYPEDEF
 typedef unsigned char**** partra_matrix;
 typedef unsigned char*** partra_row;
+
+typedef unsigned char**** partra_matrix_d;
 #endif
 
 #ifdef __cplusplus
