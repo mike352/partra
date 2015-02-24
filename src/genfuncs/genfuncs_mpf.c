@@ -1,9 +1,6 @@
 #include "partra_genfuncs.h"
 #include "gmp.h"
 
-/*
-There is a problem with this function. It needs to create a new matrix of a different type than the input matrix. 
-*/
 
 unsigned char matrix_sub_mpf(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
 {
@@ -116,7 +113,7 @@ else
 	printf("ERROR: Incorrect choice of variable substitution. Only \"u\", \"x\", \"ux\", \"xu\" allowed.\n");
 	return 3;
 }
-
+va_end(vl);
 
 omsize[0]=imsize[0];
 flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
@@ -214,5 +211,64 @@ else if ((remaining==0)&(imsize[1]==2))
 }
 
 mpf_clears(z1,z2,tmp1,tmp2,NULL);
+return 0;
+}
+
+
+unsigned char matrix_sub_mpf_d(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, double t)
+{
+unsigned long long n,m,p;
+unsigned char flag;
+mpf_t z1,tmp1;
+
+
+if (imsize[1]==2)
+{
+	mpf_init2(z1,21);
+	mpf_set_d(z1,t);
+	omsize[1]=imsize[1]-1;
+}
+else
+{
+	printf("ERROR: No free variables to use for substitution\n");
+	return 3;
+}
+
+
+omsize[0]=imsize[0];
+flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+if (flag!=0)
+{
+	mpf_clear(z1);
+	return flag;
+}
+
+mpf_init2(tmp1,21);
+for (n=0ULL;n<omsize[0];n++)
+{
+	for (m=0ULL;m<omsize[0];m++)
+	{
+		if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+		{
+			(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+			(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+			if ((*omatrix)[n][m][1]==NULL)
+			{
+				printf("ERROR: Unable to reallocate memory.\n");
+				mpf_clears(z1,tmp1,NULL);
+				matrix_free_d((*omatrix),omsize);
+				return 2;
+			}
+		}
+		for (p=0;p<imatrix[n][m][0][0];p++)
+		{
+			mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p]);
+			mpf_mul_ui(tmp1,tmp1,imatrix[n][m][1][imsize[1]*p+1]);
+			(*omatrix)[n][m][1][p] = mpf_get_d(tmp1);
+		}
+	}
+}
+
+mpf_clears(z1,tmp1,NULL);
 return 0;
 }
