@@ -38,6 +38,10 @@
 # Text files
 *.txt
 
+# Graphics files
+*.png
+*.bmp
+
 # Directories to ignore
 data/
 test/

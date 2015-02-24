@@ -781,3 +781,104 @@ fclose(fid);
 
 return 0;
 }
+
+
+
+/*******************************/
+unsigned char matrix_alloc_d(double***** matrix,const unsigned long long* msize, const unsigned char N)
+{
+unsigned long long n,m,p,q,r,s;	
+
+*matrix = (double****) malloc(msize[0]*sizeof(double***)); 
+if (*matrix==NULL)
+{
+	printf("\nERROR: Could not allocate memory.");
+	return 2;
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	(*matrix)[n] = (double***) malloc(msize[0]*sizeof(double**));
+	if (((*matrix)[n]==NULL))
+	{
+		printf("\nERROR: Could not allocate memory.");
+		for (q=0ULL;q<n;q++)
+		{
+			free((void*)(*matrix)[q]);
+		}
+		return 2;
+	}
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		(*matrix)[n][m] = (double**) malloc(2*sizeof(double*));
+		if (((*matrix)[n][m]==NULL))
+		{
+			printf("\nERROR: Could not allocate memory.");
+			for (q=0ULL;q<n;q++)
+			{
+				for (r=0ULL;r<m;r++)
+				{
+					free((void*)(*matrix)[q][r]);
+				}
+				free((void*)(*matrix)[q]);
+			}
+			return 2;
+		}
+	}
+}
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		for (p=0ULL;p<2;p++)
+		{
+			(*matrix)[n][m][p] = (double*) calloc((msize[1]*N-2)*p+2,sizeof(double));
+			if (((*matrix)[n][m][p]==NULL))
+			{
+				printf("\nERROR: Could not allocate memory.");
+				for (q=0ULL;q<n;q++)
+				{
+					for (r=0ULL;r<m;r++)
+					{
+						for (s=0ULL;s<p;s++)
+						{
+							free((void*)(*matrix)[q][r][s]);
+						}
+						free((void*)(*matrix)[q][r]);
+					}
+					free((void*)(*matrix)[q]);
+				}
+				return 2;
+			}
+		}
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+	}
+}
+
+
+return 0;
+}
+
+
+/*******************************/
+void matrix_free_d(double**** matrix, const unsigned long long* msize)
+{
+unsigned long long q,r,s;
+
+for (q=0ULL;q<msize[0];q++)
+{
+	for (r=0ULL;r<msize[0];r++)
+	{
+		for (s=0ULL;s<2;s++)
+		{
+			free((void*)matrix[q][r][s]);
+		}
+		free((void*)matrix[q][r]);
+	}
+	free((void*)matrix[q]);
+}
+free((void*)matrix);
+
+}
