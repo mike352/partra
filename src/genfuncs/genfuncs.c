@@ -770,6 +770,7 @@ for (n=0ULL;n<msize[0];n++)
 			if (fcheck<0)
 			{
 				printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+				fclose(fid);
 				return 1;
 			}
 			for (q=0;q<msize[1];q++)
@@ -778,6 +779,7 @@ for (n=0ULL;n<msize[0];n++)
 				if (fcheck<0)
 				{
 					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+					fclose(fid);
 					return 1;
 				}
 			}
@@ -1016,8 +1018,10 @@ if (remaining==1)
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
+				//printf("n=%llu m=%llu m[%llu]=%hhu m[%llu]=%f\n",n,m,omsize[1]*p,imatrix[n][m][1][imsize[1]*p+ordering[1]],omsize[1]*p+1,pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2]);
 				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
 				(*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
@@ -1041,6 +1045,7 @@ else if ((remaining==0)&(imsize[1]==3))
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
 				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*pow(z2,imatrix[n][m][1][imsize[1]*p+1])*imatrix[n][m][1][imsize[1]*p+2];
@@ -1065,6 +1070,7 @@ else if ((remaining==0)&(imsize[1]==2))
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
 				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
@@ -1115,6 +1121,7 @@ for (n=0ULL;n<omsize[0];n++)
 				return 2;
 			}
 		}
+		(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
 			(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
@@ -1141,17 +1148,18 @@ if (fid == NULL)
 	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
 	return 1;
 }
-
+printf("msize[0]=%llu msize[1]=%llu m[0][0][0][0]=%hhu\n",msize[0],msize[1],(int)matrix[0][0][0][0]);
 for (n=0ULL;n<msize[0];n++)
 {
 	for (m=0ULL;m<msize[0];m++)
 	{
-		for (p=0;p<matrix[n][m][0][0];p++)
+		for (p=0ULL;p<(int)matrix[n][m][0][0];p++)
 		{
 			fcheck = fprintf(fid,"%llu %llu",n+1,m+1);
 			if (fcheck<0)
 			{
 				printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+				fclose(fid);
 				return 1;
 			}
 			for (q=0;q<msize[1];q++)
@@ -1160,6 +1168,7 @@ for (n=0ULL;n<msize[0];n++)
 				if (fcheck<0)
 				{
 					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+					fclose(fid);
 					return 1;
 				}
 			}

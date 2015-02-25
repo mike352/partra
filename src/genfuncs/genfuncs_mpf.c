@@ -145,6 +145,7 @@ if (remaining==1)
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
 				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
@@ -173,6 +174,7 @@ else if ((remaining==0)&(imsize[1]==3))
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
 				mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p]);
@@ -202,6 +204,7 @@ else if ((remaining==0)&(imsize[1]==2))
 					return 2;
 				}
 			}
+			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
 				mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p]);
@@ -263,6 +266,7 @@ for (n=0ULL;n<omsize[0];n++)
 				return 2;
 			}
 		}
+		(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
 			mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p]);

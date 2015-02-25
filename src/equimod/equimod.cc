@@ -39,7 +39,7 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 	for(n=0ULL;n<msize[0];n++)
 	{
 		for (m=0ULL;m<msize[0];m++)
-		{printf("%f %f\n",M[n][m][1][0],M[n][m][1][1]);
+		{//printf("%f %f\n",M[n][m][1][0],M[n][m][1][1]);
 			valA[n*msize[0]+m]=arcomplex<double>(0,0);
 			for (p=0ULL;p<M[n][m][0][0];p++)
 			{
@@ -68,9 +68,9 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 		}
 		qsort(eigenarray,numeigs,sizeof(arcomplex<double>),compare);
 
-		std::cout << "E1 = " << eigenarray[0] << std::endl;
-		std::cout << "E2 = " << eigenarray[1] << std::endl;
-		std::cout << "E3 = " << eigenarray[2] << std::endl;
+		//std::cout << "E1 = " << eigenarray[0] << std::endl;
+		//std::cout << "E2 = " << eigenarray[1] << std::endl;
+		//std::cout << "E3 = " << eigenarray[2] << std::endl;
 		*ratio = fabs(abs(eigenarray[0])-abs(eigenarray[1]))/abs(eigenarray[1]);
 		*phase = acos((real(eigenarray[0])*real(eigenarray[1])+imag(eigenarray[0])*imag(eigenarray[1]))/(abs(eigenarray[0])*abs(eigenarray[1])))/M_PI;
 		*flag = 0;
@@ -252,7 +252,7 @@ struct Brent : Bracketmethod {
 int main()
 {
 	unsigned char N=4;
-	unsigned long long int Rtotal = 1; 	//Total number of points
+	unsigned long long int Rtotal = 10000; 	//Total number of points
 	double ratiotol=1e-8;	//Tolerance for Convergence in Brent
 	int maxit=50000;	//Maximum number of ARPACK iterations (default used was 50000)
 	double xmin = 0;
