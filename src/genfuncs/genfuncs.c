@@ -747,28 +747,37 @@ return 0;
 }
 
 
-unsigned char matrix_fprintf(unsigned char***** matrix, unsigned long long* msize, char* filename, char* dirname)
+unsigned char matrix_fprintf(unsigned char**** matrix, unsigned long long* msize, char* filename)
 {
 unsigned long long n,m,p,q;
 int fcheck=0;
-char outfile[256];
 FILE* fid;
 
-sprintf(outfile,"%s/%s",dirname,filename);
-fid = fopen(outfile,"w");
+fid = fopen(filename,"w");
+if (fid == NULL)
+{
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
+}
+
 for (n=0ULL;n<msize[0];n++)
 {
 	for (m=0ULL;m<msize[0];m++)
 	{
-		for (p=0;p<(*matrix)[n][m][0][0];p++)
+		for (p=0;p<matrix[n][m][0][0];p++)
 		{
-			fprintf(fid,"%llu %llu",n,m);
+			fcheck = fprintf(fid,"%llu %llu",n+1,m+1);
+			if (fcheck<0)
+			{
+				printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+				return 1;
+			}
 			for (q=0;q<msize[1];q++)
 			{
-				fcheck = fprintf(fid," %hhu",(*matrix)[n][m][1][p*msize[1]+q]);
+				fcheck = fprintf(fid," %hhu",matrix[n][m][1][p*msize[1]+q]);
 				if (fcheck<0)
 				{
-					printf("ERROR: Problem writing to output file. %s\n",strerror(errno));
+					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
 					return 1;
 				}
 			}
@@ -777,9 +786,6 @@ for (n=0ULL;n<msize[0];n++)
 	}
 }
 fclose(fid);
-
-
-
 return 0;
 }
 
@@ -891,7 +897,7 @@ unsigned char matrix_sub_d(double***** omatrix, unsigned long long* omsize, unsi
 unsigned long long n,m,p;
 unsigned char ordering[2], remaining;
 unsigned char flag;
-double z1,z2;
+double z1=0,z2=0;
 
 va_list vl;
 va_start(vl,which);
@@ -1116,5 +1122,51 @@ for (n=0ULL;n<omsize[0];n++)
 	}
 }
 
+return 0;
+}
+
+/*******************************/
+unsigned char matrix_fprintf_d(double**** matrix, unsigned long long* msize, char* filename, unsigned char prec)
+{
+unsigned long long n,m,p,q;
+int fcheck=0;
+char precformat[256];
+FILE* fid;
+
+sprintf(precformat," %%.%hhuf",prec);
+
+fid = fopen(filename,"w");
+if (fid == NULL)
+{
+	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	return 1;
+}
+
+for (n=0ULL;n<msize[0];n++)
+{
+	for (m=0ULL;m<msize[0];m++)
+	{
+		for (p=0;p<matrix[n][m][0][0];p++)
+		{
+			fcheck = fprintf(fid,"%llu %llu",n+1,m+1);
+			if (fcheck<0)
+			{
+				printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+				return 1;
+			}
+			for (q=0;q<msize[1];q++)
+			{
+				fcheck = fprintf(fid,precformat,matrix[n][m][1][p*msize[1]+q]);
+				if (fcheck<0)
+				{
+					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+					return 1;
+				}
+			}
+			fprintf(fid,"\n");
+		}
+	}
+}
+fclose(fid);
 return 0;
 }

@@ -50,7 +50,8 @@ unsigned char matrix_alloc_d(double*****,const unsigned long long*, const unsign
 void matrix_free_d(double****, const unsigned long long*);
 
 /*Matrix functions*/
-unsigned char matrix_fprintf(unsigned char*****, unsigned long long*, char*, char*);
+unsigned char matrix_fprintf(unsigned char****, unsigned long long*, char*);
+unsigned char matrix_fprintf_d(double****, unsigned long long*, char*,unsigned char);
 /*A not very efficient function for taking the power of a matrix*/
 unsigned char matrix_pow_ll(unsigned long long*****, unsigned long long*****, const unsigned long long*,const unsigned long long);
 

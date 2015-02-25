@@ -20,8 +20,8 @@ if (flag!=0)
 
 //Second file - outputs should be equal
 flag = i_sq_f_f(&M,msize,filename1,N);
-sprintf(filename2,"_%s",filename1);
-flag = matrix_fprintf(&M,msize,filename2,dirname);
+sprintf(filename2,"%s/_%s",dirname,filename1);
+flag = matrix_fprintf(M,msize,filename2);
 
 /*
 fid = fopen(filename2,"w");
