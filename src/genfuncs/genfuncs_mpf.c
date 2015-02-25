@@ -4,7 +4,7 @@
 
 
 /*******************************/
-unsigned char matrix_sub_mpf_d(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
+unsigned char matrix_sub_d_mpf(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
 {
 unsigned long long n,m,p;
 unsigned char ordering[2], remaining;
@@ -221,7 +221,7 @@ return 0;
 
 
 /*******************************/
-unsigned char matrix_sub_mpf_d_d(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, double t)
+unsigned char matrix_sub_d_d_mpf(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, double t)
 {
 unsigned long long n,m,p;
 unsigned char flag;

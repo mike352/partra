@@ -15,9 +15,9 @@
 extern "C" {
 #endif
 	
-unsigned char matrix_sub_mpf_d(double*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
+unsigned char matrix_sub_d_mpf(double*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
 
-unsigned char matrix_sub_mpf_d_d(double*****, unsigned long long*, double****, unsigned long long*, double);
+unsigned char matrix_sub_d_d_mpf(double*****, unsigned long long*, double****, unsigned long long*, double);
 
 #ifdef __cplusplus
 }
