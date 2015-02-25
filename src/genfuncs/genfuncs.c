@@ -423,7 +423,7 @@ for (n=1ULL;n<M;n++)
 			}
 		}
 		for (r=0ULL;r<msize[0];r++)
-		{//printf("r=%d ",r);
+		{
 			(*fmatrix)[q][r][0][0] = row[r][0][0];
 			(*fmatrix)[q][r][0][1] = row[r][0][0]; //Make as big as number of valid entries
 			(*fmatrix)[q][r][1] = (unsigned long long*) realloc((*fmatrix)[q][r][1],msize[1]*row[r][0][0]*sizeof(unsigned long long));
@@ -1148,7 +1148,7 @@ if (fid == NULL)
 	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
 	return 1;
 }
-printf("msize[0]=%llu msize[1]=%llu m[0][0][0][0]=%hhu\n",msize[0],msize[1],(int)matrix[0][0][0][0]);
+
 for (n=0ULL;n<msize[0];n++)
 {
 	for (m=0ULL;m<msize[0];m++)
