@@ -61,6 +61,9 @@ Currently partra computes the transfer matrices on either the square or triangul
 Use the corner case N=1 with caution.
 
 
+NOTE: partra can only use gmp if the exponents of the variables are INTEGERS. For such cases, MPFR will be needed, unless precision is not too important. 
+
+
 partra is built to be cross-platform compatible. It has been very carefully to adhere to ANSI C only, and to not assume the number of bits in a byte/char, the number of bits in long longs, etc. 
 
 
