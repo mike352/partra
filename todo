@@ -1,0 +1,12 @@
+Change any matrix passing to reference passing where it may exists
+
+Use f2c on ARPACK in order to have the whole project in C
+
+Remove the need for Numerical Recipe's header file NR3.h, and rewrite function in C or find their old C code if they have this particular method - has it changed since then?
+
+Explore new way of generating equimodular curves, using annealing type methods?
+	-Explore the plane within a range using a regular grid of points for some grid interval
+	-Decrease the grid interval and for every original grid point that was below a certain threshold, continue finding points in that neighborhood which are all below that threshold
+	-Now repeat: decrease the grid inverval and decrease threshold and explore all neighborhoods surrounding all previous points which are below the new threshold. 
+	
+	If it is computationally expensive to compute eigenvalues, this method is probably very efficient in the total number of eigenvalues it needs to compute, although this depends heavily on the values chosen for the grid intervals and the thresholds. 
