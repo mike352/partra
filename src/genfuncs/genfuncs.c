@@ -1028,7 +1028,7 @@ if (remaining==1)
 		}
 	}
 }
-else if ((remaining==0)&(imsize[1]==3))
+else if ((remaining==0)&(imsize[1]==3)) //double substitution
 {
 	for (n=0ULL;n<omsize[0];n++)
 	{
@@ -1048,7 +1048,7 @@ else if ((remaining==0)&(imsize[1]==3))
 			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*pow(z2,imatrix[n][m][1][imsize[1]*p+1])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}
