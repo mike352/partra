@@ -897,7 +897,7 @@ free((void*)matrix);
 unsigned char matrix_sub_d(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
 {
 unsigned long long n,m,p;
-unsigned char ordering[2], remaining;
+unsigned char ordering[2]={0,0}, remaining;
 unsigned char flag;
 double z1=0,z2=0;
 
