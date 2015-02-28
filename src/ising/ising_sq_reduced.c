@@ -15,7 +15,7 @@ unsigned char i_sq_f_r(unsigned char***** matrix, unsigned long long* msize, cha
 {
 msize[1]=2ULL;
 unsigned char umax=2*N-1;
-sprintf(filename,"i_sq_f_r_%d.txt",N);
+sprintf(filename,"i_sq_f_r_%d",N);
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -115,7 +115,7 @@ unsigned char i_sq_c_r(unsigned char***** matrix, unsigned long long* msize, cha
 {
 msize[1]=2ULL;
 unsigned char umax=2*N;
-sprintf(filename,"i_sq_c_r_%d.txt",N);
+sprintf(filename,"i_sq_c_r_%d",N);
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -229,7 +229,7 @@ unsigned char if_sq_f_r(unsigned char***** matrix, unsigned long long* msize, ch
 msize[1]=3ULL;
 unsigned char umax=2*N-1;
 unsigned char xmax=N;
-sprintf(filename,"if_sq_f_r_%d.txt",N);
+sprintf(filename,"if_sq_f_r_%d",N);
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -354,7 +354,7 @@ unsigned char if_sq_c_r(unsigned char***** matrix, unsigned long long* msize, ch
 msize[1]=3ULL;
 unsigned char umax=2*N;
 unsigned char xmax=N;
-sprintf(filename,"if_sq_c_r_%d.txt",N);
+sprintf(filename,"if_sq_c_r_%d",N);
 
 unsigned char flag;
 unsigned long long total=0ULL;
