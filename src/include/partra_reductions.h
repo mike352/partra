@@ -3,12 +3,8 @@
 
 #include <stdio.h>
 #include <limits.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <string.h>
-#include <complex.h>
-#include <stdarg.h>
 
 #ifdef __cplusplus
 extern "C" {

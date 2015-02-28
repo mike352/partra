@@ -1,5 +1,4 @@
 #include "partra_genfuncs.h"
-#include "partra_reductions.h"
 #include "partra_potts.h"
 
 

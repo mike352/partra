@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
-#include <complex.h>
-#include <stdarg.h>
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF

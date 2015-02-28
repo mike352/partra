@@ -29,6 +29,7 @@ Design principle:
 Only unsigned char or unsigned long long data types are used for integers for consistency. The sole exception currently is the dcheck variable which checks whether a directory was successfully created, which is of type int because output from mkdir commands can be -1. For strings, only char arrays of size 256 are used for consistency.
 */
 
+#include <time.h>
 #include "partra.h"
 
 //Only used to create a data directory or check that one already exists
