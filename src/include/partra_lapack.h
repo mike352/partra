@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <math.h>
 #include <complex.h>
-#include "lapacke.h"
 
 unsigned char eigs_lapack(double****, unsigned long long*); 
 

@@ -1,5 +1,5 @@
 #include "partra_lapack.h"
-
+#include "lapacke.h"
 
 int compeigs(const void* x, const void* y)
 {

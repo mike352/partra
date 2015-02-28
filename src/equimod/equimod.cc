@@ -12,11 +12,10 @@
 #include "ardscomp.h"	//ARPACK
 #include "ardnsmat.h"	//ARPACK
 #include "blas1c.h"		//ARPACK
-#include "nr3_errno.h"		//Numerical Recipes defitions
+#include <limits>
 #include "partra.h"
 #include "gmp.h"
 //#include "mpc.h" 
-
 
 
 int compare (const void *a, const void *b)
@@ -84,14 +83,42 @@ double EigenRatio(const int maxit,double *ratio, int *flag, double *phase, unsig
 }
 
 
+
+static const double NaN = std::numeric_limits<double>::quiet_NaN();
+
+template<class T>
+inline const T &MAX(const T &a, const T &b)
+        {return b > a ? (b) : (a);}
+
+inline float MAX(const double &a, const float &b)
+        {return b > a ? (b) : float(a);}
+
+inline float MAX(const float &a, const double &b)
+        {return b > a ? float(b) : (a);}
+
+template<class T>
+inline T SIGN(const T &a, const T &b)
+	{return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);}
+
+inline float SIGN(const float &a, const double &b)
+	{return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);}
+
+inline float SIGN(const double &a, const float &b)
+	{return (float)(b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));}
+
+template<class T>
+inline void SWAP(T &a, T &b)
+	{T dum=a; a=b; b=dum;}
+
+
 struct Bracketmethod {
-	Doub ax,bx,cx,fa,fb,fc;
+	double ax,bx,cx,fa,fb,fc;
 	template <class T>
-	void bracket(const Doub a, const Doub b, T &func)
+	void bracket(const double a, const double b, T &func)
 	{
-		const Doub GOLD=1.618034,GLIMIT=100.0,TINY=1.0e-20;
+		const double GOLD=1.618034,GLIMIT=100.0,TINY=1.0e-20;
 		ax=a; bx=b;
-		Doub fu;
+		double fu;
 		fa=func(ax);
 		fb=func(bx);
 		if (fb > fa) {
@@ -101,11 +128,11 @@ struct Bracketmethod {
 		cx=bx+GOLD*(bx-ax);
 		fc=func(cx);
 		while (fb > fc) {
-			Doub r=(bx-ax)*(fb-fc);
-			Doub q=(bx-cx)*(fb-fa);
-			Doub u=bx-((bx-cx)*q-(bx-ax)*r)/
-				(2.0*SIGN(MAX(abs(q-r),TINY),q-r));
-			Doub ulim=bx+GLIMIT*(cx-bx);
+			double r=(bx-ax)*(fb-fc);
+			double q=(bx-cx)*(fb-fa);
+			double u=bx-((bx-cx)*q-(bx-ax)*r)/
+				(2.0*SIGN(MAX(fabs(q-r),TINY),q-r));
+			double ulim=bx+GLIMIT*(cx-bx);
 			if ((bx-u)*(u-cx) > 0.0) {
 				fu=func(u);
 				if (fu < fc) {
@@ -138,19 +165,19 @@ struct Bracketmethod {
 			shft3(fa,fb,fc,fu);
 		}
 	}
-	inline void shft2(Doub &a, Doub &b, const Doub c)
+	inline void shft2(double &a, double &b, const double c)
 	{
 		a=b;
 		b=c;
 	}
-	inline void shft3(Doub &a, Doub &b, Doub &c, const Doub d)
+	inline void shft3(double &a, double &b, double &c, const double d)
 	{
 		a=b;
 		b=c;
 		c=d;
 	}
-	inline void mov3(Doub &a, Doub &b, Doub &c, const Doub d, const Doub e,
-		const Doub f)
+	inline void mov3(double &a, double &b, double &c, const double d, const double e,
+		const double f)
 	{
 		a=d; b=e; c=f;
 	}
@@ -158,18 +185,18 @@ struct Bracketmethod {
 
 
 struct Brent : Bracketmethod {
-	Doub xmin,fmin;
-	const Doub tol;
-	Brent(const Doub toll=3.0e-8) : tol(toll) {}
-	Doub minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, double****, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, double**** M, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
+	double xmin,fmin;
+	const double tol;
+	Brent(const double toll=3.0e-8) : tol(toll) {}
+	double minimize(double (*func)(const int,double*, int*, double*, unsigned long long*, double****, const double, const double, arcomplex<double>*, arcomplex<double>*, const unsigned long long),const int maxit, double* ratiop, int* flagp, double* phasep, unsigned long long* msize, double**** M, const double angle, arcomplex<double> *valA, arcomplex<double>* eigenarray, const unsigned long long numeigs)
 	{
-		const Int ITMAX=100;
-		const Doub CGOLD=0.3819660;
-		const Doub ZEPS=numeric_limits<Doub>::epsilon()*1.0e-3;
-		Doub a,b,d=0.0,etemp,fu,fv,fw,fx;
-		Doub p,q,r,tol1,tol2,u,v,w,x,xm;
-		Doub e=0.0;
-		Doub fval;
+		const int ITMAX=100;
+		const double CGOLD=0.3819660;
+		const double ZEPS=std::numeric_limits<double>::epsilon()*1.0e-3;
+		double a,b,d=0.0,etemp,fu,fv,fw,fx;
+		double p,q,r,tol1,tol2,u,v,w,x,xm;
+		double e=0.0;
+		double fval;
 	
 		a=(ax < cx ? ax : cx);
 		b=(ax > cx ? ax : cx);
@@ -184,23 +211,23 @@ struct Brent : Bracketmethod {
 			//std::cout << "ARPACK did not converge" << std::endl;
 			return fval;
 		}
-		for (Int iter=0;iter<ITMAX;iter++) {
+		for (int iter=0;iter<ITMAX;iter++) {
 			xm=0.5*(a+b);
-			tol2=2.0*(tol1=tol*abs(x)+ZEPS);
-			if (abs(x-xm) <= (tol2-0.5*(b-a))) {
+			tol2=2.0*(tol1=tol*fabs(x)+ZEPS);
+			if (fabs(x-xm) <= (tol2-0.5*(b-a))) {
 				fmin=fx;
 				return xmin=x;
 			}
-			if (abs(e) > tol1) {
+			if (fabs(e) > tol1) {
 				r=(x-w)*(fx-fv);
 				q=(x-v)*(fx-fw);
 				p=(x-v)*q-(x-w)*r;
 				q=2.0*(q-r);
 				if (q > 0.0) p = -p;
-				q=abs(q);
+				q=fabs(q);
 				etemp=e;
 				e=d;
-				if (abs(p) >= abs(0.5*q*etemp) || p <= q*(a-x)
+				if (fabs(p) >= fabs(0.5*q*etemp) || p <= q*(a-x)
 						|| p >= q*(b-x))
 					d=CGOLD*(e=(x >= xm ? a-x : b-x));
 				else {
@@ -212,7 +239,7 @@ struct Brent : Bracketmethod {
 			} else {
 				d=CGOLD*(e=(x >= xm ? a-x : b-x));
 			}
-			u=(abs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
+			u=(fabs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
 			fval = (*func)(maxit,ratiop,flagp,phasep,msize,M,angle,u,valA,eigenarray,numeigs);
 			if (*flagp==0)
 			{
@@ -241,7 +268,7 @@ struct Brent : Bracketmethod {
 			}
 		}
 		*flagp = 2;
-		cout << "Too many iterations in brent" << std::endl;
+		std::cout << "Too many iterations in brent" << std::endl;
 		return fval;
 	}
 };
