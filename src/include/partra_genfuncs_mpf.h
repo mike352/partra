@@ -1,5 +1,5 @@
-#ifndef PARTRA_GENFUNCS_H
-#define PARTRA_GENFUNCS_H
+#ifndef PARTRA_GENFUNCS_MPF_H
+#define PARTRA_GENFUNCS_MPF_H
 
 #include <stdio.h>
 #include <limits.h>
@@ -9,7 +9,7 @@
 #include <string.h>
 #include <complex.h>
 #include <stdarg.h>
-#include "gmp.h"
+#include <math.h>
 
 #ifdef __cplusplus
 extern "C" {

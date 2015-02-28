@@ -1,4 +1,12 @@
-Change any matrix passing to reference passing where it may exists
+Set up an error handler for gmp, which by default uses an evil abort() whenever there is a problem allocating memory. Create a function which allocates the memory for gmp and can handle the error more gracefully, and then pass the function pointer to gmp's memory function. 
+
+Make lapack and arpack functions for returning eigenvalues, both as _file functions and as a print to the screen
+
+Test gcc versus clang, and optimizer flags
+
+Check matrix passings - currently all work, make sure though
+
+Prune header files of unnecessary includes
 
 Use f2c on ARPACK in order to have the whole project in C
 

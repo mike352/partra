@@ -756,7 +756,7 @@ FILE* fid;
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	printf("\nERROR: Could not create output file %s. %s\n",filename,strerror(errno));
 	return 1;
 }
 
@@ -787,6 +787,8 @@ for (n=0ULL;n<msize[0];n++)
 		}
 	}
 }
+
+printf("File %s created.\n",filename);
 fclose(fid);
 return 0;
 }
@@ -1146,7 +1148,7 @@ sprintf(precformat," %%.%hhuf",prec);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
+	printf("\nERROR: Could not create output file %s. %s\n",filename,strerror(errno));
 	return 1;
 }
 
@@ -1177,6 +1179,7 @@ for (n=0ULL;n<msize[0];n++)
 		}
 	}
 }
+printf("File %s created.\n",filename);
 fclose(fid);
 return 0;
 }

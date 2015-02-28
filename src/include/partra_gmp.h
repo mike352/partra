@@ -1,5 +1,5 @@
-#ifndef PARTRA_ANSI_H
-#define PARTRA_ANSI_H
+#ifndef PARTRA_GMP_H
+#define PARTRA_GMP_H
 
 #include <stdio.h>
 #include <limits.h>
