@@ -3,6 +3,7 @@
 
 #include "partra_ansi.h"
 #include "partra_gmp.h"
+#include "partra_lapack.h"
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF
