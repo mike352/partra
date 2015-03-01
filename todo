@@ -1,10 +1,14 @@
+Check LAPACK eigenvalue function with Maple
+
+Check double complex substitutor functions in Maple
+
 Set up an error handler for gmp, which by default uses an evil abort() whenever there is a problem allocating memory. Create a function which allocates the memory for gmp and can handle the error more gracefully, and then pass the function pointer to gmp's memory function. 
 
 Continue adding reduced transfer matrix functions
 
 Change reduction routines for free boundary conditions to simplify and make faster. 
 
-Make lapack and arpack functions for returning eigenvalues, both as _file functions and as a print to the screen
+Make lapack and arpack functions for returning eigenvalues, both as _file functions and as a return to call as an array. Then make an eigenvalue fprintf function to print the array. 
 
 
 //clang compiles faster than gcc, and both clang and gcc compile faster without optimization flag -O3

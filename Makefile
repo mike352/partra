@@ -10,7 +10,7 @@ LIB3=-llapack
 LIB4=-larpack
 LIB5=-lmpc
 #Optimization flags: -O3 is safe. -Ofast should be tested for numerics, but safe for integers
-COFLAG=-O3
+COFLAG=
 
 OBJFILES= $(addsuffix .o,$(basename $(wildcard src/ising/*.c))) \
 	  $(addsuffix .o,$(basename $(wildcard src/potts/*.c)))  \
