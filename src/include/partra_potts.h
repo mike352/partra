@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include <complex.h>
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF
@@ -14,6 +15,7 @@ typedef unsigned char**** partra_matrix;
 typedef unsigned char*** partra_row;
 
 typedef double**** partra_matrix_d;
+typedef double complex**** partra_matrix_dc;
 #endif
 
 #ifdef __cplusplus

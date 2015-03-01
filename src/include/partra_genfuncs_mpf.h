@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <math.h>
+#include <complex.h>
 #include "gmp.h"
 
 #ifdef __cplusplus
