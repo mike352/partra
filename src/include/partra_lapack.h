@@ -7,7 +7,7 @@
 #include <math.h>
 #include <complex.h>
 
-unsigned char eigs_lapack(double****, unsigned long long*); 
+unsigned char eigs_lapack_file(double****, unsigned long long*,char*); 
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF
