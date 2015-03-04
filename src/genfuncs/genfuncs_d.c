@@ -204,7 +204,14 @@ else
 }
 
 omsize[0]=imsize[0];
-flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+if (remaining==1)
+{
+	flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+}
+else if (remaining==0)
+{
+	flag = matrix_alloc_d(omatrix,omsize,1);
+}
 if (flag!=0)
 {
 	return flag;
@@ -243,21 +250,10 @@ else if ((remaining==0)&(imsize[1]==3)) //double substitution
 	{
 		for (m=0ULL;m<omsize[0];m++)
 		{
-			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
-			{
-				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
-				if ((*omatrix)[n][m][1]==NULL)
-				{
-					printf("ERROR: Unable to reallocate memory.\n");
-					matrix_free_d((*omatrix),omsize);
-					return 2;
-				}
-			}
-			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}
@@ -268,21 +264,10 @@ else if ((remaining==0)&(imsize[1]==2))
 	{
 		for (m=0ULL;m<omsize[0];m++)
 		{
-			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
-			{
-				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
-				if ((*omatrix)[n][m][1]==NULL)
-				{
-					printf("ERROR: Unable to reallocate memory.\n");
-					matrix_free_d((*omatrix),omsize);
-					return 2;
-				}
-			}
-			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 			}
 		}
 	}
@@ -309,7 +294,7 @@ else
 
 
 omsize[0]=imsize[0];
-flag = matrix_alloc_d(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+flag = matrix_alloc_d(omatrix,omsize,1);
 if (flag!=0)
 {
 	return flag;
@@ -319,21 +304,10 @@ for (n=0ULL;n<omsize[0];n++)
 {
 	for (m=0ULL;m<omsize[0];m++)
 	{
-		if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
-		{
-			(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-			(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
-			if ((*omatrix)[n][m][1]==NULL)
-			{
-				printf("ERROR: Unable to reallocate memory.\n");
-				matrix_free_d((*omatrix),omsize);
-				return 2;
-			}
-		}
-		(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
-			(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
@@ -606,7 +580,14 @@ else
 }
 
 omsize[0]=imsize[0];
-flag = matrix_alloc_dc(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+if (remaining==1)
+{
+	flag = matrix_alloc_dc(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+}
+else if (remaining==0)
+{
+	flag = matrix_alloc_dc(omatrix,omsize,1);
+}
 if (flag!=0)
 {
 	return flag;
@@ -645,21 +626,10 @@ else if ((remaining==0)&(imsize[1]==3)) //double substitution
 	{
 		for (m=0ULL;m<omsize[0];m++)
 		{
-			if (cabs((*omatrix)[n][m][0][1])<cabs(imatrix[n][m][0][1]))
-			{
-				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-				(*omatrix)[n][m][1] = (double complex*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double complex));
-				if ((*omatrix)[n][m][1]==NULL)
-				{
-					printf("ERROR: Unable to reallocate memory.\n");
-					matrix_free_dc((*omatrix),omsize);
-					return 2;
-				}
-			}
-			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}
@@ -670,21 +640,10 @@ else if ((remaining==0)&(imsize[1]==2))
 	{
 		for (m=0ULL;m<omsize[0];m++)
 		{
-			if (cabs((*omatrix)[n][m][0][1])<cabs(imatrix[n][m][0][1]))
-			{
-				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-				(*omatrix)[n][m][1] = (double complex*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double complex));
-				if ((*omatrix)[n][m][1]==NULL)
-				{
-					printf("ERROR: Unable to reallocate memory.\n");
-					matrix_free_dc((*omatrix),omsize);
-					return 2;
-				}
-			}
-			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 			}
 		}
 	}
@@ -712,7 +671,7 @@ else
 
 
 omsize[0]=imsize[0];
-flag = matrix_alloc_dc(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+flag = matrix_alloc_dc(omatrix,omsize,1); 
 if (flag!=0)
 {
 	return flag;
@@ -722,21 +681,10 @@ for (n=0ULL;n<omsize[0];n++)
 {
 	for (m=0ULL;m<omsize[0];m++)
 	{
-		if (cabs((*omatrix)[n][m][0][1])<cabs(imatrix[n][m][0][1]))
-		{
-			(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-			(*omatrix)[n][m][1] = (double complex*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double complex));
-			if ((*omatrix)[n][m][1]==NULL)
-			{
-				printf("ERROR: Unable to reallocate memory.\n");
-				matrix_free_dc((*omatrix),omsize);
-				return 2;
-			}
-		}
-		(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<cabs(imatrix[n][m][0][0]);p++)
 		{
-			(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
@@ -763,7 +711,7 @@ else
 
 
 omsize[0]=imsize[0];
-flag = matrix_alloc_dc(omatrix,omsize,imatrix[0][0][0][1]);  //allocate each row to previous row allocation
+flag = matrix_alloc_dc(omatrix,omsize,1);
 if (flag!=0)
 {
 	return flag;
@@ -773,21 +721,10 @@ for (n=0ULL;n<omsize[0];n++)
 {
 	for (m=0ULL;m<omsize[0];m++)
 	{
-		if (cabs((*omatrix)[n][m][0][1])<imatrix[n][m][0][1])
-		{
-			(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-			(*omatrix)[n][m][1] = (double complex*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double complex));
-			if ((*omatrix)[n][m][1]==NULL)
-			{
-				printf("ERROR: Unable to reallocate memory.\n");
-				matrix_free_dc((*omatrix),omsize);
-				return 2;
-			}
-		}
-		(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
-			(*omatrix)[n][m][1][p] = pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
