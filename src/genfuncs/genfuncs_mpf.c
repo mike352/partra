@@ -180,7 +180,7 @@ else if ((remaining==0)&(imsize[1]==3))
 				mpf_pow_ui(tmp2,z2,imatrix[n][m][1][imsize[1]*p+1]);
 				mpf_mul_ui(tmp1,tmp1,imatrix[n][m][1][imsize[1]*p+2]);
 				mpf_mul(tmp1,tmp1,tmp2);
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + mpf_get_d(tmp1);
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + mpf_get_d(tmp1);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ else if ((remaining==0)&(imsize[1]==2))
 			{
 				mpf_pow_ui(tmp1,z1,imatrix[n][m][1][imsize[1]*p]);
 				mpf_mul_ui(tmp1,tmp1,imatrix[n][m][1][imsize[1]*p+1]);
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + mpf_get_d(tmp1);
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + mpf_get_d(tmp1);
 			}
 		}
 	}
@@ -248,7 +248,7 @@ for (n=0ULL;n<omsize[0];n++)
 			mpf_pow_ui(tmp1,z1,(unsigned long int)imatrix[n][m][1][imsize[1]*p]);
 			mpf_set_d(tmp2,imatrix[n][m][1][imsize[1]*p+1]);
 			mpf_mul(tmp1,tmp1,tmp2);
-			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + mpf_get_d(tmp1);
+			(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + mpf_get_d(tmp1);
 		}
 	}
 }

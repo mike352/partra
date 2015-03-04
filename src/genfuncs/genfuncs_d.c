@@ -253,7 +253,7 @@ else if ((remaining==0)&(imsize[1]==3)) //double substitution
 			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}
@@ -267,7 +267,7 @@ else if ((remaining==0)&(imsize[1]==2))
 			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 			}
 		}
 	}
@@ -307,7 +307,7 @@ for (n=0ULL;n<omsize[0];n++)
 		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
-			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
@@ -629,7 +629,7 @@ else if ((remaining==0)&(imsize[1]==3)) //double substitution
 			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
 			}
 		}
 	}
@@ -643,7 +643,7 @@ else if ((remaining==0)&(imsize[1]==2))
 			(*omatrix)[n][m][0][0]=1;
 			for (p=0;p<imatrix[n][m][0][0];p++)
 			{
-				(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 			}
 		}
 	}
@@ -684,7 +684,7 @@ for (n=0ULL;n<omsize[0];n++)
 		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<cabs(imatrix[n][m][0][0]);p++)
 		{
-			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
@@ -724,7 +724,7 @@ for (n=0ULL;n<omsize[0];n++)
 		(*omatrix)[n][m][0][0]=1;
 		for (p=0;p<imatrix[n][m][0][0];p++)
 		{
-			(*omatrix)[n][m][1][1] = (*omatrix)[n][m][1][1] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
 		}
 	}
 }
