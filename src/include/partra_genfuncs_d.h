@@ -25,7 +25,7 @@ unsigned char matrix_sub_d_d(double*****, unsigned long long*, double****, unsig
 
 
 //Double Complex Functions
-
+/*
 unsigned char matrix_alloc_dc(double complex*****,const unsigned long long*, const unsigned char);
 void matrix_free_dc(double complex****, const unsigned long long*);
 
@@ -34,7 +34,7 @@ unsigned char matrix_fprintf_dc(double complex****, unsigned long long*, char*,u
 unsigned char matrix_sub_dc(double complex*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
 unsigned char matrix_sub_dc_dc(double complex*****, unsigned long long*, double complex****, unsigned long long*, double complex);
 unsigned char matrix_sub_dc_d(double complex*****, unsigned long long*, double****, unsigned long long*, double complex);
-
+*/
 #ifdef __cplusplus
 }
 #endif
