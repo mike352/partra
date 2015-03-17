@@ -28,9 +28,6 @@
 *.x86_64
 *.hex
 
-# C++
-*.cpp
-
 # LaTeX aux files
 *.aux
 *.bcf
@@ -41,6 +38,16 @@
 # Text files
 *.txt
 
+# Graphics files
+*.png
+*.bmp
+
 # Directories to ignore
 data/
 test/
+tests/
+
+# Partra executables to ignore
+partra
+partra_bitarchitecture
+partra_example

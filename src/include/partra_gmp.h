@@ -1,9 +1,7 @@
-#ifndef PARTRA_H
-#define PARTRA_H
+#ifndef PARTRA_GMP_H
+#define PARTRA_GMP_H
 
-#include "partra_ansi.h"
-#include "partra_gmp.h"
-#include "partra_lapack.h"
+#include "partra_genfuncs_mpf.h"
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF

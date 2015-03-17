@@ -1,19 +1,16 @@
 #include "partra_genfuncs.h"
 #include "partra_ising.h"
 
-/*Size of Ising 0+ sector follows OEIS series A000029*/
-/*Size of Ising 0 sector follows OEIS series A000031*/
-/*Size of Ising + sector follows OEIS series A005418*/
 
 /*****************************************************/
-/**********Full Ising square transfer matrices********/
+/*******Full Ising triangular transfer matrices*******/
 /*****************************************************/
 
 /*******************************/
-unsigned char i_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_sq_f_f_%d",N);
+sprintf(filename,"i_tri_f_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -34,7 +31,7 @@ for(n=0; n<(1ULL<<N); n++)
 	for(m=0; m<(1ULL<<N); m++)
 	{
 		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
+		(*matrix)[n][m][1][0]=bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh;
 		(*matrix)[n][m][1][1]=1;
 	}
 }
@@ -44,10 +41,10 @@ return 0;
 
 
 /*******************************/
-unsigned char i_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char i_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_sq_c_f_%d",N);
+sprintf(filename,"i_tri_c_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -68,7 +65,7 @@ for(n=0; n<(1ULL<<N); n++)
 	for(m=0; m<(1ULL<<N); m++)
 	{
 		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
+		(*matrix)[n][m][1][0]=bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh;
 		(*matrix)[n][m][1][1]=1;
 	}
 }
@@ -78,10 +75,10 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_sq_f_f_%d",N);
+sprintf(filename,"if_tri_f_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -103,7 +100,7 @@ for(n=0; n<(1ULL<<N); n++)
 	for(m=0; m<(1ULL<<N); m++)
 	{
 		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
+		(*matrix)[n][m][1][0]=bit_sum(n^m)+bit_sum((~1ULL&n)^(~1ULL&circ_single_lshift(m,N)))+uh;
 		(*matrix)[n][m][1][1]=xh;
 		(*matrix)[n][m][1][2]=1;
 	}
@@ -114,10 +111,10 @@ return 0;
 
 
 /*******************************/
-unsigned char if_sq_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
+unsigned char if_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_sq_c_f_%d",N);
+sprintf(filename,"if_tri_c_f_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -139,7 +136,7 @@ for(n=0; n<(1ULL<<N); n++)
 	for(m=0; m<(1ULL<<N); m++)
 	{
 		(*matrix)[n][m][0][0]=1;
-		(*matrix)[n][m][1][0]=bit_sum(n^m)+uh;
+		(*matrix)[n][m][1][0]=bit_sum(n^m)+bit_sum(n^circ_single_lshift(m,N))+uh;
 		(*matrix)[n][m][1][1]=xh;
 		(*matrix)[n][m][1][2]=1;
 	}

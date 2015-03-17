@@ -1,9 +1,13 @@
-#ifndef PARTRA_H
-#define PARTRA_H
+#ifndef PARTRA_LAPACK_H
+#define PARTRA_LAPACK_H
 
-#include "partra_ansi.h"
-#include "partra_gmp.h"
-#include "partra_lapack.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <math.h>
+#include <complex.h>
+
+unsigned char eigs_lapack_file(double****, unsigned long long*,char*); 
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF

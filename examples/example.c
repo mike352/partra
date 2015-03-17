@@ -1,14 +1,13 @@
 #include "partra.h"
+#include <complex.h>
 
 int main(void)
 {
 unsigned char N=2;
 char dirname[256] = "data";
 unsigned char flag;
-FILE* fid;
-unsigned long long n,m;
 
-Matrix M;
+partra_matrix M;
 unsigned long long msize[2];
 char filename1[256],filename2[256];
 
@@ -22,7 +21,9 @@ if (flag!=0)
 //Second file - outputs should be equal
 flag = i_sq_f_f(&M,msize,filename1,N);
 sprintf(filename2,"%s/_%s",dirname,filename1);
-//printf("\nfilename2 = %s",filename2);
+flag = matrix_fprintf(M,msize,filename2);
+
+/*
 fid = fopen(filename2,"w");
 for (n=0ULL;n<msize[0];n++)
 {
@@ -32,6 +33,8 @@ for (n=0ULL;n<msize[0];n++)
 	}
 }
 fclose(fid);
+*/
+
 
 matrix_free(M,msize);
 return 0;

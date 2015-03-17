@@ -7,26 +7,27 @@
 /*****************************************************/
 
 /*******************************/
-unsigned char p2_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
-FILE* fid;
-char filename[256];	
+msize[1]=2ULL;
+sprintf(filename,"p_tri_f_f_%llu_%d",Q,N);
+
 unsigned char bin=0;
 unsigned long long n,m,p;
 unsigned long long utest;
 unsigned char uh,uinter;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/p_tri_f_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 
@@ -53,39 +54,40 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%hhu\n",uh+uinter);
+		(*matrix)[n][m][0][0]=1;
+		(*matrix)[n][m][1][0]=uh+uinter;
+		(*matrix)[n][m][1][1]=1;
 	}
 }
 	
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p2_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p2_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
-FILE* fid;
-char filename[256];	
+msize[1]=2ULL;
+sprintf(filename,"p_tri_c_f_%llu_%d",Q,N);
+
 unsigned char bin=0;
 unsigned long long n,m,p;
 unsigned long long utest;
 unsigned char uh,uinter;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/p_tri_c_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
-{
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
-}
 
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
+{
+	return flag;
+}
 
 //Find transfer matrix
 for (n=0ULL;n<(1ULL<<(bin*N));n++)
@@ -110,37 +112,38 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%hhu\n",uh+uinter);
+		(*matrix)[n][m][0][0]=1;
+		(*matrix)[n][m][1][0]=uh+uinter;
+		(*matrix)[n][m][1][1]=1;
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
-FILE* fid;
-char filename[256];	
+msize[1]=3ULL;
+sprintf(filename,"pf_tri_f_f_%llu_%d",Q,N);
+
 unsigned char bin=0;
 unsigned long long n,m,p;
 unsigned long long utest;
 unsigned char uh,uinter,xh;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/pf_tri_f_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 
@@ -172,37 +175,39 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
+		(*matrix)[n][m][0][0]=1;
+		(*matrix)[n][m][1][0]=uh+uinter;
+		(*matrix)[n][m][1][1]=xh;
+		(*matrix)[n][m][1][2]=1;
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf2_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf2_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
-FILE* fid;
-char filename[256];	
+msize[1]=3ULL;
+sprintf(filename,"pf_tri_c_f_%llu_%d",Q,N);
+
 unsigned char bin=0;
 unsigned long long n,m,p;
 unsigned long long utest;
 unsigned char uh,uinter,xh;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/pf_tri_c_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 
@@ -234,46 +239,49 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 		{
 			uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 		}
-		fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
+		(*matrix)[n][m][0][0]=1;
+		(*matrix)[n][m][1][0]=uh+uinter;
+		(*matrix)[n][m][1][1]=xh;
+		(*matrix)[n][m][1][2]=1;
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
+msize[1]=2ULL;
+sprintf(filename,"p_tri_f_f_%llu_%d",Q,N);
+
 const unsigned char csize=CHAR_BIT;
-FILE* fid;
-char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
 unsigned long long utest;
 unsigned char uh,uinter;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/p_tri_f_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
 if ((pnums==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
+	matrix_free(*matrix,msize);
 	return 2;
 }	
 
@@ -325,50 +333,52 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%hhu\n",uh+uinter);
+				(*matrix)[n][m][0][0]=1;
+				(*matrix)[n][m][1][0]=uh+uinter;
+				(*matrix)[n][m][1][1]=1;
 			}
 		}
 	}
 }
 	
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 free((void*)pnums);
 return 0;
 }
 
 
 /*******************************/
-unsigned char p_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char p_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
+msize[1]=2ULL;
+sprintf(filename,"p_tri_c_f_%llu_%d",Q,N);
+
 const unsigned char csize=CHAR_BIT;
-FILE* fid;
-char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
 unsigned long long utest;
 unsigned char uh,uinter;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/p_tri_c_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
 if ((pnums==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
+	matrix_free(*matrix,msize);
 	return 2;
 }	
 	
@@ -420,49 +430,51 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%hhu\n",uh+uinter);
+				(*matrix)[n][m][0][0]=1;
+				(*matrix)[n][m][1][0]=uh+uinter;
+				(*matrix)[n][m][1][1]=1;
 			}
 		}
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 free((void*)pnums);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf_tri_f_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_f_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
+msize[1]=3ULL;
+sprintf(filename,"pf_tri_f_f_%llu_%d",Q,N);
+
 const unsigned char csize=CHAR_BIT;
-FILE* fid;
-char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
 unsigned long long utest;
 unsigned char uh,uinter,xh;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/pf_tri_f_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
 if ((pnums==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
+	matrix_free(*matrix,msize);
 	return 2;
 }	
 
@@ -519,49 +531,52 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
+				(*matrix)[n][m][0][0]=1;
+				(*matrix)[n][m][1][0]=uh+uinter;
+				(*matrix)[n][m][1][1]=xh;
+				(*matrix)[n][m][1][2]=1;
 			}
 		}
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 free((void*)pnums);
 return 0;
 }
 
 
 /*******************************/
-unsigned char pf_tri_c_f_file(const unsigned char N, const unsigned long long Q, const char* dirname)
+unsigned char pf_tri_c_f(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N, const unsigned long long Q)
 {
+msize[1]=3ULL;
+sprintf(filename,"pf_tri_c_f_%llu_%d",Q,N);
+
 const unsigned char csize=CHAR_BIT;
-FILE* fid;
-char filename[256];	
 unsigned char bin=0;
 unsigned long long n,m,p,sum;
 unsigned char* pnums;
 lldiv_t bitfrac,bitfrac2;
 unsigned long long utest;
 unsigned char uh,uinter,xh;
+unsigned char flag;
 
 while((1ULL<<bin)<Q)
 {
 	bin++;
 }
 
-sprintf(filename,"%s/pf_tri_c_f_%llu_%d.txt",dirname,Q,N);
-fid = fopen(filename,"w");
-if (fid == NULL)
+msize[0] = 1ULL<<N;
+flag = matrix_alloc(matrix,msize,1);
+if (flag!=0)
 {
-	printf("\nERROR: Could not create output file. %s\n",strerror(errno));
-	return 1;
+	return flag;
 }
 
 pnums = (unsigned char*) calloc((1ULL<<bin*N)/csize+1ULL,sizeof(unsigned char));
 if ((pnums==NULL))
 {
 	printf("\nERROR: Could not allocate memory.");
+	matrix_free(*matrix,msize);
 	return 2;
 }	
 
@@ -618,14 +633,15 @@ for (n=0ULL;n<(1ULL<<(bin*N));n++)
 				{
 					uinter = uinter + (((utest & (((1ULL<<bin)-1ULL)<<bin*p))>>bin*p)==0ULL);
 				}
-				fprintf(fid,"%hhu %hhu\n",uh+uinter,xh);
+				(*matrix)[n][m][0][0]=1;
+				(*matrix)[n][m][1][0]=uh+uinter;
+				(*matrix)[n][m][1][1]=xh;
+				(*matrix)[n][m][1][2]=1;
 			}
 		}
 	}
 }
 
-printf("\nFile %s created.",filename);
-fclose(fid);
 free((void*)pnums);
 return 0;
 }

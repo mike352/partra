@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
-#include <complex.h>
 #include <stdarg.h>
 
 #ifdef __cplusplus
@@ -30,9 +29,6 @@ unsigned long long bit_reflection_bin(unsigned long long, const unsigned char, c
 unsigned char bit_sum(unsigned long long);
 
 
-/*A not very efficient function for taking the power of a matrix*/
-unsigned char matrix_pow_ll(unsigned long long*****, unsigned long long*****, const unsigned long long*,const unsigned long long);
-
 /*Matrix and row allocation routines*/
 unsigned char matrix_alloc(unsigned char*****,const unsigned long long*,const unsigned char);
 void matrix_free(unsigned char****,const unsigned long long*);
@@ -48,8 +44,17 @@ void row_free_ll(unsigned long long***,const unsigned long long*);
 unsigned char matrix_setadd_ll(unsigned long long*****, const unsigned long long*, const unsigned long long, const unsigned long long, const unsigned long long*);
 unsigned char row_setadd_ll(unsigned long long****, const unsigned long long*, const unsigned long long, const unsigned long long*);
 
+unsigned char matrix_alloc_d(double*****,const unsigned long long*, const unsigned char);
+void matrix_free_d(double****, const unsigned long long*);
+
 /*Matrix functions*/
-unsigned char matrix_fprintf(const unsigned char*****, const unsigned long long*, const char*, const char*);
+unsigned char matrix_fprintf(unsigned char****, unsigned long long*, char*);
+unsigned char matrix_fprintf_d(double****, unsigned long long*, char*,unsigned char);
+/*A not very efficient function for taking the power of a matrix*/
+unsigned char matrix_pow_ll(unsigned long long*****, unsigned long long*****, const unsigned long long*,const unsigned long long);
+
+unsigned char matrix_sub_d(double*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
+unsigned char matrix_sub_d_d(double*****, unsigned long long*, double****, unsigned long long*, double);
 
 #ifdef __cplusplus
 }

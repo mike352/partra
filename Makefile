@@ -2,15 +2,21 @@
 CC=gcc
 
 #Flags to use when compiling:
-CFLAGS1=-Wall
-CFLAGS2=-c
+CFLAGS=-Wall -lm 
+CFLAGSo=-c
+LIB1=-lgmp
+LIB2=-lblas
+LIB3=-llapack
+LIB4=-larpack
+LIB5=-lmpc
 #Optimization flags: -O3 is safe. -Ofast should be tested for numerics, but safe for integers
-COFLAG=-Ofast
+COFLAG=
 
 OBJFILES= $(addsuffix .o,$(basename $(wildcard src/ising/*.c))) \
-		  $(addsuffix .o,$(basename $(wildcard src/potts/*.c)))  \
-		  $(addsuffix .o,$(basename $(wildcard src/reductions/*.c))) \
-		  $(addsuffix .o,$(basename $(wildcard src/genfuncs/*.c)))
+	  $(addsuffix .o,$(basename $(wildcard src/potts/*.c)))  \
+	  $(addsuffix .o,$(basename $(wildcard src/reductions/*.c))) \
+	  $(addsuffix .o,$(basename $(wildcard src/genfuncs/*.c))) \
+	  $(addsuffix .o,$(basename $(wildcard src/eigenvalues/*.c)))
 
 EXPOUT= $(addprefix partra_, $(notdir $(basename $(wildcard examples/*.c))))
 		  
@@ -32,12 +38,12 @@ compile: staticlib standalone
 standalone: staticlib partra examples
 
 partra: src/partra.c libpartra.a
-	$(CC) $(CFLAGS1) $(COFLAG) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra
+	$(CC) src/partra.c -lpartra -I$(HEADDIR) -L. -o partra $(CFLAGS) $(COFLAG)
 
 examples: $(EXPOUT)
 
 partra_%: examples/%.c
-	$(CC) $(CFLAGS1) $(COFLAG) $< -lpartra  -I$(HEADDIR) -L. $(addprefix -o , $@)
+	$(CC) $< -lpartra  -I$(HEADDIR) -L. $(addprefix -o , $@) $(CFLAGS) $(COFLAG)
 	
 staticlib: libpartra.a
 
@@ -45,21 +51,24 @@ libpartra.a: $(OBJFILES)
 	ar rcs libpartra.a $^
 
 src/ising/%.o: src/ising/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGSo) $(CFLAGS) $(COFLAG)
 
 src/potts/%.o: src/potts/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGSo) $(CFLAGS) $(COFLAG)
 
 src/reductions/%.o: src/reductions/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGSo) $(CFLAGS) $(COFLAG)
 
 src/genfuncs/%.o: src/genfuncs/%.c
-	$(CC) $(CFLAGS1) $(CFLAGS2) $(COFLAG) $< -o $@ -I$(HEADDIR)
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGSo) $(PACK1) $(CFLAGS) $(COFLAG)
+
+src/eigenvalues/%.o: src/eigenvalues/%.c
+	$(CC) $< -o $@ -I$(HEADDIR) $(CFLAGSo) $(PACK2) $(PACK3) $(CFLAGS) $(COFLAG)
 
 install:
-	cp libpartra.a $(LIBDIR)/
+	cp -a libpartra.a $(LIBDIR)/
 	mv libpartra.a $(PREFIX)/lib
-	cp $(HEADFILES) $(PREFIX)/include
+	cp -a $(HEADFILES) $(PREFIX)/include
 	mv partra $(PREFIX)/bin
 	mv $(EXPOUT) $(PREFIX)/bin
 

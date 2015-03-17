@@ -8,16 +8,14 @@
 #include <stddef.h>
 #include <string.h>
 #include <complex.h>
-#include <stdarg.h>
 
 #ifndef PARTRA_TYPEDEF
 #define PARTRA_TYPEDEF
-typedef unsigned char**** Matrix;
-typedef unsigned long long**** Matrix_ll;
-typedef long double complex**** Matrix_ldc;
-typedef unsigned char*** Row;
-typedef unsigned long long*** Row_ll;
-typedef long double complex*** Row_ldc;
+typedef unsigned char**** partra_matrix;
+typedef unsigned char*** partra_row;
+
+typedef double**** partra_matrix_d;
+//typedef double complex**** partra_matrix_dc;
 #endif
 
 #ifdef __cplusplus
@@ -46,12 +44,12 @@ unsigned char i_sq_f_f(unsigned char*****, unsigned long long*, char*, const uns
 unsigned char i_sq_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, cylindrical row b.c.
 unsigned char if_sq_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, free row b.c.
 unsigned char if_sq_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, cylindrical row b.c.
-/*
+
 unsigned char i_sq_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, free row b.c.
 unsigned char i_sq_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising reduced transfer matrix, cylindrical row b.c.
 unsigned char if_sq_f_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, free row b.c.
 unsigned char if_sq_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field reduced transfer matrix, cylindrical row b.c.
-*/
+
 unsigned char i_tri_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, free row b.c.
 unsigned char i_tri_c_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising full transfer matrix, cylindrical row b.c.
 unsigned char if_tri_f_f(unsigned char*****, unsigned long long*, char*, const unsigned char); //Ising in a field full transfer matrix, free row b.c.

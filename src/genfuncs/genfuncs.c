@@ -422,7 +422,7 @@ for (n=1ULL;n<M;n++)
 			}
 		}
 		for (r=0ULL;r<msize[0];r++)
-		{//printf("r=%d ",r);
+		{
 			(*fmatrix)[q][r][0][0] = row[r][0][0];
 			(*fmatrix)[q][r][0][1] = row[r][0][0]; //Make as big as number of valid entries
 			(*fmatrix)[q][r][1] = (unsigned long long*) realloc((*fmatrix)[q][r][1],msize[1]*row[r][0][0]*sizeof(unsigned long long));
@@ -746,28 +746,40 @@ return 0;
 }
 
 
-unsigned char matrix_fprintf(const unsigned char***** matrix, const unsigned long long* msize, const char* filename, const char* dirname)
+/*******************************/
+unsigned char matrix_fprintf(unsigned char**** matrix, unsigned long long* msize, char* filename)
 {
 unsigned long long n,m,p,q;
 int fcheck=0;
-char outfile[256];
 FILE* fid;
 
-sprintf(outfile,"%s/%s",dirname,filename);
-fid = fopen(outfile,"w");
+fid = fopen(filename,"w");
+if (fid == NULL)
+{
+	printf("\nERROR: Could not create output file %s. %s\n",filename,strerror(errno));
+	return 1;
+}
+
 for (n=0ULL;n<msize[0];n++)
 {
 	for (m=0ULL;m<msize[0];m++)
 	{
-		for (p=0;p<(*matrix)[n][m][0][0];p++)
+		for (p=0;p<matrix[n][m][0][0];p++)
 		{
-			fprintf(fid,"%llu %llu",n,m);
+			fcheck = fprintf(fid,"%llu %llu",n+1,m+1);
+			if (fcheck<0)
+			{
+				printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+				fclose(fid);
+				return 1;
+			}
 			for (q=0;q<msize[1];q++)
 			{
-				fcheck = fprintf(fid," %hhu",(*matrix)[n][m][1][p*msize[1]+q]);
+				fcheck = fprintf(fid," %hhu",matrix[n][m][1][p*msize[1]+q]);
 				if (fcheck<0)
 				{
-					printf("ERROR: Problem writing to output file. %s\n",strerror(errno));
+					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+					fclose(fid);
 					return 1;
 				}
 			}
@@ -775,9 +787,8 @@ for (n=0ULL;n<msize[0];n++)
 		}
 	}
 }
+
+printf("File %s created.\n",filename);
 fclose(fid);
-
-
-
 return 0;
 }

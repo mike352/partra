@@ -1,0 +1,28 @@
+Check LAPACK eigenvalue function with Maple
+
+Check double complex substitutor functions in Maple
+
+Set up an error handler for gmp, which by default uses an evil abort() whenever there is a problem allocating memory. Create a function which allocates the memory for gmp and can handle the error more gracefully, and then pass the function pointer to gmp's memory function. 
+
+Continue adding reduced transfer matrix functions
+
+Change reduction routines for free boundary conditions to simplify and make faster. 
+
+Make lapack and arpack functions for returning eigenvalues, both as _file functions and as a return to call as an array. Then make an eigenvalue fprintf function to print the array. 
+
+
+//clang compiles faster than gcc, and both clang and gcc compile faster without optimization flag -O3
+Test gcc versus clang, and optimizer flags
+
+Check matrix passings - currently all work, make sure though
+
+Use f2c on ARPACK in order to have the whole project in C
+
+Remove the need for Numerical Recipe's header file NR3.h, and rewrite function in C or find their old C code if they have this particular method - has it changed since then?
+
+Explore new way of generating equimodular curves, using annealing type methods?
+	-Explore the plane within a range using a regular grid of points for some grid interval
+	-Decrease the grid interval and for every original grid point that was below a certain threshold, continue finding points in that neighborhood which are all below that threshold
+	-Now repeat: decrease the grid inverval and decrease threshold and explore all neighborhoods surrounding all previous points which are below the new threshold. 
+	
+	If it is computationally expensive to compute eigenvalues, this method is probably very efficient in the total number of eigenvalues it needs to compute, although this depends heavily on the values chosen for the grid intervals and the thresholds. 
