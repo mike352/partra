@@ -278,20 +278,21 @@ struct Brent : Bracketmethod {
 
 int main()
 {
-	unsigned char N=6;
+	unsigned char N=8;
 	unsigned long long int Rtotal = 5000; 	//Total number of points
 	double ratiotol=1e-8;	//Tolerance for Convergence in Brent
 	int maxit=50000;	//Maximum number of ARPACK iterations (default used was 50000)
 	double xmin = 0;
-	double xmax = .5;
+	double xmax = 5;
 	double ymin = 0;
-	double ymax = 1;
-	unsigned long long numeigs=3;
+	double ymax = 5;
+	double z = .0001;
+	unsigned long long numeigs=11;
 	
 	//power law transformation of uniform distribution of random numbers. 
 	//flatness of 1 is flat. flatness of n means range*(rand^n), where rand is in the interval [0,1].
-	double xflatness = 1;	
-	double yflatness = 1;
+	double xflatness = 2;	
+	double yflatness = 2;
 	
 	unsigned long long ii, jj, tmp;	// Counters and tmp
 	unsigned long long arerrors=0, brenterrors=0, localmin=0;
@@ -300,7 +301,6 @@ int main()
 	unsigned long long msize[2];
 	partra_matrix Mi;
 	partra_matrix_d M;
-	double z = 1.;
 	double x,y1,y2,y3;
 	double r;
 	arcomplex<double>* valA;   	// pointer to an array that stores values of A
@@ -330,7 +330,7 @@ int main()
 	srand (time(NULL)); //Seed the random number generator
 
 	//Create transfer matrix
-	flag = if_sq_f_r(&Mi,misize,filename1,N);
+	flag = if_sq_f_f(&Mi,misize,filename1,N);
 	if (flag!=0)
 	{
 		return 0;
