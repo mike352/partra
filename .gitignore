@@ -38,14 +38,19 @@
 # Text files
 *.txt
 
+#Matlab/Mathematica files
+*.m
+
 # Graphics files
 *.png
 *.bmp
+*.eps
 
 # Directories to ignore
 data/
 test/
 tests/
+.directory
 
 # Partra executables to ignore
 partra
