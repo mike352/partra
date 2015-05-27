@@ -4,6 +4,7 @@
 3. full or reduced transfer matrix
 4. row size
 5. square or triangular lattice
+6. symmetric matrix or not
 
 Output file:
 All data is output to a file in a (constructed) directory "data" from the current directory. If the OS is not unix, apple, or windows, it will ask for the directory to place the file. Filename is displayed on screen after successful completion of calculations and writing of data to file. 
@@ -11,8 +12,8 @@ All data is output to a file in a (constructed) directory "data" from the curren
 Output file format legend: 
 r = row
 c = column
-n: u^n = exp(-2E/kT)^n, energy exponent
-m: x^m = exp(-2H/kT)^m, field exponent. In q-Potts, H-field only acts on q=1
+n: u^n = exp(-2E/kT)^n, asymmetric matrix, u^n = exp(-E/kT)^n, symmetric matrix, energy exponent
+m: x^m = exp(-2H/kT)^m, asymmetric matrix, x^m = exp(-H/kT)^m, symmetric matrix, field exponent. In q-Potts, H only acts on q=1
 A: A x^n u^m, constant 
 
 Output file format:
@@ -50,7 +51,7 @@ unsigned char selector(const unsigned char, const unsigned long long, const unsi
 
 int main(int argc, char* argv[])
 {
-unsigned char numoptions = 6;
+unsigned char numoptions = 7;
 
 unsigned char row_max_size=0;
 FILE* fid=NULL;
@@ -71,6 +72,7 @@ char option2[256];
 char option3[256];
 char option4[256];
 char option5[256];
+char optionr[256];
 char tmp[256];
 unsigned char flag=~0;
 unsigned char n,m;
@@ -117,7 +119,7 @@ else if (OS==-1) //Ask instead
 }
 
 
-//Repeating loop of inputs
+//Repeating loop of inputs for a file-based input. 
 if (argc==2)
 {
 	fid = fopen(argv[1],"r");
@@ -263,14 +265,22 @@ if (argc==2)
 			flag=1;
 		}
 		
-		//Repeat program
+		//Asymmetric or symmetric matrix
 		strcpy(option5,options[6]);
-		if ((strcmp(option5,"y")!=0)&(strcmp(option5,"n")!=0))
+		if ((strcmp(option5,"a")!=0)&(strcmp(option5,"s")!=0))
+		{
+			printf("\nERROR: Wrong symmetry type input.");
+			flag=1;
+		}
+		
+		//Repeat program
+		strcpy(optionr,options[6]);
+		if ((strcmp(optionr,"y")!=0)&(strcmp(optionr,"n")!=0))
 		{
 			printf("\nERROR: Wrong input of whether to continue reading input file.");
 			flag=1;
 		}
-		if (strcmp(option5,"n")==0) //last loop
+		if (strcmp(optionr,"n")==0) //last loop
 		{
 			repeat=0;
 			for (n=0;n<numoptions+1;n++)
@@ -302,7 +312,7 @@ if (argc==2)
 		}
 		//Choose a function
 		time(&tic);
-		flag = selector(N,Q,bin,dirname,option1,option2,option3,option4);
+		flag = selector(N,Q,bin,dirname,option1,option2,option3,option4,option5);
 		if (flag==0)
 		{
 			time(&toc);
@@ -454,9 +464,24 @@ else if (argc==1) //Command line options
 		printf("\nERROR: Wrong input.");
 		return 0;
 	}
+	
+	//Symmetric
+	printf("Asymmetric or symmetric matrix (a,s): ");
+	scheck=scanf("%s",option5);
+	if (scheck<=0)
+	{
+		printf("ERROR: %s",strerror(errno));
+		return 0;
+	}
+	if ((strcmp(option5,"a")!=0)&(strcmp(option5,"s")!=0))
+	{
+		printf("\nERROR: Wrong input.");
+		return 0;
+	}
+	
 	//Choose a function
 	time(&tic);
-	flag = selector(N,Q,bin,dirname,option1,option2,option3,option4);
+	flag = selector(N,Q,bin,dirname,option1,option2,option3,option4,option5);
 	if (flag==0)
 	{
 		time(&toc);
@@ -475,280 +500,555 @@ return 0;
 
 
 // Selector function
-unsigned char selector(const unsigned char N, const unsigned long long Q, const unsigned char bin, const char* dirname, const char* option1, const char* option2, const char* option3, const char* option4)
+unsigned char selector(const unsigned char N, const unsigned long long Q, const unsigned char bin, const char* dirname, const char* option1, const char* option2, const char* option3, const char* option4,, const char* option5)
 {
 unsigned char flag=~0;
 
-if (strcmp(option4,"s")==0)
+if (strcmp(option5,"a")==0)
 {
-	if (strcmp(option1,"i")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = i_sq_f_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = i_sq_c_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_sq_f_r_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_sq_c_r_file(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"if")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_sq_f_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_sq_c_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_sq_f_r_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_sq_c_r_file(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"p")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_sq_f_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_sq_f_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_sq_c_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_sq_c_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_sq_f_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_sq_f_r_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_sq_c_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_sq_c_r_file(N,Q,dirname);
-			}
-		}
-	}
-	else if (strcmp(option1,"pf")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_f_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_f_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_c_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_c_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_f_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_f_r_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_sq_c_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_sq_c_r_file(N,Q,dirname);
-			}
-		}
-	}
-}
-else if (strcmp(option4,"t")==0)
+    if (strcmp(option4,"s")==0)
+    {
+	    if (strcmp(option1,"i")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_sq_f_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_sq_c_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_sq_f_r_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_sq_c_r_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"if")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_sq_f_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_sq_c_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_sq_f_r_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_sq_c_r_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"p")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_f_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_f_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_c_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_c_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_f_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_f_r_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_c_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_c_r_file(N,Q,dirname);
+			    }
+		    }
+	    }
+	    else if (strcmp(option1,"pf")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_f_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_f_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_c_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_c_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_f_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_f_r_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_c_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_c_r_file(N,Q,dirname);
+			    }
+		    }
+	    }
+    }
+    else if (strcmp(option4,"t")==0)
+    {
+	    if (strcmp(option1,"i")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_tri_f_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_tri_c_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_tri_f_r_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_tri_c_r_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"if")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_tri_f_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_tri_c_f_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_tri_f_r_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_tri_c_r_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"p")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_f_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_f_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_c_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_c_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_f_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_f_r_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_c_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_c_r_file(N,Q,dirname);
+			    }
+		    }
+	    }
+	    else if (strcmp(option1,"pf")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_f_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_f_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_c_f_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_c_f_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_f_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_f_r_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_c_r_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_c_r_file(N,Q,dirname);
+			    }
+		    }
+	    }
+    }
+else if (strcmp(option5,"s")==0)
 {
-	if (strcmp(option1,"i")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = i_tri_f_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = i_tri_c_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_tri_f_r_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = i_tri_c_r_file(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"if")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_tri_f_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			flag = if_tri_c_f_file(N,dirname);
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_tri_f_r_file(N,dirname);
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			flag = if_tri_c_r_file(N,dirname);
-		}
-	}
-	else if (strcmp(option1,"p")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_f_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_f_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_c_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_c_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_f_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_f_r_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = p2_tri_c_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = p_tri_c_r_file(N,Q,dirname);
-			}
-		}
-	}
-	else if (strcmp(option1,"pf")==0)
-	{
-		if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_f_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_f_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_c_f_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_c_f_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_f_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_f_r_file(N,Q,dirname);
-			}
-		}
-		else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
-		{
-			if (Q==(1<<bin))
-			{
-				flag = pf2_tri_c_r_file(N,Q,dirname);
-			}
-			else
-			{
-				flag = pf_tri_c_r_file(N,Q,dirname);
-			}
-		}
-	}
+    if (strcmp(option4,"s")==0)
+    {
+	    if (strcmp(option1,"i")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_sq_f_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_sq_c_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_sq_f_r_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_sq_c_r_s_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"if")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_sq_f_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_sq_c_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_sq_f_r_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_sq_c_r_s_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"p")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_f_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_f_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_c_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_c_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_f_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_f_r_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_sq_c_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_sq_c_r_s_file(N,Q,dirname);
+			    }
+		    }
+	    }
+	    else if (strcmp(option1,"pf")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_f_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_f_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_c_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_c_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_f_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_f_r_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_sq_c_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_sq_c_r_s_file(N,Q,dirname);
+			    }
+		    }
+	    }
+    }
+    else if (strcmp(option4,"t")==0)
+    {
+	    if (strcmp(option1,"i")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_tri_f_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = i_tri_c_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_tri_f_r_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = i_tri_c_r_s_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"if")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_tri_f_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    flag = if_tri_c_f_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_tri_f_r_s_file(N,dirname);
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    flag = if_tri_c_r_s_file(N,dirname);
+		    }
+	    }
+	    else if (strcmp(option1,"p")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_f_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_f_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_c_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_c_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_f_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_f_r_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = p2_tri_c_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = p_tri_c_r_s_file(N,Q,dirname);
+			    }
+		    }
+	    }
+	    else if (strcmp(option1,"pf")==0)
+	    {
+		    if ((strcmp(option2,"f")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_f_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_f_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"f")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_c_f_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_c_f_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"f")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_f_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_f_r_s_file(N,Q,dirname);
+			    }
+		    }
+		    else if ((strcmp(option2,"c")==0) & (strcmp(option3,"r")==0))
+		    {
+			    if (Q==(1<<bin))
+			    {
+				    flag = pf2_tri_c_r_s_file(N,Q,dirname);
+			    }
+			    else
+			    {
+				    flag = pf_tri_c_r_s_file(N,Q,dirname);
+			    }
+		    }
+	    }
+    }
 }
-
+    
 return flag;
 }
