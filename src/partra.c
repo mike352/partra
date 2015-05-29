@@ -47,7 +47,7 @@ Only unsigned char or unsigned long long data types are used for integers for co
 
 
 //Selector function
-unsigned char selector(const unsigned char, const unsigned long long, const unsigned char, const char*,const char*,const char*,const char*,const char*);
+unsigned char selector(const unsigned char, const unsigned long long, const unsigned char, const char*,const char*,const char*,const char*,const char*,const char*);
 
 int main(int argc, char* argv[])
 {
@@ -500,7 +500,7 @@ return 0;
 
 
 // Selector function
-unsigned char selector(const unsigned char N, const unsigned long long Q, const unsigned char bin, const char* dirname, const char* option1, const char* option2, const char* option3, const char* option4,, const char* option5)
+unsigned char selector(const unsigned char N, const unsigned long long Q, const unsigned char bin, const char* dirname, const char* option1, const char* option2, const char* option3, const char* option4, const char* option5)
 {
 unsigned char flag=~0;
 
@@ -776,6 +776,7 @@ if (strcmp(option5,"a")==0)
 		    }
 	    }
     }
+}
 else if (strcmp(option5,"s")==0)
 {
     if (strcmp(option4,"s")==0)

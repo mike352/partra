@@ -100,6 +100,90 @@ unsigned char pf2_tri_f_r(unsigned char*****, unsigned long long*, char*, const 
 unsigned char pf2_tri_c_r(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
 */
 
+
+
+//Symmetric matrices
+unsigned char p_sq_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, free row b.c.
+unsigned char p_sq_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_sq_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, cylindrical row b.c.
+unsigned char p_sq_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_sq_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_sq_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+
+unsigned char p_tri_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, free row b.c.
+unsigned char p_tri_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_tri_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_tri_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, cylindrical row b.c.
+unsigned char p_tri_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_tri_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_tri_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_tri_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+
+unsigned char p2_sq_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_sq_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+
+unsigned char p2_tri_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_tri_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_tri_f_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_tri_c_f_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char p2_tri_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_tri_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_tri_f_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_tri_c_r_s_file(const unsigned char, const unsigned long long, const char*); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+
+
+unsigned char p_sq_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, free row b.c.
+unsigned char p_sq_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_sq_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, cylindrical row b.c.
+/*
+unsigned char p_sq_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_sq_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_sq_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_sq_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+*/
+unsigned char p_tri_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, free row b.c.
+unsigned char p_tri_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, cylindrical row b.c.
+unsigned char pf_tri_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, free row b.c.
+unsigned char pf_tri_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, cylindrical row b.c.
+/*
+unsigned char p_tri_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, free row b.c.
+unsigned char p_tri_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, cylindrical row b.c.
+unsigned char pf_tri_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, free row b.c.
+unsigned char pf_tri_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, cylindrical row b.c.
+*/
+unsigned char p2_sq_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+/*
+unsigned char p2_sq_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_sq_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_sq_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_sq_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+*/
+unsigned char p2_tri_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_tri_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts full transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_tri_f_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_tri_c_f_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field full transfer matrix, cylindrical row b.c., when q is a power of 2
+/*
+unsigned char p2_tri_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char p2_tri_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+unsigned char pf2_tri_f_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, free row b.c., when q is a power of 2
+unsigned char pf2_tri_c_r_s(unsigned char*****, unsigned long long*, char*, const unsigned char, const unsigned long long); //Potts in a field reduced transfer matrix, cylindrical row b.c., when q is a power of 2
+*/
+
+
+
+
 #ifdef __cplusplus
 }
 #endif

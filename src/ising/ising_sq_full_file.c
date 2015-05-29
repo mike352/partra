@@ -156,7 +156,7 @@ FILE *fid;
 unsigned char uh,uh2;
 char filename[256];
 
-sprintf(filename,"%s/i_sq_f_f_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_f_f_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -190,7 +190,7 @@ FILE *fid;
 unsigned char uh,uh2;
 char filename[256];
 
-sprintf(filename,"%s/i_sq_c_f_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_c_f_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -224,7 +224,7 @@ FILE *fid;
 unsigned char uh,uh2,xh,xh2;
 char filename[256];
 
-sprintf(filename,"%s/if_sq_f_f_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_f_f_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -260,7 +260,7 @@ FILE *fid;
 unsigned char uh,uh2,xh,xh2;
 char filename[256];
 
-sprintf(filename,"%s/if_sq_c_f_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_c_f_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
