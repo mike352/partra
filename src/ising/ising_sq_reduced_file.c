@@ -472,7 +472,7 @@ return 0;
 /*******************************/
 unsigned char i_sq_f_r_s_file(const unsigned char N, const char* dirname)
 {
-unsigned char umax=3*N-2;
+unsigned char umax=6*N-4;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -494,7 +494,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_sq_f_r_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_f_r_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -546,7 +546,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu \n",rtotal,ctotal,p,melement[p]/((1ULL+flip)*(1ULL+flip2))); 
+						fprintf(fid,"%llu %llu %llu %hu %llu \n",rtotal,ctotal,p,melement[p],((1ULL+flip)*(1ULL+flip2))); 
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -568,7 +568,7 @@ return 0;
 /*******************************/
 unsigned char i_sq_c_r_s_file(const unsigned char N, const char* dirname)
 {
-unsigned char umax=3*N;
+unsigned char umax=6*N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -591,7 +591,7 @@ if ((melement==NULL))
 	return 2;
 }
 
-sprintf(filename,"%s/i_sq_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/i_sq_c_r_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -652,7 +652,7 @@ for (n=0;n<(1ULL<<N);n++)
 				{
 					if (melement[p]!=0)
 					{
-						fprintf(fid,"%llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p]/((1ULL+flip)*(order[rtotal]+1ULL)*(1ULL+flip2)*(order[ctotal]+1ULL))); 
+						fprintf(fid,"%llu %llu %llu %hu %llu\n",rtotal+1ULL,ctotal+1ULL,p,melement[p],((1ULL+flip)*(order[rtotal]+1ULL)*(1ULL+flip2)*(order[ctotal]+1ULL))); 
 						melement[p]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 					}
 				}
@@ -677,8 +677,8 @@ return 0;
 /*******************************/
 unsigned char if_sq_f_r_s_file(const unsigned char N, const char* dirname)
 {
-unsigned char umax=3*N-2;
-unsigned char xmax=2*N;
+unsigned char umax=6*N-4;
+unsigned char xmax=4*N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -715,7 +715,7 @@ for(n = 0ULL; n < (umax+1); n++)
 }
 
 
-sprintf(filename,"%s/if_sq_f_r_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_f_r_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -771,7 +771,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal,ctotal,p,q,melement[p][q]/((1ULL+flip)*(1ULL+flip2))); 
+							fprintf(fid,"%llu %llu %llu %llu %hu %llu\n",rtotal,ctotal,p,q,melement[p][q],((1ULL+flip)*(1ULL+flip2))); 
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}
@@ -798,8 +798,8 @@ return 0;
 /*******************************/
 unsigned char if_sq_c_r_s_file(const unsigned char N, const char* dirname)
 {
-unsigned char umax=3*N;
-unsigned char xmax=2*N;
+unsigned char umax=6*N;
+unsigned char xmax=4*N;
 
 unsigned char flag;
 unsigned long long total=0ULL;
@@ -836,7 +836,7 @@ for(n = 0ULL; n < (umax+1); n++)
 	}
 }
 
-sprintf(filename,"%s/if_sq_c_r_%d.txt",dirname,N);
+sprintf(filename,"%s/if_sq_c_r_s_%d.txt",dirname,N);
 fid = fopen(filename,"w");
 if (fid == NULL)
 {
@@ -901,7 +901,7 @@ for (n=0;n<(1ULL<<N);n++)
 					{
 						if (melement[p][q]!=0)
 						{
-							fprintf(fid,"%llu %llu %llu %llu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q]/((1ULL+flip)*(order[rtotal]+1ULL)*(1ULL+flip2)*(order[ctotal]+1ULL)));
+							fprintf(fid,"%llu %llu %llu %llu %hu %llu\n",rtotal+1ULL,ctotal+1ULL,p,q,melement[p][q],((1ULL+flip)*(order[rtotal]+1ULL)*(1ULL+flip2)*(order[ctotal]+1ULL)));
 							melement[p][q]=0; //reset  - use memset once at end of loop? No, because this is more efficient, not all values are non-zero
 						}
 					}

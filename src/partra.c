@@ -15,6 +15,7 @@ c = column
 n: u^n = exp(-2E/kT)^n, asymmetric matrix, u^n = exp(-E/kT)^n, symmetric matrix, energy exponent
 m: x^m = exp(-2H/kT)^m, asymmetric matrix, x^m = exp(-H/kT)^m, symmetric matrix, field exponent. In q-Potts, H only acts on q=1
 A: A x^n u^m, constant 
+B: A/B x^n u^m, denominator, used only in symmetric matrices. Must take square root of B
 
 Output file format:
 1. Full transfer matrix:
@@ -22,9 +23,14 @@ n m
 (r and c are assumed)
 When H=0, m is not output
 
-2. Reduced transfer matrix
-r c A n m
+2. Reduced transfer matrix, asymmetric
+r c n m A
 When H=0, m is not output
+Reduced transfer matrix, symmetric
+r c n m A B
+When H=0, m is not output
+
+
 
 Design principle:
 Only unsigned char or unsigned long long data types are used for integers for consistency. The sole exception currently is the dcheck variable which checks whether a directory was successfully created, which is of type int because output from mkdir commands can be -1. For strings, only char arrays of size 256 are used for consistency.
