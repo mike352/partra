@@ -21,7 +21,7 @@ void matrix_free_d(double****, const unsigned long long*);
 unsigned char matrix_fprintf_d(double****, unsigned long long*, char*,unsigned char);
 
 unsigned char matrix_sub_d(double*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
-unsigned char matrix_sub_d_d(double*****, unsigned long long*, double****, unsigned long long*, double);
+unsigned char matrix_sub_d_d(double*****, unsigned long long*, double****, unsigned long long*, char*, double);
 
 
 //Double Complex Functions

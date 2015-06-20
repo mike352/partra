@@ -70,7 +70,7 @@ for (n=0ULL;n<msize[0];n++)
 				return 2;
 			}
 		}
-		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 	}
 }
 
@@ -103,11 +103,13 @@ free((void*)matrix);
 
 
 /*******************************/
+//The which variable can be x, u, xu, ux for asymmetric matrices
+//For symmetric matrices, an initial s is necessary, possibly followed by a d if the matrix has an extra denominator field
 unsigned char matrix_sub_d(double***** omatrix, unsigned long long* omsize, unsigned char**** imatrix, unsigned long long* imsize, char* which, ...)
 {
 unsigned long long n,m,p;
 unsigned char ordering[2]={0,0}, remaining;
-unsigned char flag;
+unsigned char flag,symm=0,denom=0;
 double z1=0,z2=0;
 
 va_list vl;
@@ -197,6 +199,186 @@ else if (strcmp(which,"xu")==0)
 	z2=va_arg(vl,double);
 	omsize[1]=imsize[1]-2;
 }
+else if (strcmp(which,"su")==0)
+{
+	symm=1;
+	if (imsize[1]==3)
+	{
+		ordering[0]=0;
+		ordering[1]=1;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else if (imsize[1]==2)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"sx")==0)
+{
+	symm=1;
+	if (imsize[1]==3)
+	{
+		ordering[0]=1;
+		ordering[1]=0;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else if (imsize[1]==2)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-1;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"sux")==0)
+{
+	symm=1;
+	if (imsize[1]==2)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<2)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=0;
+	ordering[1]=1;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-2;
+}
+else if (strcmp(which,"sxu")==0)
+{
+	symm=1;
+	if (imsize[1]==2)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<2)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=1;
+	ordering[1]=0;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-2;
+}
+else if (strcmp(which,"sdu")==0)
+{
+	symm=1;
+	denom=1;
+	if (imsize[1]==4)
+	{
+		ordering[0]=0;
+		ordering[1]=1;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-2;
+	}
+	else if (imsize[1]==3)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-2;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"sdx")==0)
+{
+	symm=1;
+	denom=1;
+	if (imsize[1]==4)
+	{
+		ordering[0]=1;
+		ordering[1]=0;
+		remaining=1;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-2;
+	}
+	else if (imsize[1]==3)
+	{
+		ordering[0]=0;
+		remaining=0;
+		z1=va_arg(vl,double);
+		omsize[1]=imsize[1]-2;
+	}
+	else
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+}
+else if (strcmp(which,"sdux")==0)
+{
+	symm=1;
+	denom=1;
+	if (imsize[1]==3)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<3)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=0;
+	ordering[1]=1;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-3;
+}
+else if (strcmp(which,"sdxu")==0)
+{
+	symm=1;
+	denom=1;
+	if (imsize[1]==3)
+	{
+		printf("ERROR: Not enough free variables to use for substitution\n");
+		return 3;
+	}
+	else if (imsize[1]<3)
+	{
+		printf("ERROR: No free variables to use for substitution\n");
+		return 3;
+	}
+	ordering[0]=1;
+	ordering[1]=0;
+	remaining=0;
+	z1=va_arg(vl,double);
+	z2=va_arg(vl,double);
+	omsize[1]=imsize[1]-3;
+}
 else
 {
 	printf("ERROR: Incorrect choice of variable substitution. Only \"u\", \"x\", \"ux\", \"xu\" allowed.\n");
@@ -217,67 +399,186 @@ if (flag!=0)
 	return flag;
 }
 
-if (remaining==1)
+if (symm==0)
 {
-	for (n=0ULL;n<omsize[0];n++)
-	{
-		for (m=0ULL;m<omsize[0];m++)
-		{
-			if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
-			{
-				(*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
-				(*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
-				if ((*omatrix)[n][m][1]==NULL)
-				{
-					printf("ERROR: Unable to reallocate memory.\n");
-					matrix_free_d((*omatrix),omsize);
-					return 2;
-				}
-			}
-			(*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
-			for (p=0;p<imatrix[n][m][0][0];p++)
-			{
-				//printf("n=%llu m=%llu m[%llu]=%hhu m[%llu]=%f\n",n,m,omsize[1]*p,imatrix[n][m][1][imsize[1]*p+ordering[1]],omsize[1]*p+1,pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2]);
-				(*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
-				(*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2];
-			}
-		}
-	}
+  if (remaining==1)
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			  {
+				  (*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				  (*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				  if ((*omatrix)[n][m][1]==NULL)
+				  {
+					  printf("ERROR: Unable to reallocate memory.\n");
+					  matrix_free_d((*omatrix),omsize);
+					  return 2;
+				  }
+			  }
+			  (*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  //printf("n=%llu m=%llu m[%llu]=%hhu m[%llu]=%f\n",n,m,omsize[1]*p,imatrix[n][m][1][imsize[1]*p+ordering[1]],omsize[1]*p+1,pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2]);
+				  (*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
+				  (*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2];
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==3)) //double substitution
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==2))
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+			  }
+		  }
+	  }
+  }
 }
-else if ((remaining==0)&(imsize[1]==3)) //double substitution
+else if ((symm==1)&&(denom==0))
 {
-	for (n=0ULL;n<omsize[0];n++)
-	{
-		for (m=0ULL;m<omsize[0];m++)
-		{
-			(*omatrix)[n][m][0][0]=1;
-			for (p=0;p<imatrix[n][m][0][0];p++)
-			{
-				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*pow(z2,imatrix[n][m][1][imsize[1]*p+ordering[1]])*imatrix[n][m][1][imsize[1]*p+2];
-			}
-		}
-	}
+  if (remaining==1)
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			  {
+				  (*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				  (*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				  if ((*omatrix)[n][m][1]==NULL)
+				  {
+					  printf("ERROR: Unable to reallocate memory.\n");
+					  matrix_free_d((*omatrix),omsize);
+					  return 2;
+				  }
+			  }
+			  (*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  //printf("n=%llu m=%llu m[%llu]=%hhu m[%llu]=%f\n",n,m,omsize[1]*p,imatrix[n][m][1][imsize[1]*p+ordering[1]],omsize[1]*p+1,pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2]);
+				  (*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
+				  (*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,((double)imatrix[n][m][1][imsize[1]*p+ordering[0]])/2)*imatrix[n][m][1][imsize[1]*p+2];
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==3)) //double substitution
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,((double)imatrix[n][m][1][imsize[1]*p+ordering[0]])/2)*pow(z2,((double)imatrix[n][m][1][imsize[1]*p+ordering[1]])/2)*imatrix[n][m][1][imsize[1]*p+2];
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==2))
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,((double)imatrix[n][m][1][imsize[1]*p])/2)*imatrix[n][m][1][imsize[1]*p+1];
+			  }
+		  }
+	  }
+  }
 }
-else if ((remaining==0)&(imsize[1]==2))
+else if ((symm==1)&&(denom==1))
 {
-	for (n=0ULL;n<omsize[0];n++)
-	{
-		for (m=0ULL;m<omsize[0];m++)
-		{
-			(*omatrix)[n][m][0][0]=1;
-			for (p=0;p<imatrix[n][m][0][0];p++)
-			{
-				(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
-			}
-		}
-	}
+  if (remaining==1)
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  if ((*omatrix)[n][m][0][1]<imatrix[n][m][0][1])
+			  {
+				  (*omatrix)[n][m][0][1] = imatrix[n][m][0][0];
+				  (*omatrix)[n][m][1] = (double*) realloc((*omatrix)[n][m][1],omsize[1]*imatrix[n][m][0][0]*sizeof(double));
+				  if ((*omatrix)[n][m][1]==NULL)
+				  {
+					  printf("ERROR: Unable to reallocate memory.\n");
+					  matrix_free_d((*omatrix),omsize);
+					  return 2;
+				  }
+			  }
+			  (*omatrix)[n][m][0][0]=imatrix[n][m][0][0];
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  //printf("n=%llu m=%llu m[%llu]=%hhu m[%llu]=%f\n",n,m,omsize[1]*p,imatrix[n][m][1][imsize[1]*p+ordering[1]],omsize[1]*p+1,pow(z1,imatrix[n][m][1][imsize[1]*p+ordering[0]])*imatrix[n][m][1][imsize[1]*p+2]);
+				  (*omatrix)[n][m][1][omsize[1]*p]=imatrix[n][m][1][imsize[1]*p+ordering[1]];
+				  (*omatrix)[n][m][1][omsize[1]*p+1] = pow(z1,((double)imatrix[n][m][1][imsize[1]*p+ordering[0]])/2)*((double)imatrix[n][m][1][imsize[1]*p+2])/sqrt(imatrix[n][m][1][imsize[1]*p+3]);
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==4)) //double substitution
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,((double)imatrix[n][m][1][imsize[1]*p+ordering[0]])/2)*pow(z2,((double)imatrix[n][m][1][imsize[1]*p+ordering[1]])/2)*((double)imatrix[n][m][1][imsize[1]*p+2])/sqrt(imatrix[n][m][1][imsize[1]*p+3]);
+			  }
+		  }
+	  }
+  }
+  else if ((remaining==0)&(imsize[1]==3))
+  {
+	  for (n=0ULL;n<omsize[0];n++)
+	  {
+		  for (m=0ULL;m<omsize[0];m++)
+		  {
+			  (*omatrix)[n][m][0][0]=1;
+			  for (p=0;p<imatrix[n][m][0][0];p++)
+			  {
+				  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,((double)imatrix[n][m][1][imsize[1]*p])/2)*((double)imatrix[n][m][1][imsize[1]*p+1])/sqrt(imatrix[n][m][1][imsize[1]*p+2]);
+			  }
+		  }
+	  }
+  }
 }
 
 return 0;
 }
 
 /*******************************/
-unsigned char matrix_sub_d_d(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, double z1)
+unsigned char matrix_sub_d_d(double***** omatrix, unsigned long long* omsize, double**** imatrix, unsigned long long* imsize, char* which, double z1)
 {
 unsigned long long n,m,p;
 unsigned char flag;
@@ -300,16 +601,38 @@ if (flag!=0)
 	return flag;
 }
 
-for (n=0ULL;n<omsize[0];n++)
+if (strcmp(which,"a")==0)
 {
-	for (m=0ULL;m<omsize[0];m++)
-	{
-		(*omatrix)[n][m][0][0]=1;
-		for (p=0;p<imatrix[n][m][0][0];p++)
-		{
-			(*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
-		}
-	}
+  for (n=0ULL;n<omsize[0];n++)
+  {
+	  for (m=0ULL;m<omsize[0];m++)
+	  {
+		  (*omatrix)[n][m][0][0]=1;
+		  for (p=0;p<imatrix[n][m][0][0];p++)
+		  {
+			  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,imatrix[n][m][1][imsize[1]*p])*imatrix[n][m][1][imsize[1]*p+1];
+		  }
+	  }
+  }
+}
+else if (strcmp(which,"s")==0)
+{
+  for (n=0ULL;n<omsize[0];n++)
+  {
+	  for (m=0ULL;m<omsize[0];m++)
+	  {
+		  (*omatrix)[n][m][0][0]=1;
+		  for (p=0;p<imatrix[n][m][0][0];p++)
+		  {
+			  (*omatrix)[n][m][1][0] = (*omatrix)[n][m][1][0] + pow(z1,((double)imatrix[n][m][1][imsize[1]*p]/2))*imatrix[n][m][1][imsize[1]*p+1];
+		  }
+	  }
+  }
+}
+else
+{
+	printf("ERROR: Incorrect specification of symmetric/asymmetric matrix. Only \"a\", \"s\" allowed.\n");
+	return 3;
 }
 
 return 0;
@@ -447,7 +770,7 @@ for (n=0ULL;n<msize[0];n++)
 				return 2;
 			}
 		}
-		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 	}
 }
 

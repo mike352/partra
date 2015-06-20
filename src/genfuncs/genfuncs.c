@@ -128,7 +128,7 @@ for (n=0ULL;n<msize[0];n++)
 				return 2;
 			}
 		}
-		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 	}
 }
 
@@ -202,7 +202,7 @@ for (n=0ULL;n<msize[0];n++)
 			return 2;
 		}
 	}
-	(*row)[n][0][1]=N; //initial size of row[n][1][] is msize[1]*N
+	(*row)[n][0][1]=N; //initial size of row[n][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 }
 
 
@@ -532,7 +532,7 @@ for (n=0ULL;n<msize[0];n++)
 				return 2;
 			}
 		}
-		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N
+		(*matrix)[n][m][0][1]=N; //initial size of matrix[n][m][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 	}
 }
 
@@ -606,7 +606,7 @@ for (n=0ULL;n<msize[0];n++)
 			return 2;
 		}
 	}
-	(*row)[n][0][1]=N; //initial size of row[n][1][] is msize[1]*N
+	(*row)[n][0][1]=N; //initial size of row[n][1][] is msize[1]*N. N is not transfer matrix size, but used for reduced matrices with many components
 }
 
 
@@ -773,17 +773,20 @@ for (n=0ULL;n<msize[0];n++)
 				fclose(fid);
 				return 1;
 			}
-			for (q=0;q<msize[1];q++)
+			if (matrix[n][m][1][p*msize[1]+msize[1]-1]!=0)
 			{
-				fcheck = fprintf(fid," %hhu",matrix[n][m][1][p*msize[1]+q]);
-				if (fcheck<0)
-				{
-					printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
-					fclose(fid);
-					return 1;
-				}
+			  for (q=0;q<msize[1];q++)
+			  {
+				  fcheck = fprintf(fid," %hhu",matrix[n][m][1][p*msize[1]+q]);
+				  if (fcheck<0)
+				  {
+					  printf("ERROR: Problem writing to output file %s. %s\n",filename,strerror(errno));
+					  fclose(fid);
+					  return 1;
+				  }
+			  }
+			  fprintf(fid,"\n");
 			}
-			fprintf(fid,"\n");
 		}
 	}
 }

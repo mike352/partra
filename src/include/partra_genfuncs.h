@@ -53,8 +53,6 @@ unsigned char matrix_fprintf_d(double****, unsigned long long*, char*,unsigned c
 /*A not very efficient function for taking the power of a matrix*/
 unsigned char matrix_pow_ll(unsigned long long*****, unsigned long long*****, const unsigned long long*,const unsigned long long);
 
-unsigned char matrix_sub_d(double*****, unsigned long long*, unsigned char****, unsigned long long*, char*, ...);
-unsigned char matrix_sub_d_d(double*****, unsigned long long*, double****, unsigned long long*, double);
 
 #ifdef __cplusplus
 }

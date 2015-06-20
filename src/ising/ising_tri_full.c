@@ -155,7 +155,7 @@ return 0;
 unsigned char i_tri_f_f_s(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_tri_f_f_%d",N);
+sprintf(filename,"i_tri_f_f_s_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -190,7 +190,7 @@ return 0;
 unsigned char i_tri_c_f_s(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=2ULL;
-sprintf(filename,"i_tri_c_f_%d",N);
+sprintf(filename,"i_tri_c_f_s_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -225,7 +225,7 @@ return 0;
 unsigned char if_tri_f_f_s(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_tri_f_f_%d",N);
+sprintf(filename,"if_tri_f_f_s_%d",N);
 
 unsigned long long n;
 unsigned long long m;
@@ -263,7 +263,7 @@ return 0;
 unsigned char if_tri_c_f_s(unsigned char***** matrix, unsigned long long* msize, char* filename, const unsigned char N)
 {
 msize[1]=3ULL;
-sprintf(filename,"if_tri_c_f_%d",N);
+sprintf(filename,"if_tri_c_f_s_%d",N);
 
 unsigned long long n;
 unsigned long long m;
